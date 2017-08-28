@@ -1,1 +1,1 @@
-# websensor-audio
+# websensor-panorama
