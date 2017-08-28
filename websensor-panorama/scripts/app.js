@@ -20,7 +20,8 @@ class RelativeInclinationSensor extends RelativeOrientationSensor{
             // Conversion to Euler angles done in THREE.js so we have to create a
             // THREE.js object for holding the quaternion to convert from
             // Order x,y,z,w
-            let quaternion = new THREE.Quaternion(super.quaternion[0], super.quaternion[1], super.quaternion[2], super.quaternion[3]);
+            let quaternion = new THREE.Quaternion(super.quaternion[0], super.quaternion[1],
+                                                  super.quaternion[2], super.quaternion[3]);
 
             // euler will hold the Euler angles corresponding to the quaternion
             let euler = new THREE.Euler(0, 0, 0);
@@ -30,12 +31,12 @@ class RelativeInclinationSensor extends RelativeOrientationSensor{
             let angleOrder = null;
             screen.orientation.angle === 0 ? angleOrder = 'ZYX' : angleOrder = 'ZXY';
             euler.setFromQuaternion(quaternion, angleOrder);
-            if(!this.initialOriObtained_) {
+            if (!this.initialOriObtained_) {
 
                 // Initial longitude needed to make the initial camera orientation
                 // the same every time
                 this.longitudeInitial_ = -euler.z;
-                if(screen.orientation.angle === 90) {
+                if (screen.orientation.angle === 90) {
                     this.longitudeInitial_ = this.longitudeInitial_ + Math.PI/2;
                 }
                 this.initialOriObtained_ = true;
@@ -44,8 +45,10 @@ class RelativeInclinationSensor extends RelativeOrientationSensor{
             // Device orientation changes need to be taken into account
             // when reading the sensor values by adding offsets
             // Also the axis of rotation might change
-            switch(screen.orientation.angle) {
-                default:
+            switch (screen.orientation.angle) {
+                // In case there are other screen orientation angle values,
+                // for example 180 degrees (not implemented in Chrome), default is used
+                default:    
                 case 0:
                     this.longitude_ = -euler.z - this.longitudeInitial_;
                     this.latitude_ = euler.x - Math.PI/2;
@@ -76,12 +79,7 @@ class RelativeInclinationSensor extends RelativeOrientationSensor{
 const farPlane = 200, fov = 75;
 
 // Required for a THREE.js scene
-var camera = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHeight, 1, farPlane),
-    scene = new THREE.Scene(), 
-    renderer = new THREE.WebGLRenderer(),
-    oriSensor = new RelativeInclinationSensor({frequency: 60});
-
-oriSensor.onreading = render;   // When sensor sends new values, render again using those
+var camera, scene, renderer, oriSensor;
 
 // Service worker registration
 if ('serviceWorker' in navigator) {
@@ -101,8 +99,13 @@ function init() {
     let image = "resources/beach_dinner.jpg";
 
     // ThreeJS scene setup below
+    camera = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHeight, 1, farPlane);
+    scene = new THREE.Scene();
+    renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio( window.devicePixelRatio );
+    oriSensor = new RelativeInclinationSensor({frequency: 60});
+    oriSensor.onreading = render;   // When sensor sends new values, render again using those
 
     // TextureLoader for loading the image file
     let textureLoader = new THREE.TextureLoader();
