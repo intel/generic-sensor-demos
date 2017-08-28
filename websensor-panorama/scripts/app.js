@@ -80,13 +80,11 @@ var camera = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHe
 
 oriSensor.onreading = render;   // When sensor sends new values, render again using those
 
-//Service worker registration
+// Service worker registration
 if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
                 navigator.serviceWorker.register('sw.js').then(function(registration) {
-                        //Registration was successful
                 }, function(err) {
-                        //Registration failed
                 console.log('ServiceWorker registration failed: ', err);
                 });
         });
