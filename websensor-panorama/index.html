@@ -1,25 +1,33 @@
 <!doctype html>
 <html>
 	<head>
-                <link rel="manifest" href="manifest.json" />
-                <meta charset="utf-8">
-                <meta name="viewport" content="user-scalable=no, initial-scale=1">
-                <title>360 degree beach panorama</title>
+        <link rel="manifest" href="manifest.json" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1">
+        <title>360 degree beach panorama</title>
 		<style>
-			body {
+			body {  
 				margin: 0;
 			}
-                        canvas {
-                                display: block;  /* prevents scrollbar */
-                                width: 100vw;
-                                height: 100vh;
-                        }
+            canvas {
+                display: block;  /* prevents scrollbar */
+                width: 100vw;
+                height: 100vh;
+            }
+            #no-sensors {
+                color: white;
+                position: absolute;
+                top: 0vh;
+                left: 0vw;
+                display: none;  /* Hidden by default */
+                z-index: 2;
+            }
 		</style>
-		<script src="scripts/three.min.js"></script>
-		
+		<script src="scripts/three.min.js"></script>		
 	</head>
 	<body onload="init()">
 		<div id="app-view"></div>
+		<div id="no-sensors">Your browser doesn't seem to support generic sensors. If you are running Chrome, please enable the Generic Sensor API in about:flags to run this demo.</div>
 		<script src="scripts/app.js"></script>
 	</body>
 </html>
