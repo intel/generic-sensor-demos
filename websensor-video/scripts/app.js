@@ -17,29 +17,25 @@ if('RelativeOrientationSensor' in window) {
             this.latitude_ = 0;
             this.longitudeInitial_ = 0;
             this.initialOriObtained_ = false;
+            this.quat_ = new THREE.Quaternion();
+            this.euler_ = new THREE.Euler(0, 0, 0);
             this.func_ = null;
 
             super.onreading = () => {
 
-                // Conversion to Euler angles done in THREE.js so we have to create a
-                // THREE.js object for holding the quaternion to convert from
-                // Order x,y,z,w
-                let quaternion = new THREE.Quaternion(super.quaternion[0], super.quaternion[1],
-                                                      super.quaternion[2], super.quaternion[3]);
-
-                // euler will hold the Euler angles corresponding to the quaternion
-                let euler = new THREE.Euler(0, 0, 0);
+                // Read the quaternion provided by the sensor
+                this.quat_.fromArray(super.quaternion);
 
                 // Order of rotations must be adapted depending on orientation
                 // for portrait ZYX, for landscape ZXY
                 let angleOrder = null;
                 screen.orientation.angle === 0 ? angleOrder = 'ZYX' : angleOrder = 'ZXY';
-                euler.setFromQuaternion(quaternion, angleOrder);
+                this.euler_.setFromQuaternion(this.quat_, angleOrder);
                 if (!this.initialOriObtained_) {
 
                     // Initial longitude needed to make the initial camera orientation
                     // the same every time
-                    this.longitudeInitial_ = -euler.z;
+                    this.longitudeInitial_ = -this.euler_.z;
                     if (screen.orientation.angle === 90) {
                         this.longitudeInitial_ = this.longitudeInitial_ + Math.PI/2;
                     }
@@ -55,16 +51,16 @@ if('RelativeOrientationSensor' in window) {
                     // for example 180 degrees (not implemented in Chrome), default is used
                     default:    
                     case 0:
-                        this.longitude_ = -euler.z - this.longitudeInitial_;
-                        this.latitude_ = euler.x - Math.PI/2;
+                        this.longitude_ = -this.euler_.z - this.longitudeInitial_;
+                        this.latitude_ = this.euler_.x - Math.PI/2;
                         break; 
                     case 90:
-                        this.longitude_ = -euler.z - this.longitudeInitial_ + Math.PI/2;
-                        this.latitude_ = -euler.y - Math.PI/2;                 
+                        this.longitude_ = -this.euler_.z - this.longitudeInitial_ + Math.PI/2;
+                        this.latitude_ = -this.euler_.y - Math.PI/2;                 
                         break;     
                     case 270:
-                        this.longitude_ = -euler.z - this.longitudeInitial_ - Math.PI/2;
-                        this.latitude_ = euler.y - Math.PI/2;
+                        this.longitude_ = -this.euler_.z - this.longitudeInitial_ - Math.PI/2;
+                        this.latitude_ = this.euler_.y - Math.PI/2;
                         break;
                 }
 
@@ -137,18 +133,14 @@ if ('serviceWorker' in navigator) {
 function startDemo() {
 
     // Need user input to play video, so here both the forward and the backward video are played and paused once in order to satisfy that requirement
-    videoF.play().then(function(value) {
-        videoF.pause();
-});
-    videoB.play().then(function(value) {
-        videoB.pause();
-});
+    videoF.play().then(videoF.pause());
+    videoB.play().then(videoB.pause());
     document.getElementById("startbutton").remove();     // Hide button
 
     accel_sensor = new Accelerometer({ frequency: sensorFreq });
 
     // Start saving acceleration data in order to determine if the user is walking
-    accel_sensor.onreading = loop;
+    accel_sensor.onreading = ALGORITHM.saveSensorReading;
     accel_sensor.start();
 }
 
@@ -163,12 +155,6 @@ function render() {
     camera.target.z = (farPlane/2) * Math.sin(Math.PI/2 - orientation_sensor.latitude) * Math.sin(orientation_sensor.longitude);
     camera.lookAt(camera.target);
     renderer.render(scene, camera);
-}
-
-// The main loop, ran each time the accelerometer gets a new reading
-function loop() {
-    ALGORITHM.saveSensorReading();
-    render();
 }
 
 // The custom element where the video will be rendered
@@ -236,21 +222,15 @@ var CONTROL = (function () {
 
     // Functions related to controlling video playback
     // Uses promises so might not work in all browsers
-    function play()
-    {
+    function play() {
         rewinding ? videoB.play() : videoF.play();
     }
 
-    ctrl.playPause = function ()
-        {
-            if(stepvar)
-            {
+    ctrl.playPause = function () {
+            if(stepvar) {
                 play();
-            }
-            else
-            {
-                if(!video.paused)
-                {
+            } else {
+                if(!video.paused) {
                     video.pause();
                 }
             }
@@ -258,8 +238,8 @@ var CONTROL = (function () {
 
         // Called when the video direction needs to be changed (F to B or B to F)
         ctrl.changeDirection = function () {
-            if(!rewinding)   // Forward
-            {
+
+            if(!rewinding) {    // Forward
                 let time = videoF.currentTime;
                 videoF.pause();
                 video = videoB;
@@ -275,9 +255,7 @@ var CONTROL = (function () {
                 sphereMesh.material = sphereMaterial;
                 sphereMaterial.needsUpdate = true;
                 rewinding = true;
-            }
-            else    // Backward
-            {
+            } else {    // Backward
                 let time = videoB.currentTime;
                 videoB.pause();
                 video = videoF;
