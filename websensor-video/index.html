@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+    <head>
+        <link rel="manifest" href="manifest.json" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1">
+        <title>360 degree video</title>
+        <style>
+    body {
+        margin: 0;
+            }
+            #startbutton {
+                background-color: red;
+                color: #FFFFFF;
+                padding: 15px 32px;
+                border-radius: 10px;
+                margin:10px
+            }
+            #no-sensors {
+                color: white;
+                position: absolute;
+                top: 0vh;
+                left: 0vw;
+                display: none;  /* Hidden by default */
+                z-index: 2;
+            }
+        </style>
+                <script src="scripts/three.min.js"></script>
+                <script type="text/javascript" src="scripts/fft.js"></script>        <!-- Contains FFT -->
+    </head>
+    <template id="video-view">
+            <style>
+                :host {
+                    width: 100vh;
+                    height: 100vh;
+                }
+            </style>
+    </template>
+    <body>
+        <button id="startbutton" onclick="startDemo()">Start demo</button>
+        <video-view id="videoview">
+        </video-view>
+        <div id="no-sensors">Your browser doesn't seem to support generic sensors. If you are running Chrome, please enable the Generic Sensor API in about:flags to run this demo.</div>
+        <script type="text/javascript" src="scripts/app.js"></script>
+        <script type="text/javascript" src="scripts/wdalgorithm.js"></script>        <!-- Contains the step detection algorithm -->
+    </body>
+</html>
+
+
+
+
+
