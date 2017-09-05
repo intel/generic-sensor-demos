@@ -1,15 +1,57 @@
 <!DOCTYPE html>
-
 <html>
 <head>
-  <title>Punchmeter</title>
-
+  <title>Punch-O-Meter</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+  <meta name="description" content="Punch-O-Meter">
+  <meta name="theme-color" content="#0071c5">
   <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="shortcut icon" sizes="192x192" href="images/app-icon-192.png">
+  <script src="main.js"></script>
+  <script src="gauge.js"></script>
 </head>
 
 <body>
-  <div id="instructions"></div>
-  <div id="result"></div>
-  <script src="main.js"></script> 
+  <div class="container" align="center">
+      <div id="intro" class="punchAnimation">
+         <img class="logo" src="images/punchometer.png"/>
+         <div class="readyToPunch">
+            Ready to measure the strenght of your punch?
+         </div>
+      </div>
+  </div>
+
+  <div id="game" class="game">
+      <div id="game_text" class="shakeToStart" style="display:none;">
+              Shake device and find out!
+      </div>
+      <canvas id="gauge"></canvas>
+      <div id="measurement" class="shakeToStart" style="display:none;">
+        <div id="preview">0</div>
+        <div>km/h</div>
+      </div>
+  </div>
+  
+  <script>
+    // Service worker
+    if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('sw.js').then(function(registration) {
+                    }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+    }
+
+    // Entry point after animation
+    let intro = document.getElementById("intro");
+    function onAnimationEnd() {
+        intro.removeEventListener("animationend", onAnimationEnd);
+        setTimeout(main, 2000);
+    }
+    intro.addEventListener("animationend", onAnimationEnd, false);
+  </script>
 </body>
 </html>
