@@ -7,7 +7,7 @@ var speedCalculator = null;
 var quotes = ["Punch not detected, self-destruct sequence initiated :) !", "Do you even lift bro?", "Roll with the punches!"];
 
 
-// Calculates the *first* velocity peak, or exiting on timeout.
+// Calculates the *first* velocity peak about X axis, or exiting on timeout.
 class MaxSpeedCalculator {
  constructor(linearAccel, onresult, onpunchdetected, timeout /*in ms*/) {
    this.accel = linearAccel;
@@ -15,15 +15,10 @@ class MaxSpeedCalculator {
    this.onresult = onresult;
    this.onpunchdetected = onpunchdetected;
    this.punchDetected = false;
-   this.maxSpeed = 0;        
-   // Velocity at time t.
-   this.vx = 0;
-   this.vy = 0;
-   this.vz = 0;
-   // Acceleration at time t.
-   this.ax = 0;
-   this.ay = 0;
-   this.az = 0;
+   this.maxSpeed = 0;
+
+   this.vx = 0; // Velocity at time t.
+   this.ax = 0; // Acceleration at time t.
    this.t = 0;
 
    this.timeoutId = 0;
@@ -31,13 +26,10 @@ class MaxSpeedCalculator {
 
    function onreading() {
      let dt = (this.accel.timestamp - this.t) * 0.001; // In seconds.
-     this.vx += (this.accel.x + this.ax) / 2 * dt;
-     this.vy += (this.accel.y + this.ay) / 2 * dt;
-     this.vz += (this.accel.z + this.az) / 2 * dt;
+     let vx = this.vx + (this.accel.x + this.ax) / 2 * dt;
+     let speed = Math.abs(vx);
 
-     let speed = Math.hypot(this.vx, this.vy, this.vz);
      const punchTreashold = 3; // m/s
-
      if (this.maxSpeed < speed && speed >= punchTreashold) {
        this.maxSpeed = speed;
        if (!this.punchDetected && this.onpunchdetected) {
@@ -54,8 +46,7 @@ class MaxSpeedCalculator {
 
      this.t = this.accel.timestamp;
      this.ax = this.accel.x;
-     this.ay = this.accel.y;
-     this.az = this.accel.z;
+     this.vx = vx;
    }
 
    function ontimeout() {
@@ -149,6 +140,7 @@ function setToInitialState() {
     } else if (magnitude < stillTreashold && shaking) {
       shaking = false;
       acl.removeEventListener('reading', onreading);
+      setMeasurement(0);
       setGameText("Punch now!");
       speedCalculator.start();
     }
@@ -174,7 +166,7 @@ function generateKickSound() {
 
   oscillator.frequency.setValueAtTime(500, startTime);
   oscillator.frequency.exponentialRampToValueAtTime(0.05, endTime);
-  gain.gain.setValueAtTime(10, startTime);
+  gain.gain.setValueAtTime(40, startTime);
   gain.gain.exponentialRampToValueAtTime(0.05, endTime);
 
   oscillator.start(startTime);
