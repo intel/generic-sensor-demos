@@ -14,7 +14,8 @@ class MaxSpeedCalculator {
    this.measuring = false;
    this.onresult = onresult;
    this.onpunchdetected = onpunchdetected;
-   this.maxSpeed = 0;
+   this.punchDetected = false;
+   this.maxSpeed = 0;        
    // Velocity at time t.
    this.vx = 0;
    this.vy = 0;
@@ -39,9 +40,9 @@ class MaxSpeedCalculator {
 
      if (this.maxSpeed < speed && speed >= punchTreashold) {
        this.maxSpeed = speed;
-       if (this.onpunchdetected) {
+       if (!this.punchDetected && this.onpunchdetected) {
+         this.punchDetected = true;
          this.onpunchdetected();
-         this.onpunchdetected = null;
        }
      }
 
@@ -87,6 +88,8 @@ class MaxSpeedCalculator {
 
    this.measuring = true;
    this.maxSpeed = 0;
+   this.punchDetected = false;
+
    this.vx = 0;
    this.vy = 0;
    this.vz = 0;
@@ -95,7 +98,7 @@ class MaxSpeedCalculator {
    this.ay = this.accel.y;
    this.az = this.accel.z;
    this.t = this.accel.timestamp;
-   
+
    this.accel.addEventListener('reading', this.onreading);
    this.accel.addEventListener('error', this.onerror);
    this.timeoutId = setTimeout(this.ontimeout, this.timeout);
@@ -114,24 +117,24 @@ class MaxSpeedCalculator {
 }
 
 function setGameText(text) {
-    game_text.innerText = text;
-    game_text.style.display="none";
-    game_text.style.display="block";
+  game_text.innerText = text;
+  game_text.style.display="none";
+  game_text.style.display="block";
 }
 
 function setMeasurement(val) {
-    gauge.set(val);
-    measurement.style.display="none";
-    measurement.style.display="block";
+  gauge.set(val);
+  measurement.style.display="none";
+  measurement.style.display="block";
 }
 
 function getQuote(val) {
-    if (val < 2) {
-        return quotes[0];
-    } else if (val < 15) {
-        return quotes[1];
-    }
-    return quotes[2];
+  if (val < 2)
+    return quotes[0];
+  if (val < 15)
+    return quotes[1];
+
+  return quotes[2];
 }
 
 function setToInitialState() {
@@ -157,7 +160,6 @@ function setToInitialState() {
 function onresult() {
   setMeasurement(speedCalculator.result);
   setGameText(getQuote(speedCalculator.result) + " Shake to try again!");
-  generateKickSound();
   setTimeout(setToInitialState, 1000);
 }
 
@@ -181,67 +183,67 @@ function generateKickSound() {
 
 
 function main() {
-    // Create gauge
-    var opts = {
-      angle: 0, // The span of the gauge arc
-      lineWidth: 0.44, // The line thickness
-      radiusScale: 1, // Relative radius
-      pointer: {
-        length: 0.6, // // Relative to gauge radius
-        strokeWidth: 0.035, // The thickness
-        color: '#000000' // Fill color
-      },
-      percentColors: [[0.0, "#a9d70b" ], [0.50, "#f9c802"], [1.0, "#ff0000"]],
-      limitMax: 30,     // If false, max value increases automatically if value > maxValue
-      limitMin: 0,     // If true, the min value of the gauge will be fixed
-      colorStart: '#6FADCF',   // Colors
-      colorStop: '#8FC0DA',    // just experiment with them
-      strokeColor: '#E0E0E0',  // to see which ones work best for you
-      generateGradient: true,
-      highDpiSupport: true,    // High resolution support
-      staticLabels: {
-        font: "10px sans-serif",  // Specifies font
-        labels: [0, 5, 10, 15, 20, 25, 30],  // Print labels at these values
-        color: "#000000",  // Optional: Label text color
-        fractionDigits: 0  // Optional: Numerical precision. 0=round off.
-     }
-    };
-
-    var target = document.getElementById('gauge'); // your canvas element
-    let width = window.screen.availWidth / 2;
-    let height = window.screen.availHeight / 2;
-
-    if (width < height) {
-        target.width = height;
-        target.height = width;
-    } else {
-        target.width = width;
-        target.height = height;
+  // Create gauge
+  var opts = {
+    angle: 0, // The span of the gauge arc
+    lineWidth: 0.44, // The line thickness
+    radiusScale: 1, // Relative radius
+    pointer: {
+      length: 0.6, // // Relative to gauge radius
+      strokeWidth: 0.035, // The thickness
+      color: '#000000' // Fill color
+    },
+    percentColors: [[0.0, "#a9d70b" ], [0.50, "#f9c802"], [1.0, "#ff0000"]],
+    limitMax: 50,     // If false, max value increases automatically if value > maxValue
+    limitMin: 0,     // If true, the min value of the gauge will be fixed
+    colorStart: '#6FADCF',   // Colors
+    colorStop: '#8FC0DA',    // just experiment with them
+    strokeColor: '#E0E0E0',  // to see which ones work best for you
+    generateGradient: true,
+    highDpiSupport: true,    // High resolution support
+    staticLabels: {
+      font: "10px sans-serif",  // Specifies font
+      labels: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50],  // Print labels at these values
+      color: "#000000",  // Optional: Label text color
+      fractionDigits: 0  // Optional: Numerical precision. 0=round off.
     }
+  };
 
-    gauge = new Gauge(target).setOptions(opts);
-    gauge.setTextField(document.getElementById("preview"));
-    gauge.maxValue = 30; // set max gauge value
-    gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
-    gauge.animationSpeed = 32; // set animation speed (32 is default value)
+  var target = document.getElementById('gauge'); // your canvas element
+  let width = window.screen.availWidth / 2;
+  let height = window.screen.availHeight / 2;
 
-    // Show game text element
-    game_text = document.getElementById("game_text");
-    measurement = document.getElementById("measurement");
-    setGameText(game_text.innerText);
+  if (width < height) {
+    target.width = height;
+    target.height = width;
+  } else {
+    target.width = width;
+    target.height = height;
+  }
+
+  gauge = new Gauge(target).setOptions(opts);
+  gauge.setTextField(document.getElementById("preview"));
+  gauge.maxValue = 50; // set max gauge value
+  gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+  gauge.animationSpeed = 32; // set animation speed (32 is default value)
+
+  // Show game text element
+  game_text = document.getElementById("game_text");
+  measurement = document.getElementById("measurement");
+  setGameText(game_text.innerText);
+  setMeasurement(0);
+
+  if ('LinearAccelerationSensor' in window) {
+    acl = new LinearAccelerationSensor({frequency: 60});
+    speedCalculator = new MaxSpeedCalculator(acl, onresult, generateKickSound);
+
+    acl.addEventListener('activate', setToInitialState);
+    acl.addEventListener('error', error => {
+        setGameText("Sensor is gone Jim, it is gone.");
+    });
+    acl.start();
+  } else {
+    setGameText("Your browser doesn't support sensors.");
     setMeasurement(0);
-
-    if ('LinearAccelerationSensor' in window) {
-      acl = new LinearAccelerationSensor({frequency: 60});
-      speedCalculator = new MaxSpeedCalculator(acl, onresult, generateKickSound);
-
-      acl.addEventListener('activate', setToInitialState);
-      acl.addEventListener('error', error => {
-          setGameText("Sensor is gone Jim, it is gone.");
-      });
-      acl.start();
-    } else {
-        setGameText("Your browser doesn't support sensors.");
-        setMeasurement(30);
-    }
+  }
 }
