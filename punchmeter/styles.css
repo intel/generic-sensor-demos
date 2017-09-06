@@ -1,12 +1,73 @@
-#instructions {
-  background-color: #F8F8F8;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 24px;
-  margin: 15px;
+body {
+  background-color: white;
+  overflow: hidden;
+  vertical-align: top;
+  text-align: center;
+  color: black;
+  font-family: 'Roboto';
+  font-weight:300;
+  font-size: 2em;
 }
-#result {
-  background-color: #F8F8F8;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 24px;
-  margin: 15px;
+
+.container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.logo {
+  max-width: 30%;
+  max-height: 30%;
+}
+
+.readyToPunch {
+  animation-delay: 2s;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+  animation-name: readyToPunch;
+}
+
+@keyframes readyToPunch {
+  0% { opacity:0; }
+  100% { opacity:1; }
+}
+
+.punchAnimation {
+  animation-duration: 5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+  animation-name: punchAnimation;
+}
+
+@keyframes punchAnimation {
+  0% { transform:  translate(0px,400%); }
+  30% { transform:  translate(0px,5%); }
+  40%,90% { transform:  translate(0px,15%); }
+  100% { transform:  translate(0px,-200%); }
+}
+
+.game {
+    width: 90%;
+    height: 100%;
+    position: absolute;
+    top: 15%;
+    left: 5%;
+    text-align: center;
+}
+
+.shakeToStart {
+  animation-duration: 4s;
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+  animation-name: shakeToStart;
+}
+
+@keyframes shakeToStart {
+  0% { opacity:0; }
+  100% { opacity:1; }
 }
