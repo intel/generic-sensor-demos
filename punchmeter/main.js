@@ -226,14 +226,22 @@ function main() {
   setMeasurement(0);
 
   if ('LinearAccelerationSensor' in window) {
-    acl = new LinearAccelerationSensor({frequency: 60});
-    speedCalculator = new MaxSpeedCalculator(acl, onresult, generateKickSound);
+    navigator.permissions.query({ name: "accelerometer" }).then(result => {
+      if (result.state != 'granted') {
+        setGameText("Sorry, we're not allowed to access sensors " +
+                    "on your device..");
+        return;
+      }
 
-    acl.addEventListener('activate', setToInitialState);
-    acl.addEventListener('error', error => {
-        setGameText("Sensor is gone Jim, it is gone.");
+      acl = new LinearAccelerationSensor({frequency: 60});
+      speedCalculator = new MaxSpeedCalculator(acl, onresult, generateKickSound);
+
+      acl.addEventListener('activate', setToInitialState);
+      acl.addEventListener('error', error => {
+         setGameText("Sensor is gone Jim, it is gone.");
+      });
+      acl.start();
     });
-    acl.start();
   } else {
     setGameText("Your browser doesn't support sensors.");
     setMeasurement(0);
