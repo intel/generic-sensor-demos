@@ -29,7 +29,7 @@
                              navigator.permissions.query({ name: "magnetometer" }),
                              navigator.permissions.query({ name: "gyroscope" })])
                        .then(results => {
-                            if (!results.find(result => result.name == "denied")) {
+                            if (results.every(result => result.state === "granted")) {
                                 initSensor();
                             } else {
                                 console.log("Permission to use sensor was denied.");
