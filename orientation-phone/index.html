@@ -22,7 +22,21 @@
             var container, sensor, camera, scene, renderer, model;
 
             initScene();
-            initSensor();
+
+            if ('AbsoluteOrientationSensor' in window) {
+                // https://w3c.github.io/orientation-sensor/#model
+                Promise.all([navigator.permissions.query({ name: "accelerometer" }),
+                             navigator.permissions.query({ name: "magnetometer" }),
+                             navigator.permissions.query({ name: "gyroscope" })])
+                       .then(results => {
+                            if (!results.find(result => result.name == "denied")) {
+                                initSensor();
+                            } else {
+                                console.log("Permission to use sensor was denied.");
+                            }
+                       });
+            }
+
             renderScene();
 
             function initScene() {
@@ -70,16 +84,14 @@
             }
 
             function initSensor() {
-                if ('AbsoluteOrientationSensor' in window) {
-                    sensor = new AbsoluteOrientationSensor({frequency: 60});
-                    sensor.onreading = () => model.quaternion.fromArray(sensor.quaternion);
-                    sensor.onerror = (event) => {
-                      if (event.error.name == 'NotReadableError') {
-                        console.log("Sensor is not available.");
-                      }
-                    }
-                    sensor.start();
+                sensor = new AbsoluteOrientationSensor({frequency: 60});
+                sensor.onreading = () => model.quaternion.fromArray(sensor.quaternion);
+                sensor.onerror = (event) => {
+                  if (event.error.name == 'NotReadableError') {
+                    console.log("Sensor is not available.");
+                  }
                 }
+                sensor.start();
             }
 
             function renderScene() {
