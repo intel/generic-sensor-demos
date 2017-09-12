@@ -30,7 +30,7 @@ for this we recommend using of
 [Web Server for Chrome](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb).
 Then to run the demo on a mobile device you should set up
 [port forwarding](https://developers.google.com/web/tools/chrome-devtools/remote-debugging/local-server)
-on your local server, and you are ready to rock!
+for your local server, and you are ready to rock!
 
 Before running the demos, please enable the
 [chrome://flags/#enable-generic-sensor](chrome://flags/#enable-generic-sensor) Chrome flag.
@@ -43,11 +43,29 @@ Punchmeter is a simple application that calculates user's punch speed using
 LinearAcceleration sensor. To try it the user should make a punch holding
 mobile device in his/her hand.
 
+![Alt text](/images/punchmeter.gif?raw=true "Punchmeter demo")
+
+--- 
+
+### Orientation phone
+
+This simple demo illustrates how an absolute orientation sensor can be used to
+modify rotation quaternion of a 3D model. The <code>model</code> is a three.js
+<code>[Object3D](https://threejs.org/docs/index.html#api/core/Object3D)</code> class instance
+that has <code>[quaternion](https://threejs.org/docs/index.html#api/core/Object3D.quaternion)</code>
+property.
+
+![Alt text](/images/orientation-phone.png?raw=true "Orientation sensor demo")
+
+--- 
+
 ### 360 degree beach panorama demo (websensor-panorama)
 
 The demo presents a 360 degree panorama view of a beach with an added sound effect.
 The user can look around the scene by moving their device.
 The demo uses the orientation sensor to enable the user to look around.
+
+--- 
 
 ### 360 degree video demo (websensor-video)
 
