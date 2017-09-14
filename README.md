@@ -76,28 +76,42 @@ walking detection to enable the user to control video playback by walking.
 
 ---
 
-### [Ambient Map demo](/ambient-map/build/bundled)
+### [Ambient Map demo](ambient-map/build/bundled)
+
+This web application demonstrates how Ambient light sensor can be used to control style of a map widget.
+When ambient illuminance level is less than 10 lumen, night mode style will be used.
 
 **Note:** this demo requires
 [chrome://flags/#enable-generic-sensor-extra-classes](chrome://flags/#enable-generic-sensor-extra-classes)
 flag set.
-
-This web application demonstrates how Ambient light sensor can be used to control style of a map widget.
-When ambient illuminance level is less than 10 lumen, night mode style will be used.
 
 <img width="40%" src="ambient-map/ambient-map.gif?raw=true" alt="Ambient Map demo">
 
 ---
 
-### [Sensor Info demo](/sensor-info/build/bundled)
+### [Sensor Info demo](sensor-info/build/bundled)
+
+This web application presents information about device sensors and their reading values.
 
 **Note:** this demo requires
 [chrome://flags/#enable-generic-sensor-extra-classes](chrome://flags/#enable-generic-sensor-extra-classes)
 flag set.
 
-This web application presents information about device sensors and their reading values.
+<img width="40%" src="sensor-info/sensor-info.gif?raw=true" alt="Sensor Info demo">
 
-<img width="40%" src="sensor-info/sensor-info.gif?raw=true" alt="Ambient Map demo">
+---
+
+### [VR Button demo](vr-button/build/bundled)
+
+This web application demonstrates how Magnetometer sensor can be used to provide user input for WebVR
+content. If you have VR enclosure with magnet button, you can interact with objects in the scene by
+sliding button down.
+
+**Note:** this demo requires
+[chrome://flags/#enable-generic-sensor-extra-classes](chrome://flags/#enable-generic-sensor-extra-classes)
+flag set.
+
+<img width="40%" src="vr-button/vr-button.gif?raw=true" alt="VR Button demo">
 
 ## Development environment
 

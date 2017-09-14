@@ -1,0 +1,17 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/vrbutton-app.html",
+  "fragments": [
+    "src/vrbutton-app.html"
+  ],
+  "sourceGlobs": [
+   "src/**/*",
+   "images/**/*",
+   "bower.json"
+  ],
+  "includeDependencies": [
+    "manifest.json",
+    "aframe/aframe.min.js",
+    "components/click.js"
+  ]
+}
