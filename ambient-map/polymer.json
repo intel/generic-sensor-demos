@@ -1,0 +1,15 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/ambientmap-app.html",
+  "fragments": [
+    "src/ambientmap-app.html"
+  ],
+  "sourceGlobs": [
+   "src/**/*",
+   "images/**/*",
+   "bower.json"
+  ],
+  "includeDependencies": [
+    "manifest.json"
+  ]
+}
