@@ -25,7 +25,10 @@ the base class.
 The demo apps work with Chrome 62 or later.
 
 Before running the demos, please enable the
-[chrome://flags/#enable-generic-sensor](chrome://flags/#enable-generic-sensor) flag.
+[chrome://flags/#enable-generic-sensor](chrome://flags/#enable-generic-sensor) flag. If the demo is using
+environmental sensors, such as, Magnetometer or AmbientLightSensor, please enable
+[chrome://flags/#enable-generic-sensor-extra-classes](chrome://flags/#enable-generic-sensor-extra-classes)
+flag.
 
 ## Demos description
 
@@ -66,6 +69,15 @@ The user can also play the video in both forward and reverse by holding the devi
 forward and backward, respectively.
 The demo uses the orientation sensor to enable the user to look around and the accelerometer for
 walking detection to enable the user to control video playback by walking.
+
+---
+
+### [Ambient Map demo](/ambient-map/build/bundled)
+
+This web application demonstrates how Ambient light sensor can be used to control style of a map widget.
+When ambient illuminance level is less than 10 lumen, night mode style will be used.
+
+<img width="60%" src="ambient-map/ambient-map.gif?raw=true" alt="Ambient Map demo">
 
 
 ## Development environment
