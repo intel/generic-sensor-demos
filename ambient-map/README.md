@@ -2,7 +2,7 @@
 
 This web application demonstrates how Ambient light sensor can be used to control style of a map widget. When ambient illuminance level is less than 10 lumen, night mode style will be used.
 
-![Alt text](/ambient-map.gif?raw=true "Ambient Map demo")
+![Alt text](ambient-map.gif?raw=true "Ambient Map demo")
 
 ## Getting Started
 
