@@ -22,18 +22,10 @@ the base class.
 
 ## Launch instructions
 
-To launch a demo, it must be first hosted on a web server that supports HTTPS.
-The simplest way is to fork this repository and enable
-[GitHub Pages](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/)
-for your fork. Another way is to set up the environment on your `localhost`,
-for this we recommend using of
-[Web Server for Chrome](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb).
-Then to run the demo on a mobile device you should set up
-[port forwarding](https://developers.google.com/web/tools/chrome-devtools/remote-debugging/local-server)
-for your local server, and you are ready to rock!
+The demo apps work with Chrome 62 or later.
 
 Before running the demos, please enable the
-[chrome://flags/#enable-generic-sensor](chrome://flags/#enable-generic-sensor) Chrome flag.
+[chrome://flags/#enable-generic-sensor](chrome://flags/#enable-generic-sensor) flag.
 
 ## Demos description
 
@@ -76,3 +68,15 @@ The demo uses the orientation sensor to enable the user to look around and the a
 walking detection to enable the user to control video playback by walking.
 
 
+## Development environment
+
+If you would like to modify the existing code and play with the sensors API
+your code must be hosted on a web server that supports HTTPS.
+The simplest way is to fork this repository and enable
+[GitHub Pages](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/)
+for your fork. Another way is to set up the environment on your `localhost`,
+for this we recommend using of
+[Web Server for Chrome](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb).
+Then to run the demo on a mobile device you should set up
+[port forwarding](https://developers.google.com/web/tools/chrome-devtools/remote-debugging/local-server)
+for your local server, and you are ready to rock!
