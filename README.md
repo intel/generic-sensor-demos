@@ -36,7 +36,7 @@ flag.
 
 ## Demos description
 
-### [Punchmeter](/generic-sensor-demos/punchmeter)
+### [Punchmeter](punchmeter)
 
 Punchmeter is a simple application that calculates user's punch speed using
 LinearAcceleration sensor. To try it the user should make a punch holding
@@ -46,7 +46,7 @@ mobile device in his/her hand.
 
 ---
 
-### [Orientation phone](/generic-sensor-demos/orientation-phone)
+### [Orientation phone](orientation-phone)
 
 This simple demo illustrates how an absolute orientation sensor can be used to
 modify rotation quaternion of a 3D model. The <code>model</code> is a three.js
@@ -58,7 +58,7 @@ property.
 
 ---
 
-### [360 degree beach panorama demo](/generic-sensor-demos/websensor-panorama)
+### [360 degree beach panorama demo](websensor-panorama)
 
 The demo presents a 360 degree panorama view of a beach with an added sound effect.
 The user can look around the scene by moving their device.
@@ -66,7 +66,7 @@ The demo uses the orientation sensor to enable the user to look around.
 
 ---
 
-### [360 degree video demo](/generic-sensor-demos/websensor-video)
+### [360 degree video demo](websensor-video)
 
 This demo presents a 360 degree video that the user can look around by moving their device.
 The user can also play the video in both forward and reverse by holding the device and walking
