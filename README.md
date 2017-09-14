@@ -77,8 +77,15 @@ walking detection to enable the user to control video playback by walking.
 This web application demonstrates how Ambient light sensor can be used to control style of a map widget.
 When ambient illuminance level is less than 10 lumen, night mode style will be used.
 
-<img width="60%" src="ambient-map/ambient-map.gif?raw=true" alt="Ambient Map demo">
+<img width="40%" src="ambient-map/ambient-map.gif?raw=true" alt="Ambient Map demo">
 
+---
+
+### [Sensor Info demo](/sensor-info/build/bundled)
+
+This web application presents information about device sensors and their reading values.
+
+<img width="40%" src="sensor-info/sensor-info.gif?raw=true" alt="Ambient Map demo">
 
 ## Development environment
 

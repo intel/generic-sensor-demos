@@ -1,0 +1,15 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/sensors-app.html",
+  "fragments": [
+    "src/sensors-app.html"
+  ],
+  "sourceGlobs": [
+   "src/**/*",
+   "images/**/*",
+   "bower.json"
+  ],
+  "includeDependencies": [
+    "manifest.json"
+  ]
+}

@@ -1,0 +1,296 @@
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/effects/waterfall.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-label/iron-label.html">
+<link rel="import" href="../bower_components/iron-list/iron-list.html">
+
+<dom-module id="sensors-app">
+    <style is="custom-style">
+        app-toolbar {
+            background-color: #0071c5;
+            color: #fff;
+        }
+
+        .item {
+            @apply(--layout-horizontal);
+            padding: 20px;
+            border-radius: 8px;
+            background-color: white;
+            border: 1px solid #ddd;
+            max-width: 100%;
+            margin: 16px auto 0 auto;
+        }
+
+        app-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1;
+        }
+
+        .pad {
+            padding: 0 16px;
+            @apply(--layout-flex);
+            @apply(--layout-vertical);
+        }
+
+        .toggle {
+            @apply(--layout-vertical);
+        }
+
+        iron-list {
+            margin-top: 64px;
+            padding-left: 14px;
+            padding-right: 14px;
+            padding-bottom: 14px;
+        }
+    </style>
+
+    <template>
+        <app-header-layout fullbleed>
+            <app-header condenses fixed effects="waterfall">
+                <app-toolbar>
+                    <div main-title>Sensor info</div>
+                    <paper-icon-button icon="add-circle" on-tap="openAddSensorDialog"></paper-icon-button>
+                </app-toolbar>
+            </app-header>
+
+        </app-header-layout>
+
+        <iron-list id="list" items="[[sensorDataModel]]" as="item" scroll-target="html">
+            <template>
+                <div>
+                    <div class="item">
+                        <paper-toggle-button checked="[[item.active]]" class="toggle" sizing="contain" id="[[item.id]]" on-change="sensorToggleChanged"></paper-toggle-button>
+                        <div class="pad">
+                            <iron-label>Sensor type: [[item.name]]</iron-label>
+                            <iron-label>Frequency hint: [[item.frequency]]</iron-label>
+                            <iron-label>Sensor activated: [[item.activated]]</iron-label>
+                            <span>[[item.readingTimestamp]]</span>
+                            <span>[[item.readingValue0]]</span>
+                            <span>[[item.readingValue1]]</span>
+                            <span>[[item.readingValue2]]</span>
+                            <span>[[item.readingValue3]]</span>
+                        </div>
+                        <paper-icon-button class="close" id="[[item.id]]" icon="clear" on-tap="removeSensor"></paper-icon-button>
+                    </div>
+                </div>
+            </template>
+        </iron-list>
+
+        <paper-toast id="toastNotSupported" text="Selected sensor is not supported."></paper-toast>
+
+        <paper-dialog id="addSensorDialog" modal>
+            <h2>Add sensor</h2>
+            <paper-dropdown-menu id="selectedSensor" label="Sensor type">
+                <paper-menu class="dropdown-content">
+                    <paper-item>Ambient light</paper-item>
+                    <paper-item>Accelerometer</paper-item>
+                    <paper-item>LinearAcceleration</paper-item>
+                    <paper-item>Gyroscope</paper-item>
+                    <paper-item>Magnetometer</paper-item>
+                    <paper-item>AbsoluteOrientation</paper-item>
+                    <paper-item>RelativeOrientation</paper-item>
+                </paper-menu>
+            </paper-dropdown-menu>
+            <paper-input id="selectedFrequency" label="Frequency"></paper-input>
+            <div class="buttons">
+                <paper-button dialog-confirm on-tap="addSensor">Add</paper-button>
+                <paper-button dialog-confirm autofocus>Cancel</paper-button>
+            </div>
+        </paper-dialog>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'sensors-app',
+
+            properties: {
+                sensorDataModel: {
+                    type: Array,
+                    value: [],
+                },
+            },
+
+            openAddSensorDialog: function () {
+                addSensorDialog.open();
+            },
+
+            addSensor: function () {
+                var options = null;
+                var sensorConstructor = null;
+
+                if (!isNaN(selectedFrequency.value) && selectedFrequency.value != '') {
+                    options = {
+                        frequency: selectedFrequency.value
+                    };
+                }
+
+                switch (selectedSensor.value) {
+                case "Ambient light":
+                    if ('AmbientLightSensor' in window) {
+                        sensorConstructor = AmbientLightSensor;
+                    }
+                    break;
+
+                case "Accelerometer":
+                    if ('Accelerometer' in window) {
+                        sensorConstructor = Accelerometer;
+                    }
+                    break;
+
+                case "LinearAcceleration":
+                    if ('LinearAccelerationSensor' in window) {
+                        sensorConstructor = LinearAccelerationSensor;
+                    }
+                    break;
+
+                case "Gyroscope":
+                    if ('Gyroscope' in window) {
+                        sensorConstructor = Gyroscope;
+                    }
+                    break;
+
+                case "Magnetometer":
+                    if ('Magnetometer' in window) {
+                        sensorConstructor = Magnetometer;
+                    }
+                    break;
+
+                case "AbsoluteOrientation":
+                    if ('AbsoluteOrientationSensor' in window) {
+                        sensorConstructor = AbsoluteOrientationSensor;
+                    }
+                    break;
+
+                case "RelativeOrientation":
+                    if ('RelativeOrientationSensor' in window) {
+                        sensorConstructor = RelativeOrientationSensor;
+                    }
+                    break;
+                }
+
+                if (!sensorConstructor) {
+                    toastNotSupported.open();
+                    return;
+                }
+
+                var sensor = null;
+                try {
+                    if (options)
+                        sensor = new sensorConstructor(options);
+                    else
+                        sensor = new sensorConstructor();
+                } catch (e) {
+                    // toast
+                    return;
+                }
+
+                sensor.name = selectedSensor.value;
+                sensor.frequency = (options && options.hasOwnProperty('frequency')) ? options.frequency + ' Hz' : 'default';
+                sensor.id = this.sensorDataModel.length;
+                sensor.app = this;
+                sensor.active = false;
+
+                sensor.onreading = function () {
+                    function round(number, precision) {
+                        var factor = Math.pow(10, precision);
+                        return Math.round(number * factor) / factor;
+                    }
+
+                    var i = 0;
+                    var needsRelayout = typeof this.readingTimestamp == "undefined";
+                    var properties = new Array("timestamp", "illuminance", "x", "y", "z", "quaternion");
+
+                    for (var property in properties) {
+                        var propertyName = properties[property];
+                        if (propertyName == 'timestamp') {
+                            this.readingTimestamp = 'timestamp: ' + round(this.timestamp, 3);
+                            this.app.notifyPath('sensorDataModel.' + this.id + '.readingTimestamp');
+                        } else if (propertyName in this) {
+                            if (propertyName == 'quaternion') {
+                              this["readingValue0"] = propertyName + ".X: " + round(this[propertyName][0], 3);
+                              this["readingValue1"] = propertyName + ".Y: " + round(this[propertyName][1], 3);
+                              this["readingValue2"] = propertyName + ".Z: " + round(this[propertyName][2], 3);
+                              this["readingValue3"] = propertyName + ".W: " + round(this[propertyName][3], 3);
+                              this.app.notifyPath('sensorDataModel.' + this.id + '.readingValue0');
+                              this.app.notifyPath('sensorDataModel.' + this.id + '.readingValue1');
+                              this.app.notifyPath('sensorDataModel.' + this.id + '.readingValue2');
+                              this.app.notifyPath('sensorDataModel.' + this.id + '.readingValue3');
+                            } else {
+                              var readingId = 'readingValue' + i++;
+                              this[readingId] = propertyName + ': ' + round(this[propertyName], 3);
+                              this.app.notifyPath('sensorDataModel.' + this.id + '.' + readingId);
+                            }
+                        }
+                    }
+
+                    if (needsRelayout)
+                        this.app.$.list.notifyResize();
+                }
+
+                sensor.onerror = function () {
+                    this.app.notifyPath('sensorDataModel.' + this.id + '.activated');
+                };
+                sensor.onactivate = sensor.onerror;
+
+                this.push('sensorDataModel', sensor);
+            },
+
+            removeSensor: function (event) {
+                var id = event.currentTarget.id;
+                // Stop sensor
+                try {
+                    this.sensorDataModel[id].stop();
+                    this.sensorDataModel[id].active = false;
+                } catch (e) {
+                    // toast
+                }
+
+                var index = this.sensorDataModel.findIndex(function (v) {
+                    return v.id == id;
+                });
+                if (index == -1)
+                    return;
+
+                this.splice('sensorDataModel', index, 1);
+                // Update ids
+                for (var i = 0; i < this.sensorDataModel.length; ++i) {
+                    this.sensorDataModel[i].id = i;
+                    // Notify about updated ids
+                    this.notifyPath('sensorDataModel.' + i + '.id');
+                }
+            },
+
+            sensorToggleChanged: function (event) {
+                var id = event.currentTarget.id;
+                try {
+                    if (event.target.checked) {
+                        this.sensorDataModel[id].start();
+                        this.sensorDataModel[id].active = true;
+                    } else {
+                        this.sensorDataModel[id].stop();
+                        this.sensorDataModel[id].active = false;
+                    }
+
+                    this.notifyPath('sensorDataModel.' + id + '.activated');
+                } catch (e) {
+                    // toast
+                }
+            },
+        });
+    </script>
+</dom-module>
