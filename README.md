@@ -25,8 +25,12 @@ the base class.
 The demo apps work with Chrome 62 or later.
 
 Before running the demos, please enable the
-[chrome://flags/#enable-generic-sensor](chrome://flags/#enable-generic-sensor) flag. If the demo is using
-environmental sensors, such as, Magnetometer or AmbientLightSensor, please enable
+[chrome://flags/#enable-generic-sensor](chrome://flags/#enable-generic-sensor) flag.
+
+If the demo is using environmental sensors, such as,
+[Magnetometer](https://w3c.github.io/magnetometer/#magnetometer-interface) or
+[AmbientLightSensor](https://w3c.github.io/ambient-light/#ambient-light-sensor-interface),
+please also enable
 [chrome://flags/#enable-generic-sensor-extra-classes](chrome://flags/#enable-generic-sensor-extra-classes)
 flag.
 
@@ -40,7 +44,7 @@ mobile device in his/her hand.
 
 <img src="images/punchmeter.gif" alt="Punchmeter demo">
 
---- 
+---
 
 ### [Orientation phone](/generic-sensor-demos/orientation-phone)
 
@@ -52,7 +56,7 @@ property.
 
 <img src="images/orientation-phone.png" alt="Orientation sensor demo">
 
---- 
+---
 
 ### [360 degree beach panorama demo](/generic-sensor-demos/websensor-panorama)
 
@@ -60,7 +64,7 @@ The demo presents a 360 degree panorama view of a beach with an added sound effe
 The user can look around the scene by moving their device.
 The demo uses the orientation sensor to enable the user to look around.
 
---- 
+---
 
 ### [360 degree video demo](/generic-sensor-demos/websensor-video)
 
@@ -74,6 +78,10 @@ walking detection to enable the user to control video playback by walking.
 
 ### [Ambient Map demo](/ambient-map/build/bundled)
 
+**Note:** this demo requires
+[chrome://flags/#enable-generic-sensor-extra-classes](chrome://flags/#enable-generic-sensor-extra-classes)
+flag set.
+
 This web application demonstrates how Ambient light sensor can be used to control style of a map widget.
 When ambient illuminance level is less than 10 lumen, night mode style will be used.
 
@@ -82,6 +90,10 @@ When ambient illuminance level is less than 10 lumen, night mode style will be u
 ---
 
 ### [Sensor Info demo](/sensor-info/build/bundled)
+
+**Note:** this demo requires
+[chrome://flags/#enable-generic-sensor-extra-classes](chrome://flags/#enable-generic-sensor-extra-classes)
+flag set.
 
 This web application presents information about device sensors and their reading values.
 
