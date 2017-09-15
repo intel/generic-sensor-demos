@@ -244,7 +244,7 @@ function main() {
       }
       startApp();
     }).catch(err => {
-      console.log("Integration with Permissions API is not enabled, still try to start").
+      console.log("Integration with Permissions API is not enabled, still try to start");
       startApp();
     });
   } else {
