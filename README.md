@@ -115,13 +115,12 @@ flag set.
 
 ## Development environment
 
-If you would like to modify the existing code and play with the sensors API
+If you would like to modify the existing code and experiment with the sensors API
 your code must be hosted on a web server that supports HTTPS.
 The simplest way is to fork this repository and enable
 [GitHub Pages](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/)
-for your fork. Another way is to set up the environment on your `localhost`,
-for this we recommend using of
+for your fork. Alternatevely, you can serve your web application locally, for this, we recommend to use
 [Web Server for Chrome](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb).
-Then to run the demo on a mobile device you should set up
+If you are developing for mobile devices,set up
 [port forwarding](https://developers.google.com/web/tools/chrome-devtools/remote-debugging/local-server)
-for your local server, and you are ready to rock!
+for your local server, and you are good to go!
