@@ -36,6 +36,9 @@
                             } else {
                                 console.log("Permission to use sensor was denied.");
                             }
+                       }).catch(err => {
+                            console.log("Integration with Permissions API is not enabled, still try to start app.");
+                            initSensor();
                        });
             }
 
