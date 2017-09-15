@@ -34,6 +34,8 @@ please also enable
 [chrome://flags/#enable-generic-sensor-extra-classes](chrome://flags/#enable-generic-sensor-extra-classes)
 flag.
 
+You could run demos from [GitHub Pages for this repository.](https://intel.github.io/generic-sensor-demos/)
+
 ## Demos description
 
 ### [Punchmeter](punchmeter)
