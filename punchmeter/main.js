@@ -224,6 +224,16 @@ function main() {
   measurement = document.getElementById("measurement");
   setGameText(game_text.innerText);
   setMeasurement(0);
+  function startApp() {
+    acl = new LinearAccelerationSensor({frequency: 60});
+    speedCalculator = new MaxSpeedCalculator(acl, onresult, generateKickSound);
+
+    acl.addEventListener('activate', setToInitialState);
+    acl.addEventListener('error', error => {
+       setGameText("Sensor is gone Jim, it is gone.");
+    });
+    acl.start();
+  }
 
   if ('LinearAccelerationSensor' in window) {
     navigator.permissions.query({ name: "accelerometer" }).then(result => {
@@ -232,15 +242,10 @@ function main() {
                     "on your device..");
         return;
       }
-
-      acl = new LinearAccelerationSensor({frequency: 60});
-      speedCalculator = new MaxSpeedCalculator(acl, onresult, generateKickSound);
-
-      acl.addEventListener('activate', setToInitialState);
-      acl.addEventListener('error', error => {
-         setGameText("Sensor is gone Jim, it is gone.");
-      });
-      acl.start();
+      startApp();
+    }).catch(err => {
+      console.log("Integration with Permissions API is not enabled, still try to start").
+      startApp();
     });
   } else {
     setGameText("Your browser doesn't support sensors.");
