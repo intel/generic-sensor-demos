@@ -64,6 +64,8 @@ The demo presents a 360 degree panorama view of a beach with an added sound effe
 The user can look around the scene by moving their device.
 The demo uses the orientation sensor to enable the user to look around.
 
+<img src="websensor-panorama/websensor-panorama.gif?raw=true" alt="360 Panorama">
+
 ---
 
 ### [360 degree video demo](websensor-video)
