@@ -29,7 +29,7 @@
 
 
 /* eslint-disable quotes, comma-spacing */
-var PrecacheConfig = [["/index.html","c9b98483ae82b72d1719a37e99214291"],["/src/vrbutton-app.html","e78427a170fae3e808cd174be845bdee"]];
+var PrecacheConfig = [["/index.html","6aad792595d05a13e736e83c99df437f"],["/src/vrbutton-app.html","e78427a170fae3e808cd174be845bdee"]];
 /* eslint-enable quotes, comma-spacing */
 var CacheNamePrefix = 'sw-precache-v1--' + (self.registration ? self.registration.scope : '') + '-';
 

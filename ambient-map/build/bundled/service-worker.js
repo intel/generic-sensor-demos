@@ -29,7 +29,7 @@
 
 
 /* eslint-disable quotes, comma-spacing */
-var PrecacheConfig = [["/index.html","17ace7ed9442f56da3aaf019d9742326"],["/src/ambientmap-app.html","9a321ecd330d9c364bc56c557a0345f4"]];
+var PrecacheConfig = [["/index.html","e33fb3b59d977e9f2515e938b8dd363a"],["/src/ambientmap-app.html","9a321ecd330d9c364bc56c557a0345f4"]];
 /* eslint-enable quotes, comma-spacing */
 var CacheNamePrefix = 'sw-precache-v1--' + (self.registration ? self.registration.scope : '') + '-';
 
