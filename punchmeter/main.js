@@ -4,7 +4,7 @@ var measurement = null;
 var gauge = null;
 var acl = null;
 var speedCalculator = null;
-var quotes = ["Punch not detected, self-destruct sequence initiated :) !", "Do you even lift bro?", "Roll with the punches!"];
+var quotes = ["Punch not detected", "Great punch!", "Roll with the punches!"];
 
 
 // Calculates the *first* velocity peak about X axis, or exiting on timeout.
@@ -230,7 +230,7 @@ function main() {
 
     acl.addEventListener('activate', setToInitialState);
     acl.addEventListener('error', error => {
-       setGameText("Sensor is gone Jim, it is gone.");
+       setGameText("Cannot fetch data from sensor due to an error.");
     });
     acl.start();
   }
