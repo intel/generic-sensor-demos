@@ -77,6 +77,8 @@
                             <iron-label>Sensor type: [[item.name]]</iron-label>
                             <iron-label>Frequency hint: [[item.frequency]]</iron-label>
                             <iron-label>Sensor activated: [[item.activated]]</iron-label>
+                            <span>[[item.errorType]]</span>
+                            <span>[[item.errorMessage]]</span>
                             <span>[[item.readingTimestamp]]</span>
                             <span>[[item.readingValue0]]</span>
                             <span>[[item.readingValue1]]</span>
@@ -242,10 +244,17 @@
                         this.app.$.list.notifyResize();
                 }
 
-                sensor.onerror = function () {
+                sensor.onerror = function(e) {
+                    this["errorType"] = "Error: " + e.error.name;
+                    this["errorMessage"] = "Error message: " + e.error.message;
+                    this.app.notifyPath('sensorDataModel.' + this.id + '.errorType');
+                    this.app.notifyPath('sensorDataModel.' + this.id + '.errorMessage');
+                    this.app.$.list.notifyResize();
+                }
+
+                sensor.onactivate = function () {
                     this.app.notifyPath('sensorDataModel.' + this.id + '.activated');
                 };
-                sensor.onactivate = sensor.onerror;
 
                 this.push('sensorDataModel', sensor);
             },
