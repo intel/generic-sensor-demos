@@ -2,18 +2,33 @@
 <html lang="en">
 
 <head>
+    <title>Sensor info</title>
+
+    <!-- Origin Trial Token, feature = Generic Sensors, origin = https://intel.github.io, expires = 2017-10-27 -->
+    <meta http-equiv="origin-trial" data-feature="Generic Sensors" data-expires="2017-10-27" content="Auyzdon6nyRo+pGs+Oza4lZ4ZCjUJ3XWMQhTbpkmIqGf67D/umG7lq3SjbkziDP6JKUV9U9NCVcG9LQBTKPuwQ4AAABWeyJvcmlnaW4iOiJodHRwczovL2ludGVsLmdpdGh1Yi5pbzo0NDMiLCJmZWF0dXJlIjoiR2VuZXJpY1NlbnNvciIsImV4cGlyeSI6MTUwOTA5Mzc5OX0=">
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
     <meta name="description" content="Sensor info">
     <meta name="theme-color" content="#0071c5">
-    <!-- Origin Trial Token, feature = Generic Sensors, origin = https://intel.github.io, expires = 2017-10-27 -->
-    <meta http-equiv="origin-trial" data-feature="Generic Sensors" data-expires="2017-10-27" content="Auyzdon6nyRo+pGs+Oza4lZ4ZCjUJ3XWMQhTbpkmIqGf67D/umG7lq3SjbkziDP6JKUV9U9NCVcG9LQBTKPuwQ4AAABWeyJvcmlnaW4iOiJodHRwczovL2ludGVsLmdpdGh1Yi5pbzo0NDMiLCJmZWF0dXJlIjoiR2VuZXJpY1NlbnNvciIsImV4cGlyeSI6MTUwOTA5Mzc5OX0=">
 
     <link rel="manifest" href="manifest.json">
-    <link rel="shortcut icon" sizes="32x32" href="images/app-icon-32.png">
-    <link rel="import" href="src/sensors-app.html">
+    <link rel="shortcut icon" sizes="144x144" href="images/app-icon-144.png">
 
-    <title>Sensor info</title>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Sensor info">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Sensor info">
+
+    <!-- Tile icon for Windows -->
+    <meta name="msapplication-TileImage" content="images/app-icon-144.png">
+    <meta name="msapplication-TileColor" content="#0071c5">
+    <meta name="msapplication-tap-highlight" content="no">
+
+    <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
 
     <style>
         body {
@@ -23,10 +38,26 @@
             height: 100vh;
         }
     </style>
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('service-worker.js', {
+            scope: Polymer.rootPath,
+          });
+        });
+      }
+    </script>
+
+    <link rel="import" href="src/sensors-app.html">
+
 </head>
 
-<body>
+<body unresolved>
     <sensors-app></sensors-app>
+    <noscript>
+      Please enable JavaScript to view this web app.
+    </noscript>
 </body>
 
 </html>

@@ -1,11 +1,14 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/neon-animation/web-animations.html">
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/app-layout/app-scroll-effects/effects/waterfall.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
-<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu-light.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
@@ -15,60 +18,55 @@
 <link rel="import" href="../bower_components/iron-list/iron-list.html">
 
 <dom-module id="sensors-app">
-    <style is="custom-style">
-        app-toolbar {
-            background-color: #0071c5;
-            color: #fff;
-        }
-
-        .item {
-            @apply(--layout-horizontal);
-            padding: 20px;
-            border-radius: 8px;
-            background-color: white;
-            border: 1px solid #ddd;
-            max-width: 100%;
-            margin: 16px auto 0 auto;
-        }
-
-        app-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1;
-        }
-
-        .pad {
-            padding: 0 16px;
-            @apply(--layout-flex);
-            @apply(--layout-vertical);
-        }
-
-        .toggle {
-            @apply(--layout-vertical);
-        }
-
-        iron-list {
-            margin-top: 64px;
-            padding-left: 14px;
-            padding-right: 14px;
-            padding-bottom: 14px;
-        }
-    </style>
-
     <template>
+        <style>
+            :host {
+                --app-primary-color: #0071c5;
+                --app-secondary-color: black;
+                display: block;
+            }
+
+            app-header {
+                color: #fff;
+                background-color: var(--app-primary-color);
+            }
+
+            .item {
+                @apply(--layout-horizontal);
+                padding: 20px;
+                border-radius: 8px;
+                background-color: white;
+                border: 1px solid #ddd;
+                max-width: 100%;
+                margin: 16px auto 0 auto;
+            }
+
+            .pad {
+                padding: 0 16px;
+                @apply(--layout-flex);
+                @apply(--layout-vertical);
+            }
+
+            .toggle {
+                @apply(--layout-vertical);
+            }
+
+            iron-list {
+                padding-left: 14px;
+                padding-right: 14px;
+                padding-bottom: 14px;
+            }
+        </style>
+
         <app-header-layout fullbleed>
-            <app-header condenses fixed effects="waterfall">
+            <app-header slot="header" condenses fixed effects="waterfall">
                 <app-toolbar>
                     <div main-title>Sensor info</div>
                     <paper-icon-button icon="add-circle" on-tap="openAddSensorDialog"></paper-icon-button>
                 </app-toolbar>
             </app-header>
 
-        </app-header-layout>
-
-        <iron-list id="list" items="[[sensorDataModel]]" as="item" scroll-target="html">
+            <iron-list id="list" items="[[sensorDataModel]]" as="item" scroll-target="document">
             <template>
                 <div>
                     <div class="item">
@@ -91,12 +89,15 @@
             </template>
         </iron-list>
 
+        </app-header-layout>
+
         <paper-toast id="toastNotSupported" text="Selected sensor is not supported."></paper-toast>
+        <paper-toast id="toastPleaseSelectSensor" text="Please select sensor."></paper-toast>
 
         <paper-dialog id="addSensorDialog" modal>
             <h2>Add sensor</h2>
-            <paper-dropdown-menu id="selectedSensor" label="Sensor type">
-                <paper-menu class="dropdown-content">
+            <paper-dropdown-menu-light id="selectedSensor" label="Sensor type">
+                <paper-listbox class="dropdown-content" slot="dropdown-content">
                     <paper-item>Ambient light</paper-item>
                     <paper-item>Accelerometer</paper-item>
                     <paper-item>LinearAcceleration</paper-item>
@@ -104,8 +105,8 @@
                     <paper-item>Magnetometer</paper-item>
                     <paper-item>AbsoluteOrientation</paper-item>
                     <paper-item>RelativeOrientation</paper-item>
-                </paper-menu>
-            </paper-dropdown-menu>
+                </paper-listbox>
+            </paper-dropdown-menu-light>
             <paper-input id="selectedFrequency" label="Frequency"></paper-input>
             <div class="buttons">
                 <paper-button dialog-confirm on-tap="addSensor">Add</paper-button>
@@ -116,32 +117,39 @@
     </template>
 
     <script>
-        Polymer({
+        class SensorsApp extends Polymer.Element {
 
-            is: 'sensors-app',
+            static get is() { return 'sensors-app'; }
 
-            properties: {
-                sensorDataModel: {
-                    type: Array,
-                    value: [],
-                },
-            },
+            static get properties() {
+                return {
+                    sensorDataModel: {
+                      type: Array,
+                      value: [],
+                    }
+                };
+            }
 
-            openAddSensorDialog: function () {
-                addSensorDialog.open();
-            },
+            openAddSensorDialog() {
+                this.$.addSensorDialog.open();
+            }
 
-            addSensor: function () {
+            addSensor() {
                 var options = null;
                 var sensorConstructor = null;
 
-                if (!isNaN(selectedFrequency.value) && selectedFrequency.value != '') {
+                if (!this.$.selectedSensor.value) {
+                    this.$.toastPleaseSelectSensor.open();
+                    return;
+                }
+
+                if (!isNaN(this.$.selectedFrequency.value)) {
                     options = {
-                        frequency: selectedFrequency.value
+                        frequency: this.$.selectedFrequency.value
                     };
                 }
 
-                switch (selectedSensor.value) {
+                switch (this.$.selectedSensor.value) {
                 case "Ambient light":
                     if ('AmbientLightSensor' in window) {
                         sensorConstructor = AmbientLightSensor;
@@ -186,22 +194,19 @@
                 }
 
                 if (!sensorConstructor) {
-                    toastNotSupported.open();
+                    this.$.toastNotSupported.open();
                     return;
                 }
 
                 var sensor = null;
-                try {
-                    if (options)
-                        sensor = new sensorConstructor(options);
-                    else
-                        sensor = new sensorConstructor();
-                } catch (e) {
-                    // toast
-                    return;
+                if (options) {
+                    sensor = new sensorConstructor(options);
+                } else {
+                    sensor = new sensorConstructor();
                 }
 
-                sensor.name = selectedSensor.value;
+
+                sensor.name = this.$.selectedSensor.value;
                 sensor.frequency = (options && options.hasOwnProperty('frequency')) ? options.frequency + ' Hz' : 'default';
                 sensor.id = this.sensorDataModel.length;
                 sensor.app = this;
@@ -240,8 +245,9 @@
                         }
                     }
 
-                    if (needsRelayout)
+                    if (needsRelayout) {
                         this.app.$.list.notifyResize();
+                    }
                 }
 
                 sensor.onerror = function(e) {
@@ -257,23 +263,21 @@
                 };
 
                 this.push('sensorDataModel', sensor);
-            },
+            }
 
-            removeSensor: function (event) {
+            removeSensor(event) {
                 var id = event.currentTarget.id;
-                // Stop sensor
-                try {
-                    this.sensorDataModel[id].stop();
-                    this.sensorDataModel[id].active = false;
-                } catch (e) {
-                    // toast
-                }
-
                 var index = this.sensorDataModel.findIndex(function (v) {
                     return v.id == id;
                 });
-                if (index == -1)
+
+                if (index == -1) {
                     return;
+                }
+
+                // Stop sensor
+                this.sensorDataModel[id].stop();
+                this.sensorDataModel[id].active = false;
 
                 this.splice('sensorDataModel', index, 1);
                 // Update ids
@@ -282,24 +286,22 @@
                     // Notify about updated ids
                     this.notifyPath('sensorDataModel.' + i + '.id');
                 }
-            },
+            }
 
-            sensorToggleChanged: function (event) {
+            sensorToggleChanged(event) {
                 var id = event.currentTarget.id;
-                try {
-                    if (event.target.checked) {
-                        this.sensorDataModel[id].start();
-                        this.sensorDataModel[id].active = true;
-                    } else {
-                        this.sensorDataModel[id].stop();
-                        this.sensorDataModel[id].active = false;
-                    }
-
-                    this.notifyPath('sensorDataModel.' + id + '.activated');
-                } catch (e) {
-                    // toast
+                if (event.target.checked) {
+                    this.sensorDataModel[id].start();
+                    this.sensorDataModel[id].active = true;
+                } else {
+                    this.sensorDataModel[id].stop();
+                    this.sensorDataModel[id].active = false;
                 }
-            },
-        });
+
+                this.notifyPath('sensorDataModel.' + id + '.activated');
+            }
+        }
+
+        window.customElements.define(SensorsApp.is, SensorsApp);
     </script>
 </dom-module>
