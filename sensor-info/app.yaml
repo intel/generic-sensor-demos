@@ -21,8 +21,13 @@ handlers:
   secure: always
 
 - url: /manifest.json
-  static_files: manifest.json
-  upload: manifest.json
+  static_files: build/bundled/manifest.json
+  upload: build/bundled/manifest.json
+  secure: always
+
+- url: /push-manifest.json
+  static_files: build/bundled/push-manifest.json
+  upload: build/bundled/push-manifest.json
   secure: always
 
 - url: /.*
