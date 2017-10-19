@@ -75,19 +75,21 @@ AFRAME.registerComponent('move-on-click', {
        }
      }.bind(this));
 
-    this.magn = new Magnetometer({frequency: 40});
-    var prev_val = 0;
-    this.magn.onreading = function () {
-    if (this.intersection == "false") {
-      return;
-    }
-      var data = [this.magn.x, this.magn.y, this.magn.z];
-      sensorReadingsList.push(data);
-      var timestamp = this.magn.timestamp;
-      sensorTimesList.push(timestamp);
-      evaluateReadingTimes(timestamp);
-    }.bind(this);
+    if ('Magnetometer' in window) {
+        this.magn = new Magnetometer({frequency: 10});
+        var prev_val = 0;
+        this.magn.onreading = function () {
+        if (this.intersection == "false") {
+          return;
+        }
+          var data = [this.magn.x, this.magn.y, this.magn.z];
+          sensorReadingsList.push(data);
+          var timestamp = this.magn.timestamp;
+          sensorTimesList.push(timestamp);
+          evaluateReadingTimes(timestamp);
+        }.bind(this);
 
-    this.magn.start();
+        this.magn.start();
+    }
   }
 });
