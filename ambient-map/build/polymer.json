@@ -1,0 +1,35 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/ambientmap-app.html",
+  "fragments": [],
+  "sources": [
+    "src/**/*",
+    "images/**/*",
+    "bower.json",
+    "index.html",
+    "src/ambientmap-app.html"
+  ],
+  "extraDependencies": [
+    "bower_components/webcomponentsjs/*.js",
+    "manifest.json"
+  ],
+  "builds": [
+    {
+      "name": "bundled",
+      "bundle": true,
+      "js": {
+        "minify": true,
+        "compile": true
+      },
+      "css": {
+        "minify": true
+      },
+      "html": {
+        "minify": true
+      },
+      "addServiceWorker": true,
+      "addPushManifest": true,
+      "insertPrefetchLinks": true
+    }
+  ]
+}
