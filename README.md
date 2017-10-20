@@ -22,10 +22,9 @@ the base class.
 
 ## Launch instructions
 
-The demo apps work with Chrome 62 or later.
-
-Before running the demos, please enable the
-[chrome://flags/#enable-generic-sensor](chrome://flags/#enable-generic-sensor) flag.
+The demo apps work with Chrome 63 or later. If you have an older version of Chrome, please enable
+the [chrome://flags/#enable-generic-sensor](chrome://flags/#enable-generic-sensor) flag, before
+running the demos.
 
 If the demo is using environmental sensors, such as,
 [Magnetometer](https://w3c.github.io/magnetometer/#magnetometer-interface) or
