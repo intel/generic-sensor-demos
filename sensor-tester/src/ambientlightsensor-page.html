@@ -1,0 +1,15 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="sensor-tests-page.html">
+
+<dom-module id="ambientlightsensor-page">
+  <template>
+      <sensor-tests-page tests="src/tests/ambientlightsensor.json" sensortype="AmbientLightSensor" frequency=10></sensor-tests-page>
+  </template>
+
+  <script>
+    class AmbientLightSensorPage extends Polymer.Element {
+      static get is() { return 'ambientlightsensor-page'; }
+    }
+    window.customElements.define(AmbientLightSensorPage.is, AmbientLightSensorPage);
+  </script>
+</dom-module>

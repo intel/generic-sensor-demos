@@ -1,0 +1,46 @@
+{
+  "src/sensor-tester.html": {},
+  "src/absoluteorientationsensor-page.html": {
+    "src/sensor-tests-page.html": {
+      "type": "document",
+      "weight": 1
+    }
+  },
+  "src/accelerometer-page.html": {
+    "src/sensor-tests-page.html": {
+      "type": "document",
+      "weight": 1
+    }
+  },
+  "src/ambientlightsensor-page.html": {
+    "src/sensor-tests-page.html": {
+      "type": "document",
+      "weight": 1
+    }
+  },
+  "src/gyroscope-page.html": {
+    "src/sensor-tests-page.html": {
+      "type": "document",
+      "weight": 1
+    }
+  },
+  "src/linearaccelerationsensor-page.html": {
+    "src/sensor-tests-page.html": {
+      "type": "document",
+      "weight": 1
+    }
+  },
+  "src/magnetometer-page.html": {
+    "src/sensor-tests-page.html": {
+      "type": "document",
+      "weight": 1
+    }
+  },
+  "src/relativeorientationsensor-page.html": {
+    "src/sensor-tests-page.html": {
+      "type": "document",
+      "weight": 1
+    }
+  },
+  "src/sensor-tests-page.html": {}
+}

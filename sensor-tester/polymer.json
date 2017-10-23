@@ -1,0 +1,48 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/sensor-tester.html",
+  "fragments": [
+    "src/absoluteorientationsensor-page.html",
+    "src/accelerometer-page.html",
+    "src/ambientlightsensor-page.html",
+    "src/gyroscope-page.html",
+    "src/linearaccelerationsensor-page.html",
+    "src/magnetometer-page.html",
+    "src/relativeorientationsensor-page.html",
+    "src/sensor-tests-page.html"
+  ],
+  "sources": [
+    "src/**/*",
+    "images/**/*"
+  ],
+  "extraDependencies": [
+    "manifest.json",
+    "bower_components/webcomponentsjs/*.js"
+  ],
+  "lint": {
+    "rules": ["polymer-2"]
+  },
+  "builds": [
+    {
+      "name": "bundled",
+      "bundle": true,
+      "js": {"minify": true, "compile": true},
+      "css": {"minify": true},
+      "html": {"minify": true},
+      "addServiceWorker": true,
+      "addPushManifest": true,
+      "insertPrefetchLinks": true,
+      "basePath": "generic-sensor-demos/sensor-tester/build/bundled/"
+    },
+    {
+      "name": "bundled_appspot",
+      "bundle": true,
+      "js": {"minify": true, "compile": true},
+      "css": {"minify": true},
+      "html": {"minify": true},
+      "addServiceWorker": true,
+      "addPushManifest": true,
+      "insertPrefetchLinks": true
+    }
+  ]
+}
