@@ -116,6 +116,18 @@ flag set.
 
 <img width="40%" src="vr-button/vr-button.gif?raw=true" alt="VR Button demo">
 
+---
+
+### [Sensor tester](https://intel.github.io/generic-sensor-demos/sensor-tester/build/bundled/) ([code](https://github.com/intel/generic-sensor-demos/tree/master/sensor-tester))
+
+This web application allows to test functionality of the sensors, correctness of their models in correspondence with respective specification.
+
+**Note:** this demo requires
+[chrome://flags/#enable-generic-sensor-extra-classes](chrome://flags/#enable-generic-sensor-extra-classes)
+flag set.
+
+<img width="40%" src="images/sensor-tester.png?raw=true" alt="Sensor tester">
+
 ## Development environment
 
 If you would like to modify the existing code and experiment with the sensors API
