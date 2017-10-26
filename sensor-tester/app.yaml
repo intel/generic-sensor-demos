@@ -1,0 +1,36 @@
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+- url: /bower_components
+  static_dir: build/bundled_appspot/bower_components
+  secure: always
+
+- url: /images
+  static_dir: build/bundled_appspot/images
+  secure: always
+
+- url: /src
+  static_dir: build/bundled_appspot/src
+  secure: always
+
+- url: /service-worker.js
+  static_files: build/bundled_appspot/service-worker.js
+  upload: build/bundled_appspot/service-worker.js
+  secure: always
+
+- url: /manifest.json
+  static_files: build/bundled_appspot/manifest.json
+  upload: build/bundled_appspot/manifest.json
+  secure: always
+
+- url: /push-manifest.json
+  static_files: build/bundled_appspot/push-manifest.json
+  upload: build/bundled_appspot/push-manifest.json
+  secure: always
+
+- url: /.*
+  static_files: build/bundled_appspot/index.html
+  upload: build/bundled_appspot/index.html
+  secure: always

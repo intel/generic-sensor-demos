@@ -1,0 +1,10 @@
+[
+    {
+      "name":         "Linear acceleration at rest",
+      "description":  "Test that sensor reports ~0 m/s^2 total acceleration when device is at rest.",
+      "illustration": "src/tests/linaccel-rest.png",
+      "duration":     3,
+      "expected":     { "x": 0, "y": 0, "z": 0 },
+      "epsilon":      1
+    }
+]

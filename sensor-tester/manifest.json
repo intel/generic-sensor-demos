@@ -1,0 +1,26 @@
+{
+  "name": "Sensor tester",
+  "short_name": "Sensor tester",
+  "description": "Application for testing sensors",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0071c5",
+  "theme_color": "#0071c5",
+  "icons": [{
+      "src": "images/app-icon-48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    }, {
+      "src": "images/app-icon-128.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    }, {
+      "src": "images/app-icon-144.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    }, {
+      "src": "images/app-icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+  }]
+}

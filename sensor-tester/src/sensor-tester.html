@@ -1,0 +1,159 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+
+<link rel="lazy-import" href="accelerometer-page.html">
+<link rel="lazy-import" href="linearaccelerationsensor-page.html">
+<link rel="lazy-import" href="gyroscope-page.html">
+<link rel="lazy-import" href="absoluteorientationsensor-page.html">
+<link rel="lazy-import" href="relativeorientationsensor-page.html">
+<link rel="lazy-import" href="ambientlightsensor-page.html">
+<link rel="lazy-import" href="magnetometer-page.html">
+
+<dom-module id="sensor-tester">
+  <template>
+    <style>
+      :host {
+        --app-primary-color: #0071c5;
+        --app-secondary-color: black;
+        display: block;
+      }
+
+      app-header {
+        color: #fff;
+        background-color: var(--app-primary-color);
+      }
+
+      app-drawer-layout:not([narrow]) [drawer-toggle] {
+        display: none;
+      }
+
+      .drawer-list a.iron-selected {
+        font-weight: bold;
+        color: var(--app-secondary-color);
+      }
+
+      .drawer-list a {
+        display: block;
+        text-decoration: none;
+        color: var(--app-secondary-color);
+        padding: 0 18px;
+        line-height: 42px;
+      }
+    </style>
+
+    <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
+    <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
+
+    <app-drawer-layout fullbleed narrow="{{narrow}}">
+      <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
+        <app-toolbar>Choose sensor:</app-toolbar>
+        <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+          <a name="accelerometer" href="[[rootPath]]accelerometer">
+              Accelerometer
+          </a>
+          <a name="linearaccelerationsensor" href="[[rootPath]]linearaccelerationsensor">
+              LinearAccelerationSensor
+          </a>
+          <a name="gyroscope" href="[[rootPath]]gyroscope">
+              Gyroscope
+          </a>
+          <a name="absoluteorientationsensor" href="[[rootPath]]absoluteorientationsensor">
+              AbsoluteOrientationSensor
+          </a>
+          <a name="relativeorientationsensor" href="[[rootPath]]relativeorientationsensor">
+              RelativeOrientationSensor
+          </a>
+          <a name="ambientlightsensor" href="[[rootPath]]ambientlightsensor">
+              AmbientLightSensor
+          </a>
+          <a name="magnetometer" href="[[rootPath]]magnetometer">
+              Magnetometer
+          </a>
+        </iron-selector>
+      </app-drawer>
+
+      <app-header-layout has-scrolling-region>
+
+        <app-header slot="header" condenses reveals effects="waterfall">
+          <app-toolbar>
+            <paper-icon-button icon="icons:menu" drawer-toggle></paper-icon-button>
+            <div main-title>Sensor tester</div>
+          </app-toolbar>
+        </app-header>
+
+        <iron-pages id="ironPage" selected="[[page]]" attr-for-selected="name" fallback-selection="accelerometer" role="main">
+          <accelerometer-page name="accelerometer"></accelerometer-page>
+          <linearaccelerationsensor-page name="linearaccelerationsensor"></linearaccelerationsensor-page>
+          <gyroscope-page name="gyroscope"></gyroscope-page>
+          <absoluteorientationsensor-page name="absoluteorientationsensor"></absoluteorientationsensor-page>
+          <relativeorientationsensor-page name="relativeorientationsensor"></relativeorientationsensor-page>
+          <ambientlightsensor-page name="ambientlightsensor"></ambientlightsensor-page>
+          <magnetometer-page name="magnetometer"></magnetometer-page>
+        </iron-pages>
+      </app-header-layout>
+    </app-drawer-layout>
+  </template>
+
+  <script>
+    class SensorTester extends Polymer.Element {
+      static get is() { return 'sensor-tester'; }
+
+      static get properties() {
+        return {
+          page: {
+            type: String,
+            reflectToAttribute: true,
+            observer: '_pageChanged',
+          },
+          routeData: Object,
+          subroute: String,
+          rootPath: String,
+        };
+      }
+
+      static get observers() {
+        return [
+          '_routePageChanged(routeData.page)',
+        ];
+      }
+
+      _routePageChanged(page) {
+        this.page = page || 'accelerometer';
+        if (!this.$.drawer.persistent) {
+          this.$.drawer.close();
+        }
+      }
+
+      _pageChanged(page) {
+        if (page.endsWith("index.html")) {
+            this._onImportHrefError();
+            return;
+        }
+
+        var resolvedPageUrl = this.resolveUrl(page + '-page.html');
+        Polymer.importHref(
+            resolvedPageUrl,
+            null,
+            this._onImportHrefError.bind(this),
+            true);
+      }
+
+      _onImportHrefError() {
+        this.page = 'accelerometer';
+      }
+    }
+
+    window.customElements.define(SensorTester.is, SensorTester);
+  </script>
+</dom-module>

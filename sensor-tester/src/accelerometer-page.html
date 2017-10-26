@@ -1,0 +1,15 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="sensor-tests-page.html">
+
+<dom-module id="accelerometer-page">
+  <template>
+      <sensor-tests-page tests="src/tests/accelerometer.json" sensortype="Accelerometer" frequency=60></sensor-tests-page>
+  </template>
+
+  <script>
+    class AccelerometerPage extends Polymer.Element {
+      static get is() { return 'accelerometer-page'; }
+    }
+    window.customElements.define(AccelerometerPage.is, AccelerometerPage);
+  </script>
+</dom-module>
