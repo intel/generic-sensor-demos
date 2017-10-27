@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["bower_components/webcomponentsjs/webcomponents-loader.js","f13bbbbf647b7922575a7894367ddaaf"],["images/app-icon-128.png","aabbdf8161116bffbfbc69c4f92846b6"],["images/app-icon-144.png","c48e7c8d36381e18447b211f693ff41d"],["images/app-icon-192.png","3dd7f618a908aa63259f13d642549bd7"],["images/app-icon-32.png","33d2cf7b6db5d6bbcdc805f9d8a7d3c1"],["images/app-icon-48.png","c0067734e241d809a0fea972f2f6e3bf"],["index.html","1ba17c9e8f79b54ae96eaba77005013c"],["manifest.json","1a25cb8c1f4781797dd4df487220e311"],["src/sensors-app.html","d52b3fa8980ae349bafcd6cbad7b6fa2"]];
+var precacheConfig = [["bower_components/webcomponentsjs/webcomponents-loader.js","f13bbbbf647b7922575a7894367ddaaf"],["images/app-icon-128.png","aabbdf8161116bffbfbc69c4f92846b6"],["images/app-icon-144.png","c48e7c8d36381e18447b211f693ff41d"],["images/app-icon-192.png","3dd7f618a908aa63259f13d642549bd7"],["images/app-icon-32.png","33d2cf7b6db5d6bbcdc805f9d8a7d3c1"],["images/app-icon-48.png","c0067734e241d809a0fea972f2f6e3bf"],["index.html","cfb318abfa7df57c16b0b69823454129"],["manifest.json","1a25cb8c1f4781797dd4df487220e311"],["src/sensors-app.html","d52b3fa8980ae349bafcd6cbad7b6fa2"]];
 var cacheName = 'sw-precache-v3--' + (self.registration ? self.registration.scope : '');
 
 
