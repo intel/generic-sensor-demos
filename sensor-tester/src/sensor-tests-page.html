@@ -230,12 +230,23 @@
               this.testFailed(index);
           }, item.duration * 1000);
 
+          const compareReadings = (val, exp, eps) => {
+              if (val instanceof Array && exp instanceof Array) {
+                  if (val.length != exp.length) {
+                      return false;
+                  }
+                  return Object.keys(val).every(key => compareReadings(val[key], exp[key], eps));
+              } else if (typeof exp === 'number' && typeof val === 'number' ) {
+                  return Math.abs(val - exp) < eps;
+              }
+
+              return false;
+          }
+
           // if sensor value is same as expectation, pass test
           this.items[index].handler = () => {
               if (Object.keys(item.expected).every(
-                  key => (Math.abs(this.sensor[key] - item.expected[key]) < item.epsilon))) {
-                  // add array test for OrientationSensor.quaternion
-                  // if array, compare every element with expected value.
+                  key => compareReadings(this.sensor[key], item.expected[key], item.epsilon))) {
                   this.testPassed(index);
               }
           }
