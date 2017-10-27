@@ -68,3 +68,8 @@ gcloud app deploy app.yaml -v VERSION --project PROJECT_NAME
 
 You could check demo of the web application at https://sensortestapp.appspot.com/ or
 pre-built [application here](https://intel.github.io/generic-sensor-demos/sensor-tester/build/bundled/)
+
+## Testing on device
+
+For testing tips'n'tricks, please check
+[Development environment](https://intel.github.io/generic-sensor-demos/) section.
