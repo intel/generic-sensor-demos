@@ -126,7 +126,7 @@ This web application allows to test functionality of the sensors, correctness of
 [chrome://flags/#enable-generic-sensor-extra-classes](chrome://flags/#enable-generic-sensor-extra-classes)
 flag set.
 
-<img width="40%" src="images/sensor-tester.png?raw=true" alt="Sensor tester">
+<img src="images/sensor-tester.png?raw=true" alt="Sensor tester">
 
 ## Development environment
 
