@@ -231,7 +231,11 @@
           }, item.duration * 1000);
 
           const compareReadings = (val, exp, eps) => {
-              if (val instanceof Array && exp instanceof Array) {
+              //test positive value
+              if (typeof exp == 'string' && exp == "positive") {
+                  return val > 0;
+              }
+              else if (val instanceof Array && exp instanceof Array) {
                   if (val.length != exp.length) {
                       return false;
                   }
