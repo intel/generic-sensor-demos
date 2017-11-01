@@ -1,0 +1,58 @@
+[
+    {
+      "name":         "Gyroscope at rest",
+      "description":  "Test that sensor reports ~0 rad/s total angular velocity when device is at rest.",
+      "illustration": "src/tests/gyro-rest.png",
+      "duration":     3,
+      "expected":     { "x": 0, "y": 0, "z": 0 },
+      "epsilon":      1
+    },
+    {
+      "name":         "Test +Z angular velocity",
+      "description":  "Test that sensor reports positive angular velocity around the Z axis when rotating device counter-clockwise around its Z axis.",
+      "illustration": "src/tests/gyro_+z.gif",
+      "duration":     5,
+      "expected":     { "z": 5.0 },
+      "epsilon":      1
+    },
+    {
+      "name":         "Test -Z angular velocity",
+      "description":  "Test that sensor reports negative angular velocity around the Z axis when rotating device clockwise around its Z axis.",
+      "illustration": "src/tests/gyro_-z.gif",
+      "duration":     5,
+      "expected":     { "z": -5.0 },
+      "epsilon":      1
+    },
+    {
+      "name":         "Test +X angular velocity",
+      "description":  "Test that sensor reports positive angular velocity around the X axis when rotating device counter-clockwise around its X axis.",
+      "illustration": "src/tests/gyro_+x.gif",
+      "duration":     5,
+      "expected":     { "x": 5.0 },
+      "epsilon":      1
+    },
+    {
+      "name":         "Test -X angular velocity",
+      "description":  "Test that sensor reports negative angular velocity around the X axis when rotating device clockwise around its X axis.",
+      "illustration": "src/tests/gyro_-x.gif",
+      "duration":     5,
+      "expected":     { "x": -5.0 },
+      "epsilon":      1
+    },
+    {
+      "name":         "Test +Y angular velocity",
+      "description":  "Test that sensor reports positive angular velocity around the Y axis when rotating device counter-clockwise around its Y axis.",
+      "illustration": "src/tests/gyro_+y.gif",
+      "duration":     5,
+      "expected":     { "y": 5.0 },
+      "epsilon":      1
+    },
+    {
+      "name":         "Test -Y angular velocity",
+      "description":  "Test that sensor reports negative angular velocity around the Y axis when rotating device clockwise around its Y axis.",
+      "illustration": "src/tests/gyro_-y.gif",
+      "duration":     5,
+      "expected":     { "y": -5.0 },
+      "epsilon":      1
+    }
+]
