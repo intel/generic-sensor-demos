@@ -40,7 +40,7 @@
       "epsilon":      1
     },
     {
-      "name":         "Test +Z angular velocity",
+      "name":         "Test +Y angular velocity",
       "description":  "Test that sensor reports positive angular velocity around the Y axis when rotating device counter-clockwise around its Y axis.",
       "illustration": "src/tests/gyro_+y.gif",
       "duration":     5,
@@ -48,7 +48,7 @@
       "epsilon":      1
     },
     {
-      "name":         "Test -Z angular velocity",
+      "name":         "Test -Y angular velocity",
       "description":  "Test that sensor reports negative angular velocity around the Y axis when rotating device clockwise around its Y axis.",
       "illustration": "src/tests/gyro_-y.gif",
       "duration":     5,
