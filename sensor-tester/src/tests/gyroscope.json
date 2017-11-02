@@ -12,7 +12,7 @@
       "description":  "Test that sensor reports positive angular velocity around the Z axis when rotating device counter-clockwise around its Z axis.",
       "illustration": "src/tests/gyro_+z.gif",
       "duration":     5,
-      "expected":     { "z": 3.0 },
+      "expected":     { "z": 5.0 },
       "epsilon":      1
     },
     {
@@ -20,7 +20,7 @@
       "description":  "Test that sensor reports negative angular velocity around the Z axis when rotating device clockwise around its Z axis.",
       "illustration": "src/tests/gyro_-z.gif",
       "duration":     5,
-      "expected":     { "z": -3.0 },
+      "expected":     { "z": -5.0 },
       "epsilon":      1
     },
     {
@@ -28,7 +28,7 @@
       "description":  "Test that sensor reports positive angular velocity around the X axis when rotating device counter-clockwise around its X axis.",
       "illustration": "src/tests/gyro_+x.gif",
       "duration":     5,
-      "expected":     { "x": 3.0 },
+      "expected":     { "x": 5.0 },
       "epsilon":      1
     },
     {
@@ -36,7 +36,7 @@
       "description":  "Test that sensor reports negative angular velocity around the X axis when rotating device clockwise around its X axis.",
       "illustration": "src/tests/gyro_-x.gif",
       "duration":     5,
-      "expected":     { "x": -3.0 },
+      "expected":     { "x": -5.0 },
       "epsilon":      1
     },
     {
@@ -44,7 +44,7 @@
       "description":  "Test that sensor reports positive angular velocity around the Y axis when rotating device counter-clockwise around its Y axis.",
       "illustration": "src/tests/gyro_+y.gif",
       "duration":     5,
-      "expected":     { "y": 3.0 },
+      "expected":     { "y": 5.0 },
       "epsilon":      1
     },
     {
@@ -52,7 +52,7 @@
       "description":  "Test that sensor reports negative angular velocity around the Y axis when rotating device clockwise around its Y axis.",
       "illustration": "src/tests/gyro_-y.gif",
       "duration":     5,
-      "expected":     { "y": -3.0 },
+      "expected":     { "y": -5.0 },
       "epsilon":      1
     }
 ]

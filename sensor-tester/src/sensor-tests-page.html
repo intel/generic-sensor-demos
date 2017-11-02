@@ -231,9 +231,11 @@
           }, item.duration * 1000);
 
           const compareReadings = (val, exp, eps) => {
-              //test positive value
-              if (typeof exp == 'string' && exp == "positive") {
-                  return val > 0;
+              if (typeof exp == 'object' && "min" in exp) {
+                  return val >= exp.min;
+              }
+              else if (typeof exp == 'object' && "max" in exp) {
+                  return val <= exp.max;
               }
               else if (val instanceof Array && exp instanceof Array) {
                   if (val.length != exp.length) {
