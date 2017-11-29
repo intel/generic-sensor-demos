@@ -19,13 +19,15 @@
         <script src="js/OBJLoader.js"></script>
         <script src="js/MTLLoader.js"></script>
 
-        <script>
+        <script type="module">
+            import {
+              AbsoluteOrientationSensor
+            } from '../sensor-polyfills/motion-sensors.js';
 
             var container, sensor, camera, scene, renderer, model;
 
             initScene();
-
-            if ('AbsoluteOrientationSensor' in window) {
+            if (navigator.permissions) {
                 // https://w3c.github.io/orientation-sensor/#model
                 Promise.all([navigator.permissions.query({ name: "accelerometer" }),
                              navigator.permissions.query({ name: "magnetometer" }),
@@ -40,6 +42,9 @@
                             console.log("Integration with Permissions API is not enabled, still try to start app.");
                             initSensor();
                        });
+            } else {
+                console.log("No Permissions API, still try to start app.");
+                initSensor();
             }
 
             renderScene();
