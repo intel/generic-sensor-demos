@@ -21,10 +21,14 @@
 
         <script type="module">
             import {
-              AbsoluteOrientationSensor
+              AbsoluteOrientationSensor,
+              RelativeOrientationSensor
             } from '../sensor-polyfills/motion-sensors.js';
 
-            var container, sensor, camera, scene, renderer, model;
+            const params = new URLSearchParams(new URL(window.location.href).search.slice(1));
+            const relative = !!Number(params.get("relative"));
+
+            let container, sensor, camera, scene, renderer, model;
 
             initScene();
             if (navigator.permissions) {
@@ -94,7 +98,8 @@
             }
 
             function initSensor() {
-                sensor = new AbsoluteOrientationSensor({frequency: 60});
+                const options = { frequency: 60 }
+                sensor = relative ? new RelativeOrientationSensor(options) : new AbsoluteOrientationSensor(options);
                 sensor.onreading = () => model.quaternion.fromArray(sensor.quaternion).inverse();
                 sensor.onerror = (event) => {
                   if (event.error.name == 'NotReadableError') {
