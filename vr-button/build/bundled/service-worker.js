@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["aframe/aframe-v0.7.1.js","fdcef052bbc0005c9aa7f9328c8bf6c1"],["bower_components/webcomponentsjs/webcomponents-loader.js","f13bbbbf647b7922575a7894367ddaaf"],["components/click.js","868f50193bd3ea1d2cadf39268b8e8a9"],["images/app-icon-128.png","c9980d74f81a11cac97202ef45ba6df0"],["images/app-icon-144.png","e8d8bd779517d0bf268776e24cf6c7ec"],["images/app-icon-192.png","53c83a57d45389a69ed315386ff6bcea"],["images/app-icon-32.png","fd07e8cc3101b59fd3171af98afe01f2"],["images/app-icon-48.png","5da8022befa5b1279ce9653f37dccd05"],["index.html","4bace21305b5a846d84b512f088dfb38"],["manifest.json","76ee53ea6435882675f766db25121996"],["src/vrbutton-app.html","6edd341f062f669b99574f5de6e9b3d4"]];
+var precacheConfig = [["aframe/aframe-v0.7.1.js","fdcef052bbc0005c9aa7f9328c8bf6c1"],["bower_components/webcomponentsjs/webcomponents-loader.js","f13bbbbf647b7922575a7894367ddaaf"],["components/click.js","868f50193bd3ea1d2cadf39268b8e8a9"],["images/app-icon-128.png","c9980d74f81a11cac97202ef45ba6df0"],["images/app-icon-144.png","e8d8bd779517d0bf268776e24cf6c7ec"],["images/app-icon-192.png","53c83a57d45389a69ed315386ff6bcea"],["images/app-icon-32.png","fd07e8cc3101b59fd3171af98afe01f2"],["images/app-icon-48.png","5da8022befa5b1279ce9653f37dccd05"],["index.html","4f6a24fe83d9dffa307368acb25343de"],["manifest.json","76ee53ea6435882675f766db25121996"],["src/vrbutton-app.html","6edd341f062f669b99574f5de6e9b3d4"]];
 var cacheName = 'sw-precache-v3--' + (self.registration ? self.registration.scope : '');
 
 
