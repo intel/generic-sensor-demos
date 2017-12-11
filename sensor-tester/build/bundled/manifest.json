@@ -2,7 +2,7 @@
   "name": "Sensor tester",
   "short_name": "Sensor tester",
   "description": "Application for testing sensors",
-  "start_url": "/",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#0071c5",
   "theme_color": "#0071c5",
