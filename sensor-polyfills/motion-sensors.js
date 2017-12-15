@@ -20,71 +20,34 @@ function defineProperties(target, descriptions) {
       value: descriptions[property]
     });
   }
-}
+}  
 
 class EventTarget {
   constructor() {
-    this[slot] = new WeakMap;
-    const _listeners = {};
+    const eventTarget = document.createDocumentFragment();
 
-    const defineOnEventListener = type => {
-      Object.defineProperty(this, `on${type}`, {
-        set: value => {
-          let listeners = _listeners[type] || (_listeners[type] = [ null ]);
-          listeners[0] = { target: this, listener: value };
-        },
-        get: () => {
-          let listeners = _listeners[type] || (_listeners[type] = [ null ]);
-          return listeners[0];
-        }
-      });
-    };
-
-    const addEventListener = (type, listener, options) => {
-      let listeners = _listeners[type] || (_listeners[type] = [ null ]);
-      if (listeners.findIndex(entry => entry && entry.listener === listener) < 1) {
-        listeners.push({ target: this, listener: listener, options: options });
-      }
-    };
-
-    const removeEventListener = (type, listener, options) => {
-      let listeners = _listeners[type];
-      if (listeners) {
-        const index = listeners.findIndex(entry => entry && entry.listener === listener);
-        if (index > 0) {
-          listeners.splice(index, 1);
-        }
-      }
-    };
-
-    const dispatchEvent = (event) => {
-      const listeners = _listeners[event.type];
-      if (listeners) {
-        defineProperties(event, { currentTarget: this, target: this });
-
-        for (const { target, listener, options } of listeners) {
-          if (options && options.once) {
-            removeEventListener.call(target, event.type, listener, options);
-          }
-          if (typeof listener === 'function') {
-            listener.call(target, event);
-          } else {
-            listener.handleEvent(event);
-          }
-        }
-
-        defineProperties(event, { currentTarget: null, target: null });
-      }
-      return true;
+    this.addEventListener = (...args) => {
+      return eventTarget.addEventListener(...args);
     }
 
-    defineProperties(this, {
-      addEventListener: addEventListener,
-      removeEventListener: removeEventListener,
-      dispatchEvent: dispatchEvent
-    });
+    this.removeEventListener = (...args) => {
+      return eventTarget.removeEventListener(...args);
+    }
 
-    this[slot].defineOnEventListener = defineOnEventListener
+    this.dispatchEvent = (event) => {
+      defineProperties(event, { currentTarget: this, target: this });
+
+      const methodName = `on${event.type}`;
+      if (typeof this[methodName] == "function") {
+          this[methodName](event);
+      }
+
+      const retValue = eventTarget.dispatchEvent(event);
+
+      defineProperties(event, { currentTarget: null, target: null });
+
+      return retValue;
+    }
   }
 }
 
@@ -98,12 +61,23 @@ function defineReadonlyProperties(target, slot, descriptions) {
   }
 }
 
+function defineOnEventListener(target, name) {
+  Object.defineProperty(target, `on${name}`, {
+    enumerable: true,
+    configurable: false,
+    writable: true,
+    value: null
+  });
+}
+
 export class Sensor extends EventTarget {
   constructor(options) {
     super();
-    this[slot].defineOnEventListener("reading");
-    this[slot].defineOnEventListener("activate");
-    this[slot].defineOnEventListener("error");
+    this[slot] = new WeakMap;
+
+    defineOnEventListener(this, "reading");
+    defineOnEventListener(this, "activate");
+    defineOnEventListener(this, "error");
 
     defineReadonlyProperties(this, slot, {
       activated: false,
@@ -189,6 +163,38 @@ function toQuaternionFromEuler(alpha, beta, gamma) {
   const qw = cX * cY * cZ - sX * sY * sZ;
 
   return [qx, qy, qz, qw];
+}
+
+function multiplyQuaternion(a, b) {
+  const qx = a[0] * b[3] + a[3] * b[0] + a[1] * b[2] - a[2] * b[1];
+  const qy = a[1] * b[3] + a[3] * b[1] + a[2] * b[0] - a[0] * b[2];
+  const qz = a[2] * b[3] + a[3] * b[2] + a[0] * b[1] - a[1] * b[0];
+  const qw = a[3] * b[3] - a[0] * b[0] - a[1] * b[1] - a[2] * b[2];
+
+  return [qx, qy, qz, qw];
+}
+
+function normalizeQuaternion(quat) {
+  const length = Math.sqrt(quat[0] ** 2 + quat[1] ** 2 + quat[2] ** 2 + quat[3] ** 2);
+  if (length === 0) {
+    return [0, 0, 0, 1];
+  }
+
+  return quat.map(v => v / length);
+}
+
+function rotateQuaternionByAxisAngle(quat, axis, angle) {
+  const sHalfAngle = Math.sin(angle / 2);
+  const cHalfAngle = Math.cos(angle / 2);
+
+  const transformQuat = [
+    axis[0] * sHalfAngle,
+    axis[1] * sHalfAngle,
+    axis[2] * sHalfAngle,
+    cHalfAngle
+  ];
+
+  return normalizeQuaternion(multiplyQuaternion(quat, transformQuat));
 }
 
 function toMat4FromQuat(mat, q) {
@@ -304,41 +310,30 @@ class RelativeOrientationSensor extends DeviceOrientationMixin(Sensor, "deviceor
 
       this[slot].timestamp = performance.now();
 
-      this[slot].alpha = event.alpha;
-      this[slot].beta = event.beta;
-      this[slot].gamma = event.gamma;
-      this[slot].quaternion = toQuaternionFromEuler(event.alpha, event.beta, event.gamma);
+      this[slot].quaternion = toQuaternionFromEuler(
+        event.alpha,
+        event.beta,
+        event.gamma
+      );
 
       this[slot].hasReading = true;
       this.dispatchEvent(new Event("reading"));
     }
 
-    defineReadonlyProperties(this, slot, {
-      quaternion: null
-    });
-
-    Object.defineProperty(this, "__quaternionQMatrix", {
+    Object.defineProperty(this, "quaternion", {
       get: () => {
-        let mat = new Float32Array(16);
-        this.populateMatrix(mat);
-        return toQuaternionFromMat(mat);
-      }
-    });
-    Object.defineProperty(this, "__quaternionEMatrix", {
-      get: () => {
-        let mat = new Float32Array(16);
-        this.__populateMatrixEuler(mat);
-        return toQuaternionFromMat(mat);
+        return !this[slot].quaternion ? null :
+          rotateQuaternionByAxisAngle(
+            this[slot].quaternion,
+            [0, 0, 1],
+            - orientation.angle
+          )
       }
     });
   }
 
   populateMatrix(mat) {
     toMat4FromQuat(mat, this[slot].quaternion);
-  }
-
-  __populateMatrixEuler(mat) {
-    toMat4FromEuler(mat, this[slot].alpha, this[slot].beta, this[slot].gamma);
   }
 }
 
