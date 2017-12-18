@@ -316,6 +316,8 @@ class RelativeOrientationSensor extends DeviceOrientationMixin(Sensor, "deviceor
         event.gamma
       );
 
+      console.log(orientation.angle);
+
       this[slot].hasReading = true;
       this.dispatchEvent(new Event("reading"));
     }
@@ -369,6 +371,8 @@ class AbsoluteOrientationSensor extends DeviceOrientationMixin(
         event.beta,
         event.gamma
       );
+
+      console.log(orientation.angle);
 
       this.dispatchEvent(new Event("reading"));
     }
