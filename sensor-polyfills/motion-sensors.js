@@ -22,12 +22,13 @@ function defineProperties(target, descriptions) {
   }
 }
 
-class EventTarget {
-  constructor() {
+export const EventTargetMixin = (superclass, ...eventNames) => class extends superclass {
+  constructor(...args) {
+    super(args);
     const eventTarget = document.createDocumentFragment();
 
-    this.addEventListener = (...args) => {
-      return eventTarget.addEventListener(...args);
+    this.addEventListener = (type, ...args) => {
+      return eventTarget.addEventListener(type, ...args);
     }
 
     this.removeEventListener = (...args) => {
@@ -35,7 +36,10 @@ class EventTarget {
     }
 
     this.dispatchEvent = (event) => {
-      defineProperties(event, { currentTarget: this, target: this });
+      defineProperties(event, { currentTarget: this });
+      if (!event.target) {
+        defineProperties(event, { target: this });
+      }
 
       const methodName = `on${event.type}`;
       if (typeof this[methodName] == "function") {
@@ -44,12 +48,18 @@ class EventTarget {
 
       const retValue = eventTarget.dispatchEvent(event);
 
+      if (retValue && this.parentNode) {
+        this.parentNode.dispatchEvent(event);
+      }
+
       defineProperties(event, { currentTarget: null, target: null });
 
       return retValue;
     }
   }
-}
+};
+
+export class EventTarget extends EventTargetMixin(Object) {};
 
 function defineReadonlyProperties(target, slot, descriptions) {
   const propertyBag = target[slot] || (target[slot] = new WeakMap);
@@ -70,6 +80,13 @@ function defineOnEventListener(target, name) {
   });
 }
 
+const SensorState = {
+  ERROR: 0,
+  IDLE: 1,
+  ACTIVATING: 2,
+  ACTIVE: 3,
+}
+
 export class Sensor extends EventTarget {
   constructor(options) {
     super();
@@ -82,8 +99,37 @@ export class Sensor extends EventTarget {
     defineReadonlyProperties(this, slot, {
       activated: false,
       hasReading: false,
-      timestamp: 0
+      timestamp: null
     })
+
+    this[slot].setState = (value) => {
+      switch(value) {
+        case SensorState.ERROR: {
+          let error = new SensorErrorEvent("error", {
+            error: new DOMException("Could not connect to a sensor")
+          });
+          this.dispatchEvent(error);
+
+          this.stop(); // Moves to IDLE state.
+          break;
+        }
+        case SensorState.IDLE: {
+          this[slot].activated = false;
+          this[slot].hasReading = false;
+          this[slot].timestamp = null;
+          break;
+        }
+        case SensorState.ACTIVATING: {
+          break;
+        }
+        case SensorState.ACTIVE: {
+          let activate = new Event("activate");
+          this[slot].activated = true;
+          this.dispatchEvent(activate);
+          break;
+        }
+      }
+    };
 
     this[slot].frequency = null;
 
@@ -116,18 +162,14 @@ const DeviceOrientationMixin = (superclass, ...eventNames) => class extends supe
 
   start() {
     super.start();
-
-    let activate = new Event("activate");
-    window.addEventListener(this[slot].eventName, this[slot].handleEvent, false);
-    this[slot].activated = true;
-    this.dispatchEvent(activate);
+    this[slot].setState(SensorState.ACTIVATING);
+    window.addEventListener(this[slot].eventName, this[slot].handleEvent, { capture: true });
   }
 
   stop() {
     super.stop();
-
-    window.removeEventListener(this[slot].eventName, this[slot].handleEvent, false);
-    this[slot].activated = false;
+    this[slot].setState(SensorState.IDLE);
+    window.removeEventListener(this[slot].eventName, this[slot].handleEvent, { capture: true });
   }
 };
 
@@ -233,10 +275,35 @@ class SensorErrorEvent extends Event {
   }
 };
 
+function worldToScreen(quaternion) {
+  return !quaternion ? null :
+    rotateQuaternionByAxisAngle(
+      quaternion,
+      [0, 0, 1],
+      - orientation.angle * Math.PI / 180
+    );
+}
+
 export const RelativeOrientationSensor = window.RelativeOrientationSensor ||
 class RelativeOrientationSensor extends DeviceOrientationMixin(Sensor, "deviceorientation") {
   constructor(options) {
     super(options);
+
+    if (typeof(options.coordinateSystem) === "string") {
+      switch (options.coordinateSystem) {
+        case 'screen':
+          Object.defineProperty(this, "quaternion", {
+            get: () => worldToScreen(this[slot].quaternion)
+          });
+          break;
+        case 'world':
+        default:
+          Object.defineProperty(this, "quaternion", {
+            get: () => this[slot].quaternion
+          });
+      }
+    }
+
     this[slot].handleEvent = event => {
       // If there is no sensor we will get values equal to null.
       if (event.absolute || event.alpha === null) {
@@ -245,14 +312,12 @@ class RelativeOrientationSensor extends DeviceOrientationMixin(Sensor, "deviceor
         // the resulting data is more accurate. In either case,
         // the absolute property must be set accordingly to reflect
         // the choice.
-
-        let error = new SensorErrorEvent("error", {
-          error: new DOMException("Could not connect to a sensor")
-        });
-        this.dispatchEvent(error);
-
-        this.stop();
+        this[slot].setState(SensorState.ERROR);
         return;
+      }
+
+      if (!this[slot].activated) {
+        this[slot].setState(SensorState.ACTIVE);
       }
 
       this[slot].timestamp = performance.now();
@@ -266,18 +331,11 @@ class RelativeOrientationSensor extends DeviceOrientationMixin(Sensor, "deviceor
       this[slot].hasReading = true;
       this.dispatchEvent(new Event("reading"));
     }
+  }
 
-    Object.defineProperty(this, "quaternion", {
-      get: () => {
-        // Screen adjusted quaternion.
-        return !this[slot].quaternion ? null :
-          rotateQuaternionByAxisAngle(
-            this[slot].quaternion,
-            [0, 0, 1],
-            - orientation.angle * Math.PI / 180
-          )
-      }
-    });
+  stop() {
+    super.stop();
+    this[slot].quaternion = null;
   }
 
   populateMatrix(mat) {
@@ -291,23 +349,37 @@ class AbsoluteOrientationSensor extends DeviceOrientationMixin(
   constructor(options) {
     super(options);
 
+    if (typeof(options.coordinateSystem) === "string") {
+      switch (options.coordinateSystem) {
+        case 'screen':
+          Object.defineProperty(this, "quaternion", {
+            get: () => worldToScreen(this[slot].quaternion)
+          });
+          break;
+        case 'world':
+        default:
+          Object.defineProperty(this, "quaternion", {
+            get: () => this[slot].quaternion
+          });
+      }
+    }
+
     this[slot].handleEvent = event => {
       // If absolute is set, or webkitCompassHeading exists,
       // absolute values should be available.
       const isAbsolute = event.absolute === true || "webkitCompassHeading" in event;
       const hasValue = event.alpha !== null || event.webkitCompassHeading !== undefined;
+
       if (!isAbsolute || !hasValue) {
         // Spec: If an implementation can never provide absolute
         // orientation information, the event should be fired with
         // the alpha, beta and gamma attributes set to null.
-
-        let error = new SensorErrorEvent("error", {
-          error: new DOMException("Could not connect to a sensor")
-        });
-        this.dispatchEvent(error);
-
-        this.stop();
+        this[slot].setState(SensorState.ERROR);
         return;
+      }
+
+      if (!this[slot].activated) {
+        this[slot].setState(SensorState.ACTIVE);
       }
 
       this[slot].hasReading = true;
@@ -323,18 +395,11 @@ class AbsoluteOrientationSensor extends DeviceOrientationMixin(
 
       this.dispatchEvent(new Event("reading"));
     }
+  }
 
-    Object.defineProperty(this, "quaternion", {
-      get: () => {
-        // Screen adjusted quaternion.
-        return !this[slot].quaternion ? null :
-          rotateQuaternionByAxisAngle(
-            this[slot].quaternion,
-            [0, 0, 1],
-            - orientation.angle * Math.PI / 180
-          )
-      }
-    });
+  stop() {
+    super.stop();
+    this[slot].quaternion = null;
   }
 
   populateMatrix(mat) {
@@ -348,31 +413,37 @@ class Gyroscope extends DeviceOrientationMixin(Sensor, "devicemotion") {
     super(options);
     this[slot].handleEvent = event => {
       // If there is no sensor we will get values equal to null.
-      if (false && event.rotationRate.alpha === null) {
-        let error = new SensorErrorEvent("error", {
-          error: new DOMException("Could not connect to a sensor")
-        });
-        this.dispatchEvent(error);
-
-        this.stop();
+      if (event.rotationRate.alpha === null) {
+        this[slot].setState(SensorState.ERROR);
         return;
+      }
+
+      if (!this[slot].activated) {
+        this[slot].setState(SensorState.ACTIVE);
       }
 
       this[slot].timestamp = performance.now();
 
-      this[slot].alpha = event.rotationRate.alpha;
-      this[slot].beta = event.rotationRate.beta;
-      this[slot].gamma = event.rotationRate.gamma;
+      this[slot].x = event.rotationRate.alpha;
+      this[slot].y = event.rotationRate.beta;
+      this[slot].z = event.rotationRate.gamma;
 
       this[slot].hasReading = true;
       this.dispatchEvent(new Event("reading"));
     }
 
     defineReadonlyProperties(this, slot, {
-      alpha: null,
-      beta: null,
-      gamma: null
+      x: null,
+      y: null,
+      z: null
     });
+  }
+
+  stop() {
+    super.stop();
+    this[slot].x = null;
+    this[slot].y = null;
+    this[slot].z = null;
   }
 }
 
@@ -383,13 +454,12 @@ class Accelerometer extends DeviceOrientationMixin(Sensor, "devicemotion") {
     this[slot].handleEvent = event => {
       // If there is no sensor we will get values equal to null.
       if (event.accelerationIncludingGravity.x === null) {
-        let error = new SensorErrorEvent("error", {
-          error: new DOMException("Could not connect to a sensor")
-        });
-        this.dispatchEvent(error);
-
-        this.stop();
+        this[slot].setState(SensorState.ERROR);
         return;
+      }
+
+      if (!this[slot].activated) {
+        this[slot].setState(SensorState.ACTIVE);
       }
 
       this[slot].timestamp = performance.now();
@@ -403,10 +473,17 @@ class Accelerometer extends DeviceOrientationMixin(Sensor, "devicemotion") {
     }
 
     defineReadonlyProperties(this, slot, {
-      alpha: null,
-      beta: null,
-      gamma: null
+      x: null,
+      y: null,
+      z: null
     });
+  }
+
+  stop() {
+    super.stop();
+    this[slot].x = null;
+    this[slot].y = null;
+    this[slot].z = null;
   }
 }
 
@@ -417,13 +494,12 @@ class LinearAccelerationSensor extends DeviceOrientationMixin(Sensor, "devicemot
     this[slot].handleEvent = event => {
       // If there is no sensor we will get values equal to null.
       if (event.acceleration.x === null) {
-        let error = new SensorErrorEvent("error", {
-          error: new DOMException("Could not connect to a sensor")
-        });
-        this.dispatchEvent(error);
-
-        this.stop();
+        this[slot].setState(SensorState.ERROR);
         return;
+      }
+
+      if (!this[slot].activated) {
+        this[slot].setState(SensorState.ACTIVE);
       }
 
       this[slot].timestamp = performance.now();
@@ -437,10 +513,17 @@ class LinearAccelerationSensor extends DeviceOrientationMixin(Sensor, "devicemot
     }
 
     defineReadonlyProperties(this, slot, {
-      alpha: null,
-      beta: null,
-      gamma: null
+      x: null,
+      y: null,
+      z: null
     });
+  }
+
+  stop() {
+    super.stop();
+    this[slot].x = null;
+    this[slot].y = null;
+    this[slot].z = null;
   }
 }
 
@@ -451,13 +534,12 @@ export const GravitySensor = window.GravitySensor ||
     this[slot].handleEvent = event => {
       // If there is no sensor we will get values equal to null.
       if (event.acceleration.x === null || event.accelerationIncludingGravity.x === null) {
-        let error = new SensorErrorEvent("error", {
-          error: new DOMException("Could not connect to a sensor")
-        });
-        this.dispatchEvent(error);
-
-        this.stop();
+        this[slot].setState(SensorState.ERROR);
         return;
+      }
+
+      if (!this[slot].activated) {
+        this[slot].setState(SensorState.ACTIVE);
       }
 
       this[slot].timestamp = performance.now();
@@ -471,9 +553,16 @@ export const GravitySensor = window.GravitySensor ||
     }
 
     defineReadonlyProperties(this, slot, {
-      alpha: null,
-      beta: null,
-      gamma: null
+      x: null,
+      y: null,
+      z: null
     });
+  }
+
+  stop() {
+    super.stop();
+    this[slot].x = null;
+    this[slot].y = null;
+    this[slot].z = null;
   }
 }
