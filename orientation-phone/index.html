@@ -105,7 +105,8 @@
             }
 
             function initSensor() {
-                const options = { frequency: 60, coordinateSystem }
+                const options = { frequency: 60, coordinateSystem };
+                console.log(JSON.stringify(options));
                 sensor = relative ? new RelativeOrientationSensor(options) : new AbsoluteOrientationSensor(options);
                 sensor.onreading = () => model.quaternion.fromArray(sensor.quaternion).inverse();
                 sensor.onerror = (event) => {
