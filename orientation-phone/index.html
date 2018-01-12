@@ -33,6 +33,7 @@
 
             const params = new URLSearchParams(new URL(window.location.href).search.slice(1));
             const relative = !!Number(params.get("relative"));
+	    const coordinateSystem = params.get("coord");
 
             let container, sensor, camera, scene, renderer, model;
 
@@ -104,7 +105,7 @@
             }
 
             function initSensor() {
-                const options = { frequency: 60 }
+                const options = { frequency: 60, coordinateSystem }
                 sensor = relative ? new RelativeOrientationSensor(options) : new AbsoluteOrientationSensor(options);
                 sensor.onreading = () => model.quaternion.fromArray(sensor.quaternion).inverse();
                 sensor.onerror = (event) => {
