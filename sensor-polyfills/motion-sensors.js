@@ -286,22 +286,20 @@ function worldToScreen(quaternion) {
 
 export const RelativeOrientationSensor = window.RelativeOrientationSensor ||
 class RelativeOrientationSensor extends DeviceOrientationMixin(Sensor, "deviceorientation") {
-  constructor(options) {
+  constructor(options = {}) {
     super(options);
 
-    if (typeof(options.coordinateSystem) === "string") {
-      switch (options.coordinateSystem) {
-        case 'screen':
-          Object.defineProperty(this, "quaternion", {
-            get: () => worldToScreen(this[slot].quaternion)
-          });
-          break;
-        case 'world':
-        default:
-          Object.defineProperty(this, "quaternion", {
-            get: () => this[slot].quaternion
-          });
-      }
+    switch (options.coordinateSystem || 'world') {
+      case 'screen':
+        Object.defineProperty(this, "quaternion", {
+          get: () => worldToScreen(this[slot].quaternion)
+        });
+        break;
+      case 'world':
+      default:
+        Object.defineProperty(this, "quaternion", {
+          get: () => this[slot].quaternion
+        });
     }
 
     this[slot].handleEvent = event => {
@@ -346,22 +344,20 @@ class RelativeOrientationSensor extends DeviceOrientationMixin(Sensor, "deviceor
 export const AbsoluteOrientationSensor = window.AbsoluteOrientationSensor ||
 class AbsoluteOrientationSensor extends DeviceOrientationMixin(
   Sensor, "deviceorientationabsolute", "deviceorientation") {
-  constructor(options) {
+  constructor(options = {}) {
     super(options);
 
-    if (typeof(options.coordinateSystem) === "string") {
-      switch (options.coordinateSystem) {
-        case 'screen':
-          Object.defineProperty(this, "quaternion", {
-            get: () => worldToScreen(this[slot].quaternion)
-          });
-          break;
-        case 'world':
-        default:
-          Object.defineProperty(this, "quaternion", {
-            get: () => this[slot].quaternion
-          });
-      }
+    switch (options.coordinateSystem || 'world') {
+      case 'screen':
+        Object.defineProperty(this, "quaternion", {
+          get: () => worldToScreen(this[slot].quaternion)
+        });
+        break;
+      case 'world':
+      default:
+        Object.defineProperty(this, "quaternion", {
+          get: () => this[slot].quaternion
+        });
     }
 
     this[slot].handleEvent = event => {
