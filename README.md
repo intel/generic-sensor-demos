@@ -139,3 +139,6 @@ for your fork. Alternatevely, you can serve your web application locally, for th
 If you are developing for mobile devices,set up
 [port forwarding](https://developers.google.com/web/tools/chrome-devtools/remote-debugging/local-server)
 for your local server, and you are good to go!
+
+## Reporting a security issue
+If you have information about a security issue or vulnerability with an Intel-maintained open source project on https://github.com/intel, please send an e-mail to secure-opensource@intel.com. Encrypt sensitive information using our PGP public key. For issues related to Intel products, please visit https://security-center.intel.com.
