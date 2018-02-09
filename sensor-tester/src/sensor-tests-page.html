@@ -126,6 +126,10 @@
                 type: Number,
                 value: 10
             },
+            referenceframe: {
+                type: String,
+                value: "device"
+            },
             sensortype: {
                 type: String
             },
@@ -198,7 +202,11 @@
       ready() {
             super.ready();
             if (this.sensortype in window) {
-                this.sensor_ = new window[this.sensortype]({frequency: this.frequency});
+                if (this.referenceframe == "screen") {
+                    this.sensor_ = new window[this.sensortype]({frequency: this.frequency, referenceFrame: this.referenceframe});
+                } else {
+                    this.sensor_ = new window[this.sensortype]({frequency: this.frequency});
+                }
                 this.sensor_.onreading = () => {
                     this.sensor_.stop();
                     this.sensor_.onreading = null;

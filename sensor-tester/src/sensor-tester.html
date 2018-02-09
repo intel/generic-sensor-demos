@@ -13,7 +13,9 @@
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 
 <link rel="lazy-import" href="accelerometer-page.html">
+<link rel="lazy-import" href="accelerometer-screen-page.html">
 <link rel="lazy-import" href="linearaccelerationsensor-page.html">
+<link rel="lazy-import" href="linearaccelerationsensor-screen-page.html">
 <link rel="lazy-import" href="gyroscope-page.html">
 <link rel="lazy-import" href="absoluteorientationsensor-page.html">
 <link rel="lazy-import" href="relativeorientationsensor-page.html">
@@ -62,8 +64,14 @@
           <a name="accelerometer" href="[[rootPath]]accelerometer">
               Accelerometer
           </a>
+          <a name="accelerometer-screen" href="[[rootPath]]accelerometer-screen">
+              Accelerometer Screen
+          </a>
           <a name="linearaccelerationsensor" href="[[rootPath]]linearaccelerationsensor">
               LinearAccelerationSensor
+          </a>
+          <a name="linearaccelerationsensor-screen" href="[[rootPath]]linearaccelerationsensor-screen">
+              LinearAccelerationSensor Screen
           </a>
           <a name="gyroscope" href="[[rootPath]]gyroscope">
               Gyroscope
@@ -94,7 +102,9 @@
 
         <iron-pages id="ironPage" selected="[[page]]" attr-for-selected="name" fallback-selection="accelerometer" role="main">
           <accelerometer-page name="accelerometer"></accelerometer-page>
+          <accelerometer-screen-page name="accelerometer-screen"></accelerometer-screen-page>
           <linearaccelerationsensor-page name="linearaccelerationsensor"></linearaccelerationsensor-page>
+          <linearaccelerationsensor-screen-page name="linearaccelerationsensor-screen"></linearaccelerationsensor-screen-page>
           <gyroscope-page name="gyroscope"></gyroscope-page>
           <absoluteorientationsensor-page name="absoluteorientationsensor"></absoluteorientationsensor-page>
           <relativeorientationsensor-page name="relativeorientationsensor"></relativeorientationsensor-page>

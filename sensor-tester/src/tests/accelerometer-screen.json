@@ -1,0 +1,66 @@
+[
+    {
+      "name":         "Test dom screen +Z gravity",
+      "description":  "Test that sensor reports +9.8 m/s^2 along the Z axis when device is at rest on a leveled surface and screen is facing towards the sky.",
+      "illustration": "src/tests/accel_+z_gravity.png",
+      "duration":     3,
+      "expected":     { "x": 0, "y": 0, "z": 9.8 },
+      "epsilon":      1
+    },
+    {
+      "name":         "Test dom screen -Z gravity",
+      "description":  "Test that sensor reports -9.8 m/s^2 along the Z axis when device is at rest on a leveled surface and screen is facing towards the ground.",
+      "illustration": "src/tests/accel_-z_gravity.png",
+      "duration":     4,
+      "expected":     { "x": 0, "y": 0, "z": -9.8 },
+      "epsilon":      1
+    },
+    {
+      "name":         "Test dom screen +X gravity",
+      "description":  "Test that sensor reports 9.8 m/s^2 along the X axis when device is at rest on a leveled surface and right edge of the dom screen points towards the ground.",
+      "illustration": "src/tests/accel_+x_gravity.png",
+      "duration":     3,
+      "expected":     { "x": 9.8, "y": 0, "z": 0 },
+      "epsilon":      1
+    },
+    {
+      "name":         "Test dom screen -X gravity",
+      "description":  "Test that sensor reports -9.8 m/s^2 along the X axis when device is at rest on a leveled surface and left edge of the dom screen points towards the ground.",
+      "illustration": "src/tests/accel_-x_gravity.png",
+      "duration":     3,
+      "expected":     { "x": -9.8, "y": 0, "z": 0 },
+      "epsilon":      1
+    },
+    {
+      "name":         "Test dom screen +Y gravity",
+      "description":  "Test that sensor reports 9.8 m/s^2 along the Y axis when device is at rest on a leveled surface and top edge of the dom screen points towards the sky.",
+      "illustration": "src/tests/accel_+y_gravity.png",
+      "duration":     4,
+      "expected":     { "x": 0, "y": 9.8, "z": 0 },
+      "epsilon":      1
+    },
+    {
+      "name":         "Test dom screen -Y gravity",
+      "description":  "Test that sensor reports -9.8 m/s^2 along the Y axis when device is at rest on a leveled surface and top edge of the dom screen points towards the ground.",
+      "illustration": "src/tests/accel_-y_gravity.png",
+      "duration":     4,
+      "expected":     { "x": 0, "y": -9.8, "z": 0 },
+      "epsilon":      1
+    },
+    {
+      "name":         "Test dom screen +X acceleration",
+      "description":  "Test that sensor reports positive acceleration along the X axis when device is pushed from the dom screen left edge to the right.",
+      "illustration": "src/tests/accel_+x_acceleration.gif",
+      "duration":     5,
+      "expected":     { "x": 3.0 },
+      "epsilon":      1
+    },
+    {
+      "name":         "Test dom screen -X acceleration",
+      "description":  "Test that sensor reports negative acceleration along the X axis when device is pushed from the dom screen right edge to the left.",
+      "illustration": "src/tests/accel_-x_acceleration.gif",
+      "duration":     5,
+      "expected":     { "x": -3.0 },
+      "epsilon":      1
+    }
+]
