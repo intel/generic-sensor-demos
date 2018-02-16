@@ -7,7 +7,7 @@ self.addEventListener('install', event => {
       return cache.addAll([
         'index.html',
         'sw.js',
-        'gauge.js',
+        'gauge/gauge.js',
         'main.js',
         'styles.css',
         'images/punchometer.png',

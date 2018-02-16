@@ -120,16 +120,6 @@ const farPlane = 200, fov = 75;
 var camera, scene, renderer, orientation_sensor, accel_sensor;
 var sphere, videoTexture, sphereMaterial, sphereMesh;
 
-// Service worker registration
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-        navigator.serviceWorker.register('sw.js').then(function(registration) {
-        }, function(err) {
-        console.log('ServiceWorker registration failed: ', err);
-        });
-    });
-}
-
 function startDemo() {
 
     // Need user input to play video, so here both the forward and the backward video are played and paused once in order to satisfy that requirement
