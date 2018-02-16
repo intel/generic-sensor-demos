@@ -23,7 +23,6 @@ self.addEventListener('install', function(event) {
         'sw.js',
         'scripts/app.js',
         'scripts/three.min.js',
-        'scripts/fft.js',
         'resources/forward2.mp4',
         'resources/backward2.mp4'
   ];

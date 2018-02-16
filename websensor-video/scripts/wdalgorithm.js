@@ -218,22 +218,44 @@ var ALGORITHM = (function () {
         return result;
     }
 
-    // Calculates the FFT of a sequence, uses FFT.js
+    function exponent(k, len) {
+        let x = -2 * Math.PI * (k / len);
+        return { real: Math.cos(x), imag: Math.sin(x) };
+    }
+
+    function compAdd(a, b) {
+      return { real: a.real + b.real, imag: a.imag + b.imag };
+    }
+
+    function compMult(a, b) {
+      return { real: (a.real * b.real - a.imag * b.imag), imag: (a.real * b.imag + a.imag * b.real) };
+    }
+
+    function dft(seq) {
+      let len = seq.length;
+      let real = Array.apply(null, Array(len)).map(Number.prototype.valueOf, 0)
+      let imag = Array.apply(null, Array(len)).map(Number.prototype.valueOf, 0)
+      for (var i = 0; i < len; i++) {
+        for (var n = 0; n < len; n++) {
+          let term = compMult({real: seq[n], imag: 0}, exponent(i * n, len));
+          let sum = compAdd({real: real[i], imag: imag[i]}, term);
+          real[i] = sum.real;
+          imag[i] = sum.imag;
+        }
+      }
+
+      // Normalize and return.
+      return {real: real.map(x => x/real.length), imag: imag.map(x => x/imag.length)};
+    }
+
+    // Calculates the FFT of a sequence
     function calculateFFT(seq) {
-        let real = seq.slice();
-
-        // Create imag array for fft computation
-        let imag = Array.apply(null, Array(seq.length)).map(Number.prototype.valueOf,0);
-
-        transform(real, imag);  // Not normalized, from FFT.js
-
-        // Normalization
-        real = real.map(x => x/real.length);
-        imag = imag.map(x => x/imag.length);
+        // Create fft computation
+        let dft_comp = dft(seq);
 
         let fft = [];
-        for(let i=0; i< real.length; i++) {
-            fft[i] = Math.sqrt(real[i]*real[i]+imag[i]*imag[i]);    // Magnitude of FFT
+        for(let i=0; i< dft_comp.real.length; i++) {
+            fft[i] = Math.hypot(dft_comp.real[i], dft_comp.imag[i]); // Magnitude of FFT
         }
         fft = fft.map(x => x/fft.reduce((a, b) => a + b, 0));
         return fft;
