@@ -26,6 +26,14 @@
         display: none;
       }
 
+      div.device {
+        display: none;
+      }
+
+      div.screen {
+        display: block;
+      }
+
       iron-list.supported {
         display: block;
       }
@@ -36,6 +44,12 @@
         color: white;
         position: relative;
         float: right;
+        background-color: var(--app-primary-color);
+      }
+
+      paper-button.LOCK {
+        margin-bottom: 10px;
+        float: none;
         background-color: var(--app-primary-color);
       }
 
@@ -96,6 +110,15 @@
     <iron-ajax url="[[tests]]" last-response="{{items}}" auto></iron-ajax>
 
     <div class$="[[isSupported]]">Sensor is not supported by the browser or the device.</div>
+
+    <div class$="[[referenceframe]]">
+      <div>If device supports screen.orientation.lock(), retate web page to different angle with following buttons before running tests.</div>
+      <paper-button on-click="lockOrientation" class="LOCK" data-args="0">0˚</paper-button>
+      <paper-button on-click="lockOrientation" class="LOCK" data-args="1">90˚</paper-button>
+      <paper-button on-click="lockOrientation" class="LOCK" data-args="2">180˚</paper-button>
+      <paper-button on-click="lockOrientation" class="LOCK" data-args="3">270˚</paper-button>
+      <paper-button on-click="lockOrientation" class="LOCK" data-args="4">RESET</paper-button>
+    </div>
 
     <iron-list class$="[[isSupported]]" id="list" items="[[items]]" as="item" scroll-target="document">
         <template>
@@ -215,6 +238,7 @@
                 this.sensor_.onerror = e => {
                     if (e.error.name === 'NotReadableError') {
                         this.isSupported = "not-supported";
+                        this.referenceframe = "device";
                         this.items = [];
                         this.notifyPath('items');
                     }
@@ -223,6 +247,7 @@
                 this.sensor_.start();
             } else {
                 this.isSupported = "not-supported";
+                this.referenceframe = "device";
             }
       }
 
@@ -270,6 +295,41 @@
 
           // start sensor
           this.sensor.start();
+      }
+
+      lockOrientation(e) {
+          let index = e.target.getAttribute('data-args');
+
+          let doc = window.document;
+          let docEl = doc.documentElement;
+          let requestFullScreen = docEl.requestFullscreen ||
+                                  docEl.webkitRequestFullscreen ||
+                                  docEl.mozRequestFullScreen ||
+                                  docEl.msRequestFullscreen;
+          let cancelFullScreen = doc.exitFullscreen ||
+                                 doc.webkitExitFullscreen ||
+                                 doc.mozCancelFullScreen ||
+                                 doc.msExitFullscreen;
+
+          let orientations = [
+              'portrait-primary',
+              'landscape-primary',
+              'portrait-secondary',
+              'landscape-secondary'
+          ];
+          let orientation = screen.msOrientation || (screen.orientation || screen.mozOrientation || {});
+
+          if (index == 4) {
+              orientation.unlock();
+              cancelFullScreen.call(doc);
+              return;
+          }
+          requestFullScreen.call(docEl);
+          orientation.lock(orientations[index])
+          .catch(() => {
+              alert("screen.orientation.lock() is not available on this device.");
+              cancelFullScreen.call(doc);
+          });
       }
     }
 

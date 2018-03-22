@@ -1,7 +1,7 @@
 [
     {
       "name":         "Test +Z gravity",
-      "description":  "Test that sensor reports +9.8 m/s^2 along the Z axis when device is at rest on a leveled surface and screen is facing towards the sky.",
+      "description":  "Test that sensor reports +9.8 m/s^2 along the Z axis when device is at rest on a leveled surface and web page is facing towards the sky.",
       "illustration": "src/tests/accel_+z_gravity.png",
       "duration":     3,
       "expected":     { "x": 0, "y": 0, "z": 9.8 },
@@ -9,7 +9,7 @@
     },
     {
       "name":         "Test -Z gravity",
-      "description":  "Test that sensor reports -9.8 m/s^2 along the Z axis when device is at rest on a leveled surface and screen is facing towards the ground.",
+      "description":  "Test that sensor reports -9.8 m/s^2 along the Z axis when device is at rest on a leveled surface and web page is facing towards the ground.",
       "illustration": "src/tests/accel_-z_gravity.png",
       "duration":     4,
       "expected":     { "x": 0, "y": 0, "z": -9.8 },
