@@ -112,12 +112,12 @@
     <div class$="[[isSupported]]">Sensor is not supported by the browser or the device.</div>
 
     <div class$="[[referenceframe]]">
-      <div>If device supports screen.orientation.lock(), retate web page to different angle with following buttons before running tests.</div>
-      <paper-button on-click="lockOrientation" class="LOCK" data-args="0">0˚</paper-button>
-      <paper-button on-click="lockOrientation" class="LOCK" data-args="1">90˚</paper-button>
-      <paper-button on-click="lockOrientation" class="LOCK" data-args="2">180˚</paper-button>
-      <paper-button on-click="lockOrientation" class="LOCK" data-args="3">270˚</paper-button>
-      <paper-button on-click="lockOrientation" class="LOCK" data-args="4">RESET</paper-button>
+      <div>If device supports screen.orientation.lock(), rotate web page to different angles with the following buttons before running the tests.</div>
+      <paper-button on-click="lockOrientation" class="LOCK" data-args="portrait-primary">0˚</paper-button>
+      <paper-button on-click="lockOrientation" class="LOCK" data-args="landscape-primary">90˚</paper-button>
+      <paper-button on-click="lockOrientation" class="LOCK" data-args="portrait-secondary">180˚</paper-button>
+      <paper-button on-click="lockOrientation" class="LOCK" data-args="landscape-secondary">270˚</paper-button>
+      <paper-button on-click="lockOrientation" class="LOCK" data-args="RESET">RESET</paper-button>
     </div>
 
     <iron-list class$="[[isSupported]]" id="list" items="[[items]]" as="item" scroll-target="document">
@@ -225,11 +225,7 @@
       ready() {
             super.ready();
             if (this.sensortype in window) {
-                if (this.referenceframe == "screen") {
-                    this.sensor_ = new window[this.sensortype]({frequency: this.frequency, referenceFrame: this.referenceframe});
-                } else {
-                    this.sensor_ = new window[this.sensortype]({frequency: this.frequency});
-                }
+                this.sensor_ = new window[this.sensortype]({frequency: this.frequency, referenceFrame: this.referenceframe});
                 this.sensor_.onreading = () => {
                     this.sensor_.stop();
                     this.sensor_.onreading = null;
@@ -311,23 +307,17 @@
                                  doc.mozCancelFullScreen ||
                                  doc.msExitFullscreen;
 
-          let orientations = [
-              'portrait-primary',
-              'landscape-primary',
-              'portrait-secondary',
-              'landscape-secondary'
-          ];
           let orientation = screen.msOrientation || (screen.orientation || screen.mozOrientation || {});
 
-          if (index == 4) {
+          if (index == "RESET") {
               orientation.unlock();
               cancelFullScreen.call(doc);
               return;
           }
           requestFullScreen.call(docEl);
-          orientation.lock(orientations[index])
+          orientation.lock(index)
           .catch(() => {
-              alert("screen.orientation.lock() is not available on this device.");
+              console.log("screen.orientation.lock() is not available on this device.");
               cancelFullScreen.call(doc);
           });
       }
