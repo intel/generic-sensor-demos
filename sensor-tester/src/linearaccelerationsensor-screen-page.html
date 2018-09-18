@@ -1,0 +1,15 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="sensor-tests-page.html">
+
+<dom-module id="linearaccelerationsensor-screen-page">
+  <template>
+      <sensor-tests-page tests="src/tests/linearaccelerationsensor-screen.json" sensortype="LinearAccelerationSensor" referenceframe="screen" frequency="60"></sensor-tests-page>
+  </template>
+
+  <script>
+    class LinearAccelerationSensorScreenPage extends Polymer.Element {
+      static get is() { return 'linearaccelerationsensor-screen-page'; }
+    }
+    window.customElements.define(LinearAccelerationSensorScreenPage.is, LinearAccelerationSensorScreenPage);
+  </script>
+</dom-module>

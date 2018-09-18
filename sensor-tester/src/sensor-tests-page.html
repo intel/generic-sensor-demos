@@ -26,6 +26,14 @@
         display: none;
       }
 
+      div.device {
+        display: none;
+      }
+
+      div.screen {
+        display: block;
+      }
+
       iron-list.supported {
         display: block;
       }
@@ -36,6 +44,12 @@
         color: white;
         position: relative;
         float: right;
+        background-color: var(--app-primary-color);
+      }
+
+      paper-button.LOCK {
+        margin-bottom: 10px;
+        float: none;
         background-color: var(--app-primary-color);
       }
 
@@ -97,6 +111,15 @@
 
     <div class$="[[isSupported]]">Sensor is not supported by the browser or the device.</div>
 
+    <div class$="[[referenceframe]]">
+      <div>If device supports screen.orientation.lock(), rotate web page to different angles with the following buttons before running the tests.</div>
+      <paper-button on-click="lockOrientation" class="LOCK" data-args="portrait-primary">0˚</paper-button>
+      <paper-button on-click="lockOrientation" class="LOCK" data-args="landscape-primary">90˚</paper-button>
+      <paper-button on-click="lockOrientation" class="LOCK" data-args="portrait-secondary">180˚</paper-button>
+      <paper-button on-click="lockOrientation" class="LOCK" data-args="landscape-secondary">270˚</paper-button>
+      <paper-button on-click="lockOrientation" class="LOCK" data-args="RESET">RESET</paper-button>
+    </div>
+
     <iron-list class$="[[isSupported]]" id="list" items="[[items]]" as="item" scroll-target="document">
         <template>
             <div>
@@ -125,6 +148,10 @@
             frequency: {
                 type: Number,
                 value: 10
+            },
+            referenceframe: {
+                type: String,
+                value: "device"
             },
             sensortype: {
                 type: String
@@ -198,7 +225,7 @@
       ready() {
             super.ready();
             if (this.sensortype in window) {
-                this.sensor_ = new window[this.sensortype]({frequency: this.frequency});
+                this.sensor_ = new window[this.sensortype]({frequency: this.frequency, referenceFrame: this.referenceframe});
                 this.sensor_.onreading = () => {
                     this.sensor_.stop();
                     this.sensor_.onreading = null;
@@ -207,6 +234,7 @@
                 this.sensor_.onerror = e => {
                     if (e.error.name === 'NotReadableError') {
                         this.isSupported = "not-supported";
+                        this.referenceframe = "device";
                         this.items = [];
                         this.notifyPath('items');
                     }
@@ -215,6 +243,7 @@
                 this.sensor_.start();
             } else {
                 this.isSupported = "not-supported";
+                this.referenceframe = "device";
             }
       }
 
@@ -262,6 +291,35 @@
 
           // start sensor
           this.sensor.start();
+      }
+
+      lockOrientation(e) {
+          let index = e.target.getAttribute('data-args');
+
+          let doc = window.document;
+          let docEl = doc.documentElement;
+          let requestFullScreen = docEl.requestFullscreen ||
+                                  docEl.webkitRequestFullscreen ||
+                                  docEl.mozRequestFullScreen ||
+                                  docEl.msRequestFullscreen;
+          let cancelFullScreen = doc.exitFullscreen ||
+                                 doc.webkitExitFullscreen ||
+                                 doc.mozCancelFullScreen ||
+                                 doc.msExitFullscreen;
+
+          let orientation = screen.msOrientation || (screen.orientation || screen.mozOrientation || {});
+
+          if (index == "RESET") {
+              orientation.unlock();
+              cancelFullScreen.call(doc);
+              return;
+          }
+          requestFullScreen.call(docEl);
+          orientation.lock(index)
+          .catch(() => {
+              console.log("screen.orientation.lock() is not available on this device.");
+              cancelFullScreen.call(doc);
+          });
       }
     }
 

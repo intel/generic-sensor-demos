@@ -4,9 +4,11 @@
   "fragments": [
     "src/absoluteorientationsensor-page.html",
     "src/accelerometer-page.html",
+    "src/accelerometer-screen-page.html",
     "src/ambientlightsensor-page.html",
     "src/gyroscope-page.html",
     "src/linearaccelerationsensor-page.html",
+    "src/linearaccelerationsensor-screen-page.html",
     "src/magnetometer-page.html",
     "src/relativeorientationsensor-page.html",
     "src/sensor-tests-page.html"
