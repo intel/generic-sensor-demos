@@ -12,6 +12,12 @@
       "weight": 1
     }
   },
+  "src/accelerometer-screen-page.html": {
+    "src/sensor-tests-page.html": {
+      "type": "document",
+      "weight": 1
+    }
+  },
   "src/ambientlightsensor-page.html": {
     "src/sensor-tests-page.html": {
       "type": "document",
@@ -25,6 +31,12 @@
     }
   },
   "src/linearaccelerationsensor-page.html": {
+    "src/sensor-tests-page.html": {
+      "type": "document",
+      "weight": 1
+    }
+  },
+  "src/linearaccelerationsensor-screen-page.html": {
     "src/sensor-tests-page.html": {
       "type": "document",
       "weight": 1
