@@ -1,7 +1,10 @@
 import {LitElement, html, property} from '@polymer/lit-element';
 
-export const createPage = (options) => {
-  return class extends LitElement {
+export const createPage = (tagName, options) => {
+  if (customElements.get(tagName)) {
+    return;
+  }
+  customElements.define(tagName, class extends LitElement {
     render() {
       return html`
         <sensor-tests-page
@@ -12,5 +15,5 @@ export const createPage = (options) => {
         </sensor-tests-page>
       `;
     }
-  }
+  });
 }
