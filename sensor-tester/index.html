@@ -3,7 +3,7 @@
   <head>
     <title>Sensor tester</title>
 
-    <base id="basePath" href="/">
+    <base href="/">
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
@@ -25,11 +25,11 @@
     <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
 
     <script>
-      window.Polymer = {rootPath: new URL(document.getElementById('basePath').href).pathname};
       if ('serviceWorker' in navigator) {
+        const basePath = new URL(document.querySelector('base').href).pathname;
         window.addEventListener('load', function() {
           navigator.serviceWorker.register('service-worker.js', {
-            scope: Polymer.rootPath,
+            scope: basePath
           });
         });
       }

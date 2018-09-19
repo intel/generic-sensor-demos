@@ -13,6 +13,12 @@ import {installRouter} from '../node_modules/pwa-helpers/router.js';
 
 export const menuIcon = html`<svg height="24" viewBox="0 0 24 24" width="24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>`;
 
+createPage('page-1', {
+  src: "src/tests/accelerometer.json",
+  sensorType: "Accelerometer",
+  referenceFrame: "device"
+});
+
 const loadPage = (page) => {
   switch(page) {
     case 'accelerometer':
@@ -86,15 +92,20 @@ class SensorTester extends LitElement {
     };
   }
 
-  firstUpdated() {
-    const drawer = this.shadowRoot.querySelector('#drawer');
+  constructor() {
+    super();
     installRouter(location => {
-      const pathname = decodeURIComponent(location.pathname)
+      const pathname = decodeURIComponent(location.pathname);
+
       const parts = pathname.slice(1).split('/');
-      this.page = parts[0] || 'accerometer';
+      this.page = parts[parts.length - 1] || 'accelerometer';
       loadPage(this.page);
-      this.drawerOpened = false || drawer.persistent;
+      this.drawerOpened = false || (this.drawer && this.drawer.persistent);
     });
+  }
+
+  firstUpdated() {
+    this.drawer = this.shadowRoot.querySelector('#drawer');
   }
 
   render() {
@@ -159,10 +170,10 @@ class SensorTester extends LitElement {
             @opened-changed="${e => this.drawerOpened = e.target.opened}">
           <app-toolbar>Choose sensor:</app-toolbar>
           <nav class="drawer-list">
-            <a ?selected="${this.page === 'accelerometer'}" href="/accelerometer">
+            <a ?selected="${this.page === 'accelerometer'}" href="accelerometer">
               Accelerometer<sub>device</sub>
             </a>
-            <a ?selected="${this.page === 'accelerometer-screen'}" href="/accelerometer-screen">
+            <a ?selected="${this.page === 'accelerometer-screen'}" href="accelerometer-screen">
               Accelerometer<sub>screen</sub>
             </a>
             <a ?selected="${this.page === 'linearaccelerationsensor'}" href="linearaccelerationsensor">

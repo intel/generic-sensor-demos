@@ -17,13 +17,13 @@
     {
       "name": "bundled",
       "preset": "es6-bundled",
+      "basePath": "generic-sensor-demos/sensor-tester/build/bundled",
       "js": {"minify": true, "compile": true},
       "css": {"minify": true},
       "html": {"minify": true},
       "addServiceWorker": true,
       "addPushManifest": true,
-      "insertPrefetchLinks": true,
-      "basePath": "generic-sensor-demos/sensor-tester/build/bundled/"
+      "insertPrefetchLinks": true
     }
   ]
 }

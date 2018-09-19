@@ -249,7 +249,7 @@ class SensorTestsPage extends LitElement {
               </div>
               <div class="description">${item.description}</div>
               <div class="image">
-                <img src="${item.illustration}">
+                <img src="${item.illustration}" decoding="async">
               </div>
             </div>
           </div>
