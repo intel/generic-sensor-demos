@@ -24,8 +24,8 @@
     <meta name="msapplication-TileImage" content="images/app-icon-144.png">
     <meta name="msapplication-TileColor" content="#0071c5">
     <meta name="msapplication-tap-highlight" content="no">
-
-    <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+  
+    <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
 
     <script>
       window.Polymer = {rootPath: new URL(document.getElementById('basePath').href).pathname};
@@ -38,22 +38,21 @@
       }
     </script>
 
-    <link rel="import" href="src/sensor-tester.html">
+    <script type="module" src="src/sensor-tester.js"></script>
 
     <style>
-        body {
-            margin: 0;
-            font-family: 'Roboto', 'Noto', sans-serif;
-            background-color: #eee;
-            height: 100vh;
-        }
+      body {
+        margin: 0;
+        font-family: 'Roboto', 'Noto', sans-serif;
+        background-color: #eee;
+        height: 100vh;
+      }
     </style>
-
   </head>
   <body>
     <sensor-tester></sensor-tester>
     <noscript>
-        Please enable JavaScript to view this website.
+      Please enable JavaScript to view this website.
     </noscript>
   </body>
 </html>
