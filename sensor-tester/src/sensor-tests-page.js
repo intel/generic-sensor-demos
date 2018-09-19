@@ -2,7 +2,6 @@ import {LitElement, html} from '@polymer/lit-element';
 import "@material/mwc-button";
 import "@polymer/paper-spinner/paper-spinner-lite";
 import "@polymer/paper-styles/color";
-import "@polymer/iron-image/iron-image";
 import "./orientation-changer.js";
 
 class SensorTestsPage extends LitElement {
@@ -250,7 +249,7 @@ class SensorTestsPage extends LitElement {
               </div>
               <div class="description">${item.description}</div>
               <div class="image">
-                <iron-image src="${item.illustration}"></iron-image>
+                <img src="${item.illustration}">
               </div>
             </div>
           </div>

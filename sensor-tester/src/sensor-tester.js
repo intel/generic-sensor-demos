@@ -1,7 +1,7 @@
 import { createPage } from "./create-page.js"
 import "./sensor-tests-page.js";
 
-import { PolymerElement, html } from '@polymer/polymer';
+import {LitElement, html} from '@polymer/lit-element';
 import '@polymer/app-layout/app-drawer/app-drawer';
 import '@polymer/app-layout/app-drawer-layout/app-drawer-layout';
 import '@polymer/app-layout/app-header/app-header';
@@ -9,12 +9,9 @@ import '@polymer/app-layout/app-header-layout/app-header-layout';
 import '@polymer/app-layout/app-scroll-effects/app-scroll-effects';
 import '@polymer/app-layout/app-toolbar/app-toolbar';
 import '@polymer/app-layout/app-scroll-effects/app-scroll-effects';
-import '@polymer/app-route/app-location';
-import '@polymer/app-route/app-route';
-import '@polymer/iron-icons';
-import '@polymer/iron-pages';
-import '@polymer/iron-selector/iron-selector';
-import '@polymer/paper-icon-button';
+import { installRouter } from '../node_modules/pwa-helpers/router.js';
+
+export const menuIcon = html`<svg height="24" viewBox="0 0 24 24" width="24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>`;
 
 customElements.define('accelerometer-page', createPage({
   src: "src/tests/accelerometer.json",
@@ -59,19 +56,27 @@ customElements.define('ambientlightsensor-page', createPage({
   frequency: 10
 }));
 
-class SensorTester extends PolymerElement {
+class SensorTester extends LitElement {
   static get is() { return 'sensor-tester'; }
 
   static get properties() {
     return {
-      page: String,
-      routeData: Object,
-      subroute: String,
-      rootPath: String,
+      page: {type: String},
+      drawerOpened: {type: Boolean}
     };
   }
 
-  static get template() {
+  firstUpdated() {
+    const drawer = this.shadowRoot.querySelector('#drawer');
+    installRouter(location => {
+      const pathname = decodeURIComponent(location.pathname)
+      const parts = pathname.slice(1).split('/');
+      this.page = parts[0] || 'accerometer';
+      this.drawerOpened = false || drawer.persistent;
+    });
+  }
+
+  render() {
     return html`
       <style>
         :host {
@@ -89,9 +94,9 @@ class SensorTester extends PolymerElement {
           display: none;
         }
 
-        .drawer-list a.iron-selected {
+        .drawer-list > a[selected] {
+          color: var(--app-drawer-selected-color);
           font-weight: bold;
-          color: var(--app-secondary-color);
         }
 
         .drawer-list a {
@@ -101,78 +106,91 @@ class SensorTester extends PolymerElement {
           padding: 0 18px;
           line-height: 42px;
         }
+
+        .page {
+          display: none;
+        }
+
+        .page[active] {
+          display: block;
+        }
+
+        .menu-btn {
+          display: inline-block;
+          width: 40px;
+          height: 40px;
+          padding: 8px;
+          box-sizing: border-box;
+          background: none;
+          border: none;
+          fill: var(--app-header-text-color);
+          cursor: pointer;
+          text-decoration: none;
+        }
+
+        app-drawer {
+          z-index: 2;
+        }
       </style>
 
-      <app-location route="{{route}}"></app-location>
-      <app-route route="{{route}}" pattern="/:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
-
-      <app-drawer-layout fullbleed narrow="{{narrow}}">
-        <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
+      <app-drawer-layout fullbleed>
+        <app-drawer id="drawer" slot="drawer" .opened="${this.drawerOpened}"
+            @opened-changed="${e => this.drawerOpened = e.target.opened}">
           <app-toolbar>Choose sensor:</app-toolbar>
-          <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-            <a name="accelerometer" href="accelerometer">
+          <nav class="drawer-list">
+            <a ?selected="${this.page === 'accelerometer'}" href="/accelerometer">
               Accelerometer<sub>device</sub>
             </a>
-            <a name="accelerometer-screen" href="accelerometer-screen">
+            <a ?selected="${this.page === 'accelerometer-screen'}" href="/accelerometer-screen">
               Accelerometer<sub>screen</sub>
             </a>
-            <a name="linearaccelerationsensor" href="linearaccelerationsensor">
+            <a ?selected="${this.page === 'linearaccelerationsensor'}" href="linearaccelerationsensor">
               LinearAccelerationSensor<sub>device</sub>
             </a>
-            <a name="linearaccelerationsensor-screen" href="linearaccelerationsensor-screen">
+            <a ?selected="${this.page === 'linearaccelerationsensor-screen'}" href="linearaccelerationsensor-screen">
               LinearAccelerationSensor<sub>screen</sub>
             </a>
-            <a name="gyroscope" href="gyroscope">
+            <a ?selected="${this.page === 'gyroscope'}" href="gyroscope">
               Gyroscope<sub>device</sub>
             </a>
-            <a name="absoluteorientationsensor" href="absoluteorientationsensor">
+            <a ?selected="${this.page === 'absoluteorientationsensor'}" href="absoluteorientationsensor">
               AbsoluteOrientationSensor<sub>device</sub>
             </a>
-            <a name="relativeorientationsensor" href="relativeorientationsensor">
+            <a ?selected="${this.page === 'relativeorientationsensor'}" href="relativeorientationsensor">
               RelativeOrientationSensor<sub>device</sub>
             </a>
-            <a name="ambientlightsensor" href="ambientlightsensor">
+            <a ?selected="${this.page === 'ambientlightsensor'}" href="ambientlightsensor">
               AmbientLightSensor<sub>device</sub>
             </a>
-            <a name="magnetometer" href="magnetometer">
+            <a ?selected="${this.page === 'magnetometer'}" href="magnetometer">
               Magnetometer<sub>device</sub>
             </a>
-          </iron-selector>
+          </nav>
         </app-drawer>
 
         <app-header-layout has-scrolling-region>
-
           <app-header slot="header" condenses reveals effects="waterfall">
             <app-toolbar>
-              <paper-icon-button icon="icons:menu" drawer-toggle></paper-icon-button>
+              <button class="menu-btn" aria-label="Menu" drawer-toggle
+                @click="${() => this.drawerOpened = true}">${menuIcon}</button>
               <div main-title>Sensor tester</div>
             </app-toolbar>
           </app-header>
-          <iron-pages id="ironPage" selected="[[page]]" attr-for-selected="name" fallback-selection="accelerometer" role="main">
-            <accelerometer-page name="accelerometer"></accelerometer-page>
-            <accelerometer-screen-page name="accelerometer-screen"></accelerometer-screen-page>
-            <linearaccelerationsensor-page name="linearaccelerationsensor"></linearaccelerationsensor-page>
-            <linearaccelerationsensor-screen-page name="linearaccelerationsensor-screen"></linearaccelerationsensor-screen-page>
-            <gyroscope-page name="gyroscope"></gyroscope-page>
-            <absoluteorientationsensor-page name="absoluteorientationsensor"></absoluteorientationsensor-page>
-            <relativeorientationsensor-page name="relativeorientationsensor"></relativeorientationsensor-page>
-            <ambientlightsensor-page name="ambientlightsensor"></ambientlightsensor-page>
-            <magnetometer-page name="magnetometer"></magnetometer-page>
-          </iron-pages>
+
+          <main role="main" class="main-content">
+            <accelerometer-page class="page" ?active="${this.page === 'accelerometer'}"></accelerometer-page>
+            <accelerometer-screen-page class="page" ?active="${this.page === 'accelerometer-screen'}"></accelerometer-screen-page>
+            <linearaccelerationsensor-page class="page" ?active="${this.page === 'linearaccelerationsensor'}"></linearaccelerationsensor-page>
+            <linearaccelerationsensor-screen-page class="page" ?active="${this.page === 'linearaccelerationsensor-screen'}"></linearaccelerationsensor-screen-page>
+            <gyroscope-page class="page" ?active="${this.page === 'gyroscope'}"></gyroscope-page>
+            <absoluteorientationsensor-page class="page" ?active="${this.page === 'absoluteorientationsensor'}"></absoluteorientationsensor-page>
+            <relativeorientationsensor-page class="page" ?active="${this.page === 'relativeorientationsensor'}"></relativeorientationsensor-page>
+            <ambientlightsensor-page class="page" ?active="${this.page === 'ambientlightsensor'}"></ambientlightsensor-page>
+            <magnetometer-page class="page" ?active="${this.page === 'magnetometer'}"></magnetometer-page>
+          </main>
         </app-header-layout>
       </app-drawer-layout>
     `;
-  }
-
-  static get observers() {
-    return ['_routePageChanged(routeData.page)'];
-  }
-
-  _routePageChanged(page) {
-    this.page = page || 'accelerometer';
-    if (!this.$.drawer.persistent) {
-      this.$.drawer.close();
-    }
   }
 }
 
