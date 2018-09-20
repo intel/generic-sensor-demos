@@ -7,17 +7,10 @@ import '@polymer/app-layout/app-header/app-header';
 import '@polymer/app-layout/app-header-layout/app-header-layout';
 import '@polymer/app-layout/app-scroll-effects/app-scroll-effects';
 import '@polymer/app-layout/app-toolbar/app-toolbar';
-import '@polymer/app-layout/app-scroll-effects/app-scroll-effects';
 import {LitElement, html} from '@polymer/lit-element';
 import {installRouter} from '../node_modules/pwa-helpers/router.js';
 
-export const menuIcon = html`<svg height="24" viewBox="0 0 24 24" width="24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>`;
-
-createPage('page-1', {
-  src: "src/tests/accelerometer.json",
-  sensorType: "Accelerometer",
-  referenceFrame: "device"
-});
+const menuIcon = html`<svg height="24" viewBox="0 0 24 24" width="24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>`;
 
 const loadPage = (page) => {
   switch(page) {
@@ -140,7 +133,7 @@ class SensorTester extends LitElement {
           text-decoration: none;
           color: var(--app-secondary-color);
           padding: 0 18px;
-          line-height: 42px;
+          height: 52px;
         }
 
         .page {
@@ -171,31 +164,31 @@ class SensorTester extends LitElement {
           <app-toolbar>Choose sensor:</app-toolbar>
           <nav class="drawer-list">
             <a ?selected="${this.page === 'accelerometer'}" href="accelerometer">
-              Accelerometer<sub>device</sub>
+              Accelerometer<br><small>device coordinates</small>
             </a>
             <a ?selected="${this.page === 'accelerometer-screen'}" href="accelerometer-screen">
-              Accelerometer<sub>screen</sub>
+              Accelerometer<br><small>screen coordinates</small>
             </a>
             <a ?selected="${this.page === 'linearaccelerationsensor'}" href="linearaccelerationsensor">
-              LinearAccelerationSensor<sub>device</sub>
+              LinearAccelerationSensor<br><small>device coordinates</small>
             </a>
             <a ?selected="${this.page === 'linearaccelerationsensor-screen'}" href="linearaccelerationsensor-screen">
-              LinearAccelerationSensor<sub>screen</sub>
+              LinearAccelerationSensor<br><small>screen coordinates</small>
             </a>
             <a ?selected="${this.page === 'gyroscope'}" href="gyroscope">
-              Gyroscope<sub>device</sub>
+              Gyroscope<br><small>device coordinates</small>
             </a>
             <a ?selected="${this.page === 'absoluteorientationsensor'}" href="absoluteorientationsensor">
-              AbsoluteOrientationSensor<sub>device</sub>
+              AbsoluteOrientationSensor<br><small>device coordinates</small>
             </a>
             <a ?selected="${this.page === 'relativeorientationsensor'}" href="relativeorientationsensor">
-              RelativeOrientationSensor<sub>device</sub>
+              RelativeOrientationSensor<br><small>device coordinates</small>
             </a>
             <a ?selected="${this.page === 'magnetometer'}" href="magnetometer">
-              Magnetometer<sub>device</sub>
+              Magnetometer<br><small>device coordinates</small>
             </a>
             <a ?selected="${this.page === 'ambientlightsensor'}" href="ambientlightsensor">
-              AmbientLightSensor<sub>device</sub>
+              AmbientLightSensor<br><small>device coordinates</small>
             </a>
           </nav>
         </app-drawer>

@@ -6,9 +6,15 @@
     "src/**/*",
     "images/**/*"
   ],
+  "fragments": [
+    "src/sensor-tests-page.js"
+  ],
   "extraDependencies": [
     "manifest.json",
-    "node_modules/@webcomponents/webcomponentsjs/*.js"
+    "node_modules/@webcomponents/webcomponentsjs/*.js",
+    "node_modules/@polymer/lit-element/**/*.js",
+    "node_modules/@polymer/app-layout/**/*.js",
+    "node_modules/pwa-helpers/router.js"
   ],
   "lint": {
     "rules": ["polymer-3"]
