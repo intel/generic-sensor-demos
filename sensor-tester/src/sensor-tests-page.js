@@ -10,8 +10,8 @@ class SensorTestsPage extends LitElement {
     return {
       frequency: {type: Number},
       referenceFrame: {type: String},
-      sensorType: {type: String},
-      tests: {type: String},
+      type: {type: String},
+      src: {type: String},
       isSupported: {type: String},
       items: {type: Array}
     };
@@ -19,10 +19,25 @@ class SensorTestsPage extends LitElement {
 
   constructor() {
     super();
-    this.frequency = 10;
+    this.frequency = 60;
     this.referenceFrame = "device";
     this.isSupported = "supported";
     this.items = [];
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const target = entry.target;
+          fetch(this.src).then(response => response.json()).then(json => {
+            this.items = json;
+            console.log("Loading data file:", this.src)
+            this.requestUpdate('items');
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    });
+    observer.observe(this);
   }
 
   get sensor() {
@@ -65,13 +80,8 @@ class SensorTestsPage extends LitElement {
   }
 
   firstUpdated() {
-    fetch(this.tests).then(response => response.json()).then(json => {
-      this.items = json;
-      this.requestUpdate('items');
-    });
-
-    if (this.sensorType in window) {
-      this.sensor_ = new window[this.sensorType]({
+    if (this.type in window) {
+      this.sensor_ = new window[this.type]({
         frequency: this.frequency,
         referenceFrame: this.referenceFrame
       });

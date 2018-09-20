@@ -16,17 +16,12 @@ Make sure you have following dependencies installed:
  + [Polymer CLI](https://www.npmjs.com/package/polymer-cli) ``` npm install -g polymer-cli ```
  + For deployment to Google App Engine, install [SDK for App Engine](https://cloud.google.com/appengine/downloads).
 
-## Install Bower dependencies
-
-If you have polymer-cli installed, you should have bower module, if not, install bower Node.js module.
-```
-npm install -g bower
-```
+## Install NPM dependencies
 
 Install polymer components that are required for the project.
 
 ```
-bower install
+npm install
 ```
 
 ## Viewing Your Application

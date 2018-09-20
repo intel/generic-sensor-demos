@@ -1,4 +1,3 @@
-import { createPage } from "./create-page.js"
 import "./sensor-tests-page.js";
 
 import '@polymer/app-layout/app-drawer/app-drawer';
@@ -11,71 +10,6 @@ import {LitElement, html} from '@polymer/lit-element';
 import {installRouter} from '../node_modules/pwa-helpers/router.js';
 
 const menuIcon = html`<svg height="24" viewBox="0 0 24 24" width="24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>`;
-
-const loadPage = (page) => {
-  switch(page) {
-    case 'accelerometer':
-      createPage('page-1', {
-        src: "src/tests/accelerometer.json",
-        sensorType: "Accelerometer",
-        referenceFrame: "device"
-      });
-      break;
-    case 'accelerometer-screen':
-      createPage('page-2', {
-        src: "src/tests/accelerometer-screen.json",
-        sensorType: "Accelerometer",
-        referenceFrame: "screen"
-      });
-      break;
-    case 'linearaccelerationsensor':
-      createPage('page-3', {
-        src: "src/tests/linearaccelerationsensor.json",
-        sensorType: "LinearAccelerationSensor",
-        referenceFrame: "device"
-      });
-      break;
-    case 'linearaccelerationsensor-screen':
-      createPage('page-4', {
-        src: "src/tests/linearaccelerationsensor-screen.json",
-        sensorType: "LinearAccelerationSensor",
-        referenceFrame: "screen"
-      });
-      break;
-    case 'gyroscope':
-      createPage('page-5', {
-        src: "src/tests/gyroscope.json",
-        sensorType: "Gyroscope"
-      });
-      break;
-    case 'absoluteorientationsensor':
-      createPage('page-6', {
-        src: "src/tests/absoluteorientationsensor.json",
-        sensorType: "AbsoluteOrientationSensor"
-      });
-      break;
-    case 'relativeorientationsensor':
-      createPage('page-7', {
-        src: "src/tests/relativeorientationsensor.json",
-        sensorType: "RelativeOrientationSensor"
-      });
-      break;
-    case 'magnetometer':
-      createPage('page-8', {
-        src: "src/tests/magnetometer.json",
-        sensorType: "Magnetometer",
-        frequency: 10
-      });
-      break;
-    case 'ambientlightsensor':
-      createPage('page-9', {
-        src: "src/tests/ambientlightsensor.json",
-        sensorType: "AmbientLightSensor",
-        frequency: 10
-      });
-      break;
-  }
-}
 
 class SensorTester extends LitElement {
   static get properties() {
@@ -92,7 +26,6 @@ class SensorTester extends LitElement {
 
       const parts = pathname.slice(1).split('/');
       this.page = parts[parts.length - 1] || 'accelerometer';
-      loadPage(this.page);
       this.drawerOpened = false || (this.drawer && this.drawer.persistent);
     });
   }
@@ -203,15 +136,55 @@ class SensorTester extends LitElement {
           </app-header>
 
           <main role="main" class="main-content">
-            <page-1 class="page" ?active="${this.page === 'accelerometer'}"></page-1>
-            <page-2 class="page" ?active="${this.page === 'accelerometer-screen'}"></page-2>
-            <page-3 class="page" ?active="${this.page === 'linearaccelerationsensor'}"></page-3>
-            <page-4 class="page" ?active="${this.page === 'linearaccelerationsensor-screen'}"></page-4>
-            <page-5 class="page" ?active="${this.page === 'gyroscope'}"></page-5>
-            <page-6 class="page" ?active="${this.page === 'absoluteorientationsensor'}"></page-6>
-            <page-7 class="page" ?active="${this.page === 'relativeorientationsensor'}"></page-7>
-            <page-8 class="page" ?active="${this.page === 'magnetometer'}"></page-8>
-            <page-9 class="page" ?active="${this.page === 'ambientlightsensor'}"></page-9>
+            <sensor-tests-page class="page"
+              type="Accelerometer"
+              src="src/tests/accelerometer.json"
+              ?active="${this.page === 'accelerometer'}">
+            </sensor-tests-page>
+            <sensor-tests-page class="page"
+              type="Accelerometer"
+              src="src/tests/accelerometer-screen.json"
+              referenceFrame="screen"
+              ?active="${this.page === 'accelerometer-screen'}">
+            </sensor-tests-page>
+            <sensor-tests-page class="page"
+              type="LinearAccelerationSensor"
+              src="src/tests/linearaccelerationsensor.json"
+              ?active="${this.page === 'linearaccelerationsensor'}">
+            </sensor-tests-page>
+            <sensor-tests-page class="page"
+              type="LinearAccelerationSensor"
+              src="src/tests/linearaccelerationsensor-screen.json"
+              referenceFrame="screen"
+              ?active="${this.page === 'linearaccelerationsensor-screen'}">
+            </sensor-tests-page>
+            <sensor-tests-page class="page"
+              type="Gyroscope"
+              src="src/tests/gyroscope.json"
+              ?active="${this.page === 'gyroscope'}">
+            </sensor-tests-page>
+            <sensor-tests-page class="page"
+              type="AbsoluteOrientationSensor"
+              src="src/tests/absoluteorientationsensor.json"
+              ?active="${this.page === 'absoluteorientationsensor'}">
+            </sensor-tests-page>
+            <sensor-tests-page class="page"
+              type="RelativeOrientationSensor"
+              src="src/tests/relativeorientationsensor.json"
+              ?active="${this.page === 'relativeorientationsensor'}">
+            </sensor-tests-page>
+            <sensor-tests-page class="page"
+              type="Magnetometer"
+              src="src/tests/magnetometer.json"
+              frequency="10"
+              ?active="${this.page === 'magnetometer'}">
+            </sensor-tests-page>
+            <sensor-tests-page class="page"
+              type="AmbientLightSensor"
+              src="src/tests/ambientlightsensor.json"
+              frequency="10"
+              ?active="${this.page === 'ambientlightsensor'}">
+            </sensor-tests-page>
           </main>
         </app-header-layout>
       </app-drawer-layout>

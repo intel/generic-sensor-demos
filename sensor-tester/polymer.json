@@ -7,14 +7,10 @@
     "images/**/*"
   ],
   "fragments": [
-    "src/sensor-tests-page.js"
   ],
   "extraDependencies": [
     "manifest.json",
-    "node_modules/@webcomponents/webcomponentsjs/*.js",
-    "node_modules/@polymer/lit-element/**/*.js",
-    "node_modules/@polymer/app-layout/**/*.js",
-    "node_modules/pwa-helpers/router.js"
+    "node_modules/@webcomponents/webcomponentsjs/*.js"
   ],
   "lint": {
     "rules": ["polymer-3"]
@@ -23,7 +19,6 @@
     {
       "name": "bundled",
       "preset": "es6-bundled",
-      "basePath": "generic-sensor-demos/sensor-tester/build/bundled",
       "js": {"minify": true, "compile": true},
       "css": {"minify": true},
       "html": {"minify": true},
