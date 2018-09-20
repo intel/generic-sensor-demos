@@ -14,8 +14,7 @@ const menuIcon = html`<svg height="24" viewBox="0 0 24 24" width="24"><path d="M
 class SensorTester extends LitElement {
   static get properties() {
     return {
-      page: {type: String},
-      drawerOpened: {type: Boolean}
+      page: {type: String}
     };
   }
 
@@ -26,7 +25,9 @@ class SensorTester extends LitElement {
 
       const parts = pathname.slice(1).split('/');
       this.page = parts[parts.length - 1] || 'accelerometer';
-      this.drawerOpened = false || (this.drawer && this.drawer.persistent);
+      if (this.drawer && !this.drawer.persistent) {
+        this.drawer.close();
+      }
     });
   }
 
@@ -92,8 +93,7 @@ class SensorTester extends LitElement {
       </style>
 
       <app-drawer-layout fullbleed>
-        <app-drawer id="drawer" slot="drawer" .opened="${this.drawerOpened}"
-            @opened-changed="${e => this.drawerOpened = e.target.opened}">
+        <app-drawer id="drawer" slot="drawer">
           <app-toolbar>Choose sensor:</app-toolbar>
           <nav class="drawer-list">
             <a ?selected="${this.page === 'accelerometer'}" href="accelerometer">
@@ -130,7 +130,11 @@ class SensorTester extends LitElement {
           <app-header slot="header" condenses reveals effects="waterfall">
             <app-toolbar>
               <button class="menu-btn" aria-label="Menu" drawer-toggle
-                @click="${() => this.drawerOpened = true}">${menuIcon}</button>
+                @click="${(ev) => {
+                  this.drawer.toggle();
+                  // Stop propagation as a click outside drawer will close it!
+                  ev.stopPropagation();
+                }}">${menuIcon}</button>
               <div main-title>Sensor tester</div>
             </app-toolbar>
           </app-header>
