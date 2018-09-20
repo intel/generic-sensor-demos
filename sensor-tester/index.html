@@ -3,10 +3,7 @@
   <head>
     <title>Sensor tester</title>
 
-    <!-- Origin Trial Token, feature = Generic Sensors, origin = https://intel.github.io, expires = 2018-02-27 -->
-    <meta http-equiv="origin-trial" data-feature="Generic Sensors" data-expires="2018-02-27" content="AjL+UlBzLjx+0FPXrML6IMA/Ax9GsO/7rUvV/aaKkh3KknUSwDBgymn0d3NhGeRMNS7FlYD73ernqvZNoqzNMw4AAABWeyJvcmlnaW4iOiJodHRwczovL2ludGVsLmdpdGh1Yi5pbzo0NDMiLCJmZWF0dXJlIjoiR2VuZXJpY1NlbnNvciIsImV4cGlyeSI6MTUxOTczOTAwNX0=">
-
-    <base id="basePath" href="/">
+    <base href="/">
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
@@ -24,36 +21,35 @@
     <meta name="msapplication-TileImage" content="images/app-icon-144.png">
     <meta name="msapplication-TileColor" content="#0071c5">
     <meta name="msapplication-tap-highlight" content="no">
-
-    <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+  
+    <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
 
     <script>
-      window.Polymer = {rootPath: new URL(document.getElementById('basePath').href).pathname};
       if ('serviceWorker' in navigator) {
+        const basePath = location.href.substr(0, location.href.lastIndexOf("/") + 1);
         window.addEventListener('load', function() {
           navigator.serviceWorker.register('service-worker.js', {
-            scope: Polymer.rootPath,
+            scope: basePath
           });
         });
       }
     </script>
 
-    <link rel="import" href="src/sensor-tester.html">
+    <script type="module" src="src/sensor-tester.js"></script>
 
     <style>
-        body {
-            margin: 0;
-            font-family: 'Roboto', 'Noto', sans-serif;
-            background-color: #eee;
-            height: 100vh;
-        }
+      body {
+        margin: 0;
+        font-family: 'Roboto', 'Noto', sans-serif;
+        background-color: #eee;
+        height: 100vh;
+      }
     </style>
-
   </head>
   <body>
     <sensor-tester></sensor-tester>
     <noscript>
-        Please enable JavaScript to view this website.
+      Please enable JavaScript to view this website.
     </noscript>
   </body>
 </html>
