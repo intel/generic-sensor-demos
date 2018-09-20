@@ -3,6 +3,7 @@ import "@material/mwc-button";
 import "@polymer/paper-spinner/paper-spinner-lite";
 import "@polymer/paper-styles/color";
 import "./orientation-changer.js";
+import "./lazy-image.js"
 
 class SensorTestsPage extends LitElement {
   static get properties() {
@@ -249,7 +250,7 @@ class SensorTestsPage extends LitElement {
               </div>
               <div class="description">${item.description}</div>
               <div class="image">
-                <img src="${item.illustration}" decoding="async">
+                <lazy-image src="${item.illustration}"></lazy-image>
               </div>
             </div>
           </div>
