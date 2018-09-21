@@ -83,12 +83,21 @@ class SensorTester extends LitElement {
           width: 40px;
           height: 40px;
           padding: 8px;
+          outline: none;
+          user-select: none;
           box-sizing: border-box;
           background: none;
           border: none;
           fill: var(--app-header-text-color);
+          color: var(--app-header-text-color);
           cursor: pointer;
+          -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+          -webkit-tap-highlight-color: transparent;
           text-decoration: none;
+        }
+
+        .menu-btn svg {
+          fill: currentColor;
         }
       </style>
 
