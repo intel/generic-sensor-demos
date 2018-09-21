@@ -5,6 +5,12 @@ import "@material/mwc-formfield/mwc-formfield.js";
 import "@material/mwc-button/mwc-button.js";
 
 export class OrientationChanger extends LitElement {
+  static get properties() {
+    return {
+      log: {type:String}
+    }
+  }
+
   constructor() {
     super();
     const docEl = document.documentElement;
@@ -12,28 +18,48 @@ export class OrientationChanger extends LitElement {
       || docEl.mozRequestFullScreen || docEl.msRequestFullscreen;
     this._cancelFullScreen = document.exitFullscreen || document.webkitExitFullscreen
       || document.mozCancelFullScreen || document.msExitFullscreen;
-    this._orientation = screen.msOrientation || (screen.orientation || screen.mozOrientation || {});
+
+    this.isChangedByMe = false;
+    this.log = '';
+
+    screen.orientation.addEventListener('change', () => {
+      if (!this.isChangedByMe) {
+        this.shadowRoot.querySelector('#one').checked = true;
+      }
+      // The event listener is called after lock() promise resolves.
+      this.isChangedByMe = false;
+    });
   }
 
   async lock(orientation) {
+    this.log = '';
+    this.isChangedByMe = true;
     this._requestFullScreen.call(document.documentElement);
     try {
-      await this._orientation.lock(orientation);
+      await screen.orientation.lock(orientation);
+      // Chrome/Android bug: Accepts lock to portrait-secondary but doesn't
+      // rotate and sent 'change' event.
+      setTimeout(() => {
+        this.isChangedByMe = false;
+      }, 500);
     } catch(err) {
-      console.log("screen.orientation.lock() is not available on this device.");
+      console.log("Cannot lock to the requested orientation.");
+      this.log = "Failed";
       this._cancelFullScreen.call(document);
+      this.shadowRoot.querySelector('#one').checked = true;
+      this.isChangedByMe = false;
     };
   }
 
   unlock() {
-    this._orientation.unlock();
+    screen.orientation.unlock();
     this._cancelFullScreen.call(document);
-    this.shadowRoot.querySelector('#one').checked = true;
   }
 
   render() {
     return html`
       <div>If the device supports it, lock to desired orientation before running the tests.</div>
+      ${this.log}
       <mwc-formfield label="0˚">
       <mwc-radio id="one" name="o" @click="${() => this.lock('portrait-primary')}" checked></mwc-radio>
       </mwc-formfield>
