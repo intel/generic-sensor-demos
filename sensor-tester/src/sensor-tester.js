@@ -25,6 +25,14 @@ class SensorTester extends LitElement {
 
       const parts = pathname.slice(1).split('/');
       this.page = parts[parts.length - 1] || 'accelerometer';
+
+      if (screen.orientation) {
+        screen.orientation.unlock();
+      }
+      const exitFullscreen = document.exitFullscreen || document.webkitExitFullscreen
+        || document.mozCancelFullScreen || document.msExitFullscreen;
+      exitFullscreen.call(document);
+
       if (this.drawer && !this.drawer.persistent) {
         this.drawer.close();
       }

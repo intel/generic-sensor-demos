@@ -243,7 +243,7 @@ class SensorTestsPage extends LitElement {
   
       <div class="${classMap({'hidden': this.isSupported})}">Sensor is not supported by the browser or the device.</div>
       <div class="${classMap({'hidden': !this.isSupported})}">
-        <div class="${this.referenceFrame}">
+        <div class="${classMap({'hidden': this.referenceFrame === 'device' || !screen.orientation})}">
           <orientation-changer></orientation-changer>
         </div>
 
