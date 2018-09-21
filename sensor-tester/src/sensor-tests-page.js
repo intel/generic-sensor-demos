@@ -1,4 +1,5 @@
 import {LitElement, html} from '@polymer/lit-element';
+import {classMap} from 'lit-html/directives/classMap';
 import "@material/mwc-button";
 import "@polymer/paper-spinner/paper-spinner-lite";
 import "@polymer/paper-styles/color";
@@ -12,7 +13,7 @@ class SensorTestsPage extends LitElement {
       referenceFrame: {type: String},
       type: {type: String},
       src: {type: String},
-      isSupported: {type: String},
+      isSupported: {type: Boolean},
       items: {type: Array}
     };
   }
@@ -21,7 +22,7 @@ class SensorTestsPage extends LitElement {
     super();
     this.frequency = 60;
     this.referenceFrame = "device";
-    this.isSupported = "supported";
+    this.isSupported = true;
     this.items = [];
 
     const observer = new IntersectionObserver((entries, observer) => {
@@ -93,7 +94,7 @@ class SensorTestsPage extends LitElement {
 
       this.sensor_.onerror = e => {
         if (e.error.name === 'NotReadableError') {
-          this.isSupported = "not-supported";
+          this.isSupported = false;
           this.referenceFrame = "device";
           this.items = [];
           this.requestUpdate('items');
@@ -102,7 +103,7 @@ class SensorTestsPage extends LitElement {
 
       this.sensor_.start();
     } else {
-      this.isSupported = "not-supported";
+      this.isSupported = false;
       this.referenceFrame = "device";
     }
   }
@@ -160,15 +161,11 @@ class SensorTestsPage extends LitElement {
           padding: 10px;
         }
   
-        div.not-supported {
-          display: block;
-        }
-  
-        div.supported {
+        div.device {
           display: none;
         }
-  
-        div.device {
+
+        div.hidden {
           display: none;
         }
   
@@ -244,27 +241,28 @@ class SensorTestsPage extends LitElement {
         }
       </style>
   
-      <div class="${this.isSupported}">Sensor is not supported by the browser or the device.</div>
+      <div class="${classMap({'hidden': this.isSupported})}">Sensor is not supported by the browser or the device.</div>
+      <div class="${classMap({'hidden': !this.isSupported})}">
+        <div class="${this.referenceFrame}">
+          <orientation-changer></orientation-changer>
+        </div>
 
-      <div class="${this.referenceFrame}">
-        <orientation-changer></orientation-changer>
-      </div>
-
-      ${this.items.map((item, index) => html`
-          <div>
-            <div class="item">
-              <div class="header">
-                <div class="title"><h1>${item.name}</h1></div>
-                <paper-spinner-lite ?active="${this.isTestRunning(item.state)}" class="green"></paper-spinner-lite>
-                <mwc-button raised @click="${() => this.runTest(index)}" class="${item.state}" label="${this.getItemText(item.state)}"></mwc-button>
-              </div>
-              <div class="description">${item.description}</div>
-              <div class="image">
-                <lazy-image src="${item.illustration}"></lazy-image>
+        ${this.items.map((item, index) => html`
+            <div>
+              <div class="item">
+                <div class="header">
+                  <div class="title"><h1>${item.name}</h1></div>
+                  <paper-spinner-lite ?active="${this.isTestRunning(item.state)}" class="green"></paper-spinner-lite>
+                  <mwc-button raised @click="${() => this.runTest(index)}" class="${item.state}" label="${this.getItemText(item.state)}"></mwc-button>
+                </div>
+                <div class="description">${item.description}</div>
+                <div class="image">
+                  <lazy-image src="${item.illustration}"></lazy-image>
+                </div>
               </div>
             </div>
-          </div>
-      `)}
+        `)}
+      </div>
     `;
   }
 }
