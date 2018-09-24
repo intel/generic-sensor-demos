@@ -5,6 +5,7 @@ import "@polymer/paper-spinner/paper-spinner-lite";
 import "@polymer/paper-styles/color";
 import "./orientation-changer.js";
 import "./lazy-image.js"
+import {idleUntilVisible} from "./idle-until-visible.js";
 
 class SensorTestsPage extends LitElement {
   static get properties() {
@@ -23,22 +24,19 @@ class SensorTestsPage extends LitElement {
     this.frequency = 60;
     this.referenceFrame = "device";
     this.isSupported = true;
-    this.items = [];
+    this.items = null;
 
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const target = entry.target;
-          fetch(this.src).then(response => response.json()).then(json => {
-            this.items = json;
-            console.log("Loading data file:", this.src)
-            this.requestUpdate('items');
-          });
-          observer.unobserve(entry.target);
-        }
-      });
+    idleUntilVisible(this, async () => {
+      const response = await fetch(this.src);
+      if (!response.ok) {
+        console.error("File doesn't exist", this.src);
+        return;
+      }
+      const json = await response.json();
+      this.items = json;
+      console.log("Loading data file:", this.src)
+      this.requestUpdate('items');
     });
-    observer.observe(this);
   }
 
   get sensor() {
@@ -247,7 +245,7 @@ class SensorTestsPage extends LitElement {
           <orientation-changer></orientation-changer>
         </div>
 
-        ${this.items.map((item, index) => html`
+        ${this.items && this.items.map((item, index) => html`
             <div>
               <div class="item">
                 <div class="header">

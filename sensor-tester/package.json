@@ -5,7 +5,7 @@
   "main": "index.html",
   "dependencies": {
     "@material/mwc-button": "^0.2.0",
-    "@material/mwc-formfield": "^0.2.0",
+    "@material/mwc-formfield": "^0.2.1",
     "@material/mwc-radio": "^0.2.0",
     "@polymer/app-layout": "^3.0.1",
     "@polymer/lit-element": "^0.6.1",
