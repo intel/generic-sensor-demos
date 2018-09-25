@@ -5,20 +5,17 @@ const lazyObserver = new IntersectionObserver((entries, observer) => {
     if (entry.isIntersecting) {
       const lazyImage = entry.target;
       lazyImage.src = lazyImage.dataset.src;
-      lazyImage.srcset = lazyImage.dataset.srcset || '';
-      lazyImage.classList.remove("lazy");
+      lazyImage.onload = () => {
+        lazyImage.classList.remove("lazy");
+      }
       observer.unobserve(lazyImage);
     }
   });
 });
 
-const fallback = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'><path d='M0,0h1v1H0' fill='%23fff'/></svg>`;
-
 customElements.define("lazy-image", class extends LitElement {
   static get properties() {
-    return {
-      src: {type:String}
-    }
+    return { src: {type:String}}
   }
 
   firstUpdated() {
@@ -39,11 +36,12 @@ customElements.define("lazy-image", class extends LitElement {
           object-fit: cover
         }
         .lazy {
-          display: hidden;
+          visibility: hidden;
         }
       </style>
-      <img data-src="${this.src}" src="${fallback}" decoding="async" class="lazy"
-        @error="${ev => ev.target.src = fallback}">
+      <img data-src="${this.src}"
+        decoding="async" class="lazy"
+        @error="${ev => console.error(`Couldn't load ${this.src}`)}">
     `;
   }
 });
