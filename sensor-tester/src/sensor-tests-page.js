@@ -32,10 +32,8 @@ class SensorTestsPage extends LitElement {
         console.error("File doesn't exist", this.src);
         return;
       }
-      const json = await response.json();
-      this.items = json;
+      this.items = await response.json();
       console.log("Loading data file:", this.src)
-      this.requestUpdate('items');
     });
   }
 
