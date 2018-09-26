@@ -4,15 +4,17 @@
       "description":  "Test that sensor reports high illuminance when device is around a bright environment.",
       "illustration": "src/tests/als_day.png",
       "duration":     3,
-      "expected":     { "illuminance": {"min": 100} },
-      "epsilon":      0
+      "expected":     { "illuminance": 100 },
+      "epsilon":      0,
+      "comparison":   "min"
     },
     {
       "name":         "Test night mode",
       "description":  "Test that sensor reports very low illuminance when sensor is covered by hand.",
       "illustration": "src/tests/als_night.png",
       "duration":     3,
-      "expected":     { "illuminance": {"max": 5} },
-      "epsilon":      0
+      "expected":     { "illuminance": 5 },
+      "epsilon":      0,
+      "comparison":   "max"
     }
 ]

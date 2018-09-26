@@ -115,29 +115,41 @@ class SensorTestsPage extends LitElement {
       this.testFailed(index);
     }, item.duration * 1000);
 
-    const compareReadings = (val, exp, eps) => {
-      if (typeof exp == 'object' && "min" in exp) {
-        return val >= exp.min;
+    /**
+     * Campare sensor reading values.
+     *
+     * @param {array|number} val Actual reading values.
+     * @param {array|number} exp expected reading values.
+     * @param {number} eps The allowable epsilon against expected values.
+     * @param {string} cmp Comparision type: "min"/"max"/"absolute".
+     */
+    const compareReadings = (val, exp, eps, cmp = '') => {
+      // compare number values
+      if (typeof val === 'number' && typeof exp === 'number') {
+        if (cmp === 'min') {
+          return val >= exp;
+        }
+        else if (cmp === 'max') {
+          return val <= exp;
+        }
+        else {
+          return Math.abs(val - exp) < eps;
+        }
       }
-      else if (typeof exp == 'object' && "max" in exp) {
-        return val <= exp.max;
-      }
-      else if (typeof exp == 'object' && "abs" in exp) {
-        if (val instanceof Array && exp.abs instanceof Array) {
-          if (val.length != exp.abs.length) {
+      // compare array values
+      else if (val instanceof Array && exp instanceof Array) {
+        if (val.length !== exp.length) {
+          return false;
+        }
+        for (const [index, value] of val.entries()) {
+          if (!compareReadings(Math.abs(value), Math.abs(exp[index]), eps) && cmp === 'absolute') {
             return false;
           }
-          return Object.keys(val).every(key => compareReadings(Math.abs(val[key]), Math.abs(exp.abs[key]), eps));
-        }
-        return false;
-      }
-      else if (val instanceof Array && exp instanceof Array) {
-        if (val.length != exp.length) {
+          else if (!compareReadings(value, exp[index], eps)) {
             return false;
+          }
         }
-        return Object.keys(val).every(key => compareReadings(val[key], exp[key], eps));
-      } else if (typeof exp === 'number' && typeof val === 'number' ) {
-        return Math.abs(val - exp) < eps;
+        return true;
       }
 
       return false;
@@ -146,36 +158,36 @@ class SensorTestsPage extends LitElement {
     // if sensor value is same as expectation, pass test
     this.items[index].handler = () => {
       if (Object.keys(item.expected).every(
-          key => compareReadings(this.sensor[key], item.expected[key], item.epsilon))) {
+          key => compareReadings(this.sensor[key], item.expected[key], item.epsilon, item.comparison))) {
           this.testPassed(index);
       }
     }
 
-    // Test rotation measurement for relativeOrientationSensor
-    if (item.expected == 'none') {
-      //set timeout to get stable sensor reading
+    // test rotation measurement for relativeOrientationSensor
+    if (item.expected === 'none') {
+      const timeToStabilize = 1000;
+      // set timeout to get stable sensor reading
       setTimeout( () => {
-        const angle = Math.acos(this.sensor.quaternion[3]) * 180 / Math.PI * 2;
-        const sin = (angle) => {
-          return Math.sin(angle / 2 * Math.PI / 180);
-        }
-        const cos = (angle) => {
-          return Math.cos(angle / 2 * Math.PI / 180);
-        }
-        const vx = this.sensor.quaternion[0] / sin(angle);
-        const vy = this.sensor.quaternion[1] / sin(angle);
-        const vz = this.sensor.quaternion[2] / sin(angle);
+        const toRadians = degrees => degrees * Math.PI / 180;
+        const toDegrees = radians => radians * 180 / Math.PI;
+
+        const angle = toDegrees(Math.acos(this.sensor.quaternion[3])) * 2;
+        const vx = this.sensor.quaternion[0] / Math.sin(toRadians(angle / 2));
+        const vy = this.sensor.quaternion[1] / Math.sin(toRadians(angle / 2));
+        const vz = this.sensor.quaternion[2] / Math.sin(toRadians(angle / 2));
+
         item.expected = {
-          "quaternion": { "abs": [
-            sin(angle + 90) * vx,
-            sin(angle + 90) * vy,
-            sin(angle + 90) * vz,
-            cos(angle + 90)
-          ] }
+          "quaternion": [
+            // rotate 90 degrees clockwise to measure expected sensor reading
+            Math.sin(toRadians((angle + 90) / 2)) * vx,
+            Math.sin(toRadians((angle + 90) / 2)) * vy,
+            Math.sin(toRadians((angle + 90) / 2)) * vz,
+            Math.cos(toRadians((angle + 90) / 2))
+          ]
         };
         // add onreading event listener to receive new events.
         this.sensor.addEventListener('reading', this.items[index].handler);
-      }, 1000);
+      }, timeToStabilize);
     } else {
       // add onreading event listener to receive new events.
       this.sensor.addEventListener('reading', this.items[index].handler);
