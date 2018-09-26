@@ -122,6 +122,15 @@ class SensorTestsPage extends LitElement {
       else if (typeof exp == 'object' && "max" in exp) {
         return val <= exp.max;
       }
+      else if (typeof exp == 'object' && "abs" in exp) {
+        if (val instanceof Array && exp.abs instanceof Array) {
+          if (val.length != exp.abs.length) {
+            return false;
+          }
+          return Object.keys(val).every(key => compareReadings(Math.abs(val[key]), Math.abs(exp.abs[key]), eps));
+        }
+        return false;
+      }
       else if (val instanceof Array && exp instanceof Array) {
         if (val.length != exp.length) {
             return false;
@@ -142,8 +151,35 @@ class SensorTestsPage extends LitElement {
       }
     }
 
-    // add onreading event listener to receive new events.
-    this.sensor.addEventListener('reading', this.items[index].handler);
+    // Test rotation measurement for relativeOrientationSensor
+    if (item.expected == 'none') {
+      //set timeout to get stable sensor reading
+      setTimeout( () => {
+        const angle = Math.acos(this.sensor.quaternion[3]) * 180 / Math.PI * 2;
+        const sin = (angle) => {
+          return Math.sin(angle / 2 * Math.PI / 180);
+        }
+        const cos = (angle) => {
+          return Math.cos(angle / 2 * Math.PI / 180);
+        }
+        const vx = this.sensor.quaternion[0] / sin(angle);
+        const vy = this.sensor.quaternion[1] / sin(angle);
+        const vz = this.sensor.quaternion[2] / sin(angle);
+        item.expected = {
+          "quaternion": { "abs": [
+            sin(angle + 90) * vx,
+            sin(angle + 90) * vy,
+            sin(angle + 90) * vz,
+            cos(angle + 90)
+          ] }
+        };
+        // add onreading event listener to receive new events.
+        this.sensor.addEventListener('reading', this.items[index].handler);
+      }, 1000);
+    } else {
+      // add onreading event listener to receive new events.
+      this.sensor.addEventListener('reading', this.items[index].handler);
+    }
 
     // start sensor
     this.sensor.start();
