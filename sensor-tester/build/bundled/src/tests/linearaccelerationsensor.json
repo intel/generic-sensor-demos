@@ -5,7 +5,7 @@
       "illustration": "src/tests/linaccel-rest.png",
       "duration":     3,
       "expected":     { "x": 0, "y": 0, "z": 0 },
-      "epsilon":      1
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
     },
     {
       "name":         "Test +X linear acceleration",
@@ -13,7 +13,7 @@
       "illustration": "src/tests/linaccel_+x.gif",
       "duration":     5,
       "expected":     { "x": 3.0 },
-      "epsilon":      1
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
     },
     {
       "name":         "Test -X linear acceleration",
@@ -21,6 +21,6 @@
       "illustration": "src/tests/linaccel_-x.gif",
       "duration":     5,
       "expected":     { "x": -3.0 },
-      "epsilon":      1
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
     }
 ]
