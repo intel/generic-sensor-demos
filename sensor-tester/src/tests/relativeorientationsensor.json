@@ -5,8 +5,7 @@
       "illustration": "src/tests/absoluteorien_+Y_north.png",
       "duration":     3,
       "expected":     { "quaternion": [0, 0, 0, 1] },
-      "epsilon":      0.1,
-      "comparison":   "absolute"
+      "isEqual":      "(a, b) => Math.abs(Math.abs(a) - Math.abs(b)) < 0.1"
     },
     {
       "name":         "Test 90 degrees rotation around Z",
@@ -14,6 +13,6 @@
       "illustration": "src/tests/absoluteorien_+Y_north.png",
       "duration":     6,
       "expected":     "none",
-      "epsilon":      0.1
+      "isEqual":      "(a, b) => Math.abs(Math.abs(a) - Math.abs(b)) < 0.1"
     }
 ]

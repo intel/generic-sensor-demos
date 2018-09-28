@@ -5,8 +5,7 @@
       "illustration": "src/tests/als_day.png",
       "duration":     3,
       "expected":     { "illuminance": 100 },
-      "epsilon":      0,
-      "comparison":   "min"
+      "isEqual":      "(a, b) => a >= b"
     },
     {
       "name":         "Test night mode",
@@ -14,7 +13,6 @@
       "illustration": "src/tests/als_night.png",
       "duration":     3,
       "expected":     { "illuminance": 5 },
-      "epsilon":      0,
-      "comparison":   "max"
+      "isEqual":      "(a, b) => a <= b"
     }
 ]

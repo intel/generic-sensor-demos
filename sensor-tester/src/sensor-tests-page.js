@@ -120,21 +120,13 @@ class SensorTestsPage extends LitElement {
      *
      * @param {array|number} val Actual reading values.
      * @param {array|number} exp expected reading values.
-     * @param {number} eps The allowable epsilon against expected values.
-     * @param {string} cmp Comparision type: "min"/"max"/"absolute".
+     * @param {Function} isEqual Function which compares the reading values
+     *                           and return a boolean result.
      */
-    const compareReadings = (val, exp, eps, cmp = '') => {
+    const compareReadings = (val, exp, isEqual) => {
       // compare number values
       if (typeof val === 'number' && typeof exp === 'number') {
-        if (cmp === 'min') {
-          return val >= exp;
-        }
-        else if (cmp === 'max') {
-          return val <= exp;
-        }
-        else {
-          return Math.abs(val - exp) < eps;
-        }
+        return isEqual(val, exp);
       }
       // compare array values
       else if (val instanceof Array && exp instanceof Array) {
@@ -142,10 +134,7 @@ class SensorTestsPage extends LitElement {
           return false;
         }
         for (const [index, value] of val.entries()) {
-          if (!compareReadings(Math.abs(value), Math.abs(exp[index]), eps) && cmp === 'absolute') {
-            return false;
-          }
-          else if (!compareReadings(value, exp[index], eps)) {
+          if (!compareReadings(value, exp[index], isEqual)) {
             return false;
           }
         }
@@ -158,7 +147,7 @@ class SensorTestsPage extends LitElement {
     // if sensor value is same as expectation, pass test
     this.items[index].handler = () => {
       if (Object.keys(item.expected).every(
-          key => compareReadings(this.sensor[key], item.expected[key], item.epsilon, item.comparison))) {
+          key => compareReadings(this.sensor[key], item.expected[key], eval(item.isEqual)))) {
           this.testPassed(index);
       }
     }
