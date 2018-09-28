@@ -5,7 +5,7 @@
       "illustration": "src/tests/gyro-rest.png",
       "duration":     3,
       "expected":     { "x": 0, "y": 0, "z": 0 },
-      "epsilon":      1
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
     },
     {
       "name":         "Test +Z angular velocity",
@@ -13,7 +13,7 @@
       "illustration": "src/tests/gyro_+z.gif",
       "duration":     5,
       "expected":     { "z": 5.0 },
-      "epsilon":      1
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
     },
     {
       "name":         "Test -Z angular velocity",
@@ -21,7 +21,7 @@
       "illustration": "src/tests/gyro_-z.gif",
       "duration":     5,
       "expected":     { "z": -5.0 },
-      "epsilon":      1
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
     },
     {
       "name":         "Test +X angular velocity",
@@ -29,7 +29,7 @@
       "illustration": "src/tests/gyro_+x.gif",
       "duration":     5,
       "expected":     { "x": 5.0 },
-      "epsilon":      1
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
     },
     {
       "name":         "Test -X angular velocity",
@@ -37,7 +37,7 @@
       "illustration": "src/tests/gyro_-x.gif",
       "duration":     5,
       "expected":     { "x": -5.0 },
-      "epsilon":      1
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
     },
     {
       "name":         "Test +Y angular velocity",
@@ -45,7 +45,7 @@
       "illustration": "src/tests/gyro_+y.gif",
       "duration":     5,
       "expected":     { "y": 5.0 },
-      "epsilon":      1
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
     },
     {
       "name":         "Test -Y angular velocity",
@@ -53,6 +53,6 @@
       "illustration": "src/tests/gyro_-y.gif",
       "duration":     5,
       "expected":     { "y": -5.0 },
-      "epsilon":      1
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
     }
 ]

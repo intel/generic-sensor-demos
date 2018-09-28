@@ -5,6 +5,6 @@
       "illustration": "src/tests/absoluteorien_+Y_north.png",
       "duration":     5,
       "expected":     { "quaternion": [0, 0, 0, 1.0] },
-      "epsilon":      0.1
+      "isEqual":      "(a, b) => Math.abs(a - b) < 0.1"
     }
 ]
