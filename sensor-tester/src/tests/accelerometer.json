@@ -5,7 +5,7 @@
       "illustration": "src/tests/accel_+z_gravity.png",
       "duration":     3,
       "expected":     { "x": 0, "y": 0, "z": 9.8 },
-      "epsilon":      1
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
     },
     {
       "name":         "Test -Z gravity",
@@ -13,7 +13,7 @@
       "illustration": "src/tests/accel_-z_gravity.png",
       "duration":     4,
       "expected":     { "x": 0, "y": 0, "z": -9.8 },
-      "epsilon":      1
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
     },
     {
       "name":         "Test +X gravity",
@@ -21,7 +21,7 @@
       "illustration": "src/tests/accel_+x_gravity.png",
       "duration":     3,
       "expected":     { "x": 9.8, "y": 0, "z": 0 },
-      "epsilon":      1
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
     },
     {
       "name":         "Test -X gravity",
@@ -29,7 +29,7 @@
       "illustration": "src/tests/accel_-x_gravity.png",
       "duration":     3,
       "expected":     { "x": -9.8, "y": 0, "z": 0 },
-      "epsilon":      1
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
     },
     {
       "name":         "Test +Y gravity",
@@ -37,7 +37,7 @@
       "illustration": "src/tests/accel_+y_gravity.png",
       "duration":     4,
       "expected":     { "x": 0, "y": 9.8, "z": 0 },
-      "epsilon":      1
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
     },
     {
       "name":         "Test -Y gravity",
@@ -45,7 +45,7 @@
       "illustration": "src/tests/accel_-y_gravity.png",
       "duration":     4,
       "expected":     { "x": 0, "y": -9.8, "z": 0 },
-      "epsilon":      1
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
     },
     {
       "name":         "Test +X acceleration",
@@ -53,7 +53,7 @@
       "illustration": "src/tests/accel_+x_acceleration.gif",
       "duration":     5,
       "expected":     { "x": 3.0 },
-      "epsilon":      1
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
     },
     {
       "name":         "Test -X acceleration",
@@ -61,6 +61,6 @@
       "illustration": "src/tests/accel_-x_acceleration.gif",
       "duration":     5,
       "expected":     { "x": -3.0 },
-      "epsilon":      1
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
     }
 ]

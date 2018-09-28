@@ -115,20 +115,30 @@ class SensorTestsPage extends LitElement {
       this.testFailed(index);
     }, item.duration * 1000);
 
-    const compareReadings = (val, exp, eps) => {
-      if (typeof exp == 'object' && "min" in exp) {
-        return val >= exp.min;
+    /**
+     * Campare sensor reading values.
+     *
+     * @param {array|number} val Actual reading values.
+     * @param {array|number} exp expected reading values.
+     * @param {Function} isEqual Function which compares the reading values
+     *                           and return a boolean result.
+     */
+    const compareReadings = (val, exp, isEqual) => {
+      // compare number values
+      if (typeof val === 'number' && typeof exp === 'number') {
+        return isEqual(val, exp);
       }
-      else if (typeof exp == 'object' && "max" in exp) {
-        return val <= exp.max;
-      }
+      // compare array values
       else if (val instanceof Array && exp instanceof Array) {
-        if (val.length != exp.length) {
-            return false;
+        if (val.length !== exp.length) {
+          return false;
         }
-        return Object.keys(val).every(key => compareReadings(val[key], exp[key], eps));
-      } else if (typeof exp === 'number' && typeof val === 'number' ) {
-        return Math.abs(val - exp) < eps;
+        for (const [index, value] of val.entries()) {
+          if (!compareReadings(value, exp[index], isEqual)) {
+            return false;
+          }
+        }
+        return true;
       }
 
       return false;
@@ -137,13 +147,40 @@ class SensorTestsPage extends LitElement {
     // if sensor value is same as expectation, pass test
     this.items[index].handler = () => {
       if (Object.keys(item.expected).every(
-          key => compareReadings(this.sensor[key], item.expected[key], item.epsilon))) {
+          key => compareReadings(this.sensor[key], item.expected[key], eval(item.isEqual)))) {
           this.testPassed(index);
       }
     }
 
-    // add onreading event listener to receive new events.
-    this.sensor.addEventListener('reading', this.items[index].handler);
+    // test rotation measurement for relativeOrientationSensor
+    if (item.expected === 'none') {
+      const timeToStabilize = 1000;
+      // set timeout to get stable sensor reading
+      setTimeout( () => {
+        const toRadians = degrees => degrees * Math.PI / 180;
+        const toDegrees = radians => radians * 180 / Math.PI;
+
+        const angle = toDegrees(Math.acos(this.sensor.quaternion[3])) * 2;
+        const vx = this.sensor.quaternion[0] / Math.sin(toRadians(angle / 2));
+        const vy = this.sensor.quaternion[1] / Math.sin(toRadians(angle / 2));
+        const vz = this.sensor.quaternion[2] / Math.sin(toRadians(angle / 2));
+
+        item.expected = {
+          "quaternion": [
+            // rotate 90 degrees clockwise to measure expected sensor reading
+            Math.sin(toRadians((angle + 90) / 2)) * vx,
+            Math.sin(toRadians((angle + 90) / 2)) * vy,
+            Math.sin(toRadians((angle + 90) / 2)) * vz,
+            Math.cos(toRadians((angle + 90) / 2))
+          ]
+        };
+        // add onreading event listener to receive new events.
+        this.sensor.addEventListener('reading', this.items[index].handler);
+      }, timeToStabilize);
+    } else {
+      // add onreading event listener to receive new events.
+      this.sensor.addEventListener('reading', this.items[index].handler);
+    }
 
     // start sensor
     this.sensor.start();

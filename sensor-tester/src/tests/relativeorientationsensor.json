@@ -1,0 +1,18 @@
+[
+    {
+      "name":         "Test sensor at first acquisition",
+      "description":  "Test that sensor reports quaternion approach to '[0, 0, 0, 1.0]' or '[0, 0, 0, -1.0]' at its first acquisition when device is at rest on a leveled surface.",
+      "illustration": "src/tests/absoluteorien_+Y_north.png",
+      "duration":     3,
+      "expected":     { "quaternion": [0, 0, 0, 1] },
+      "isEqual":      "(a, b) => Math.abs(Math.abs(a) - Math.abs(b)) < 0.1"
+    },
+    {
+      "name":         "Test 90 degrees rotation around Z",
+      "description":  "Test that sensor rotation is measured correctly when rotate device 90 degrees clockwise from its rest state(keep more than 1s) on a leveled surface.",
+      "illustration": "src/tests/absoluteorien_+Y_north.png",
+      "duration":     6,
+      "expected":     "none",
+      "isEqual":      "(a, b) => Math.abs(Math.abs(a) - Math.abs(b)) < 0.1"
+    }
+]
