@@ -30,8 +30,13 @@ class SensorTester extends LitElement {
         screen.orientation.unlock();
       }
       const exitFullscreen = document.exitFullscreen || document.webkitExitFullscreen
-        || document.mozCancelFullScreen || document.msExitFullscreen;
-      exitFullscreen.call(document);
+        || document.mozCancelFullScreen;
+      const fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement
+        || document.mozFullscreenElement;
+
+      if (fullscreenElement) {
+        exitFullscreen.call(document);
+      }
 
       if (this.drawer && !this.drawer.persistent) {
         this.drawer.close();
