@@ -1,8 +1,8 @@
 import {LitElement, html} from '@polymer/lit-element';
 
-import "@material/mwc-radio/mwc-radio.js";
-import "@material/mwc-formfield/mwc-formfield.js";
-import "@material/mwc-button/mwc-button.js";
+import "@material/mwc-radio";
+import "@material/mwc-formfield";
+import "@material/mwc-button";
 
 export class OrientationChanger extends LitElement {
   static get properties() {
