@@ -85,10 +85,24 @@ class SensorTester extends LitElement {
 
         .page {
           display: none;
+          will-change: transform, opacity;
         }
 
         .page[active] {
           display: block;
+          animation: pagein 0.3s ease-in-out;
+        }
+
+        @keyframes pagein {
+          from {
+            transform: translateY(10px);
+            opacity: 0;
+          }
+
+          to {
+            transform: translateY(0px);
+            opacity: 1;
+          }
         }
 
         .menu-btn {
