@@ -1,0 +1,28 @@
+{
+  "name": "sensor-info",
+  "version": "0.0.5",
+  "description": "This web application allows to test functionality of the sensors, for example, whether the sensor:",
+  "main": "index.html",
+  "dependencies": {
+    "@material/mwc-button": "^0.3.1",
+    "@material/mwc-icon": "^0.3.1",
+    "@polymer/app-layout": "^3.0.1",
+    "@polymer/lit-element": "^0.6.2",
+    "@polymer/paper-dialog": "^3.0.1",
+    "@polymer/paper-dropdown-menu": "^3.0.1",
+    "@polymer/paper-item": "^3.0.1",
+    "@polymer/paper-button": "^3.0.1",
+    "@polymer/paper-toast": "^3.0.1",
+    "@polymer/paper-toggle-button": "^3.0.1",
+    "@polymer/paper-listbox": "^3.0.1",
+    "@polymer/iron-icons": "^3.0.1",
+    "@polymer/iron-label": "^3.0.1",
+    "@polymer/iron-list": "^3.0.1",
+    "@webcomponents/webcomponentsjs": "^2.1.3",
+    "web-animations-js": "^2.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
