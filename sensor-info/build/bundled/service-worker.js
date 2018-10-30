@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["images/app-icon-128.png","aabbdf8161116bffbfbc69c4f92846b6"],["images/app-icon-144.png","c48e7c8d36381e18447b211f693ff41d"],["images/app-icon-192.png","3dd7f618a908aa63259f13d642549bd7"],["images/app-icon-32.png","33d2cf7b6db5d6bbcdc805f9d8a7d3c1"],["images/app-icon-48.png","c0067734e241d809a0fea972f2f6e3bf"],["index.html","ca13643dc6eb39d4e5117caace3a5dc3"],["manifest.json","1a25cb8c1f4781797dd4df487220e311"]];
+var precacheConfig = [["images/app-icon-128.png","aabbdf8161116bffbfbc69c4f92846b6"],["images/app-icon-144.png","c48e7c8d36381e18447b211f693ff41d"],["images/app-icon-192.png","3dd7f618a908aa63259f13d642549bd7"],["images/app-icon-32.png","33d2cf7b6db5d6bbcdc805f9d8a7d3c1"],["images/app-icon-48.png","c0067734e241d809a0fea972f2f6e3bf"],["index.html","7bd964d2e7e567063a752101f9402dd2"],["manifest.json","1a25cb8c1f4781797dd4df487220e311"]];
 var cacheName = 'sw-precache-v3--' + (self.registration ? self.registration.scope : '');
 
 

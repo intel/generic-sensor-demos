@@ -12,15 +12,7 @@ import '@polymer/paper-item/paper-item.js';
 import '@polymer/paper-input/paper-input.js';
 import '@polymer/paper-toast/paper-toast.js';
 import '@polymer/paper-toggle-button/paper-toggle-button.js';
-import '@polymer/iron-label/iron-label.js';
 class SensorsApp extends LitElement {
-
-  static get properties() {
-    return {
-      sensorDataModel: {type: Array}
-    };
-  }
-
   constructor() {
     super();
     this.sensorDataModel = [];
@@ -36,8 +28,8 @@ class SensorsApp extends LitElement {
     this.selectedFrequency = this.shadowRoot.querySelector('#selectedFrequency');
     this.toastPleaseSelectSensor = this.shadowRoot.querySelector('#toastPleaseSelectSensor');
     this.toastNotSupported = this.shadowRoot.querySelector('#toastNotSupported');
-    var options = null;
-    var sensorConstructor = null;
+    let options = null;
+    let sensorConstructor = null;
 
     if (!this.selectedSensor.value) {
       this.toastPleaseSelectSensor.open();
@@ -99,13 +91,7 @@ class SensorsApp extends LitElement {
       return;
     }
 
-    var sensor = null;
-    if (options) {
-      sensor = new sensorConstructor(options);
-    } else {
-      sensor = new sensorConstructor();
-    }
-
+    let sensor = new sensorConstructor(options || {});
 
     sensor.name = this.selectedSensor.value;
     sensor.frequency = (options && options.hasOwnProperty('frequency')) ? options.frequency + ' Hz' : 'default';
@@ -114,15 +100,15 @@ class SensorsApp extends LitElement {
 
     sensor.onreading = function () {
       function round(number, precision) {
-        var factor = Math.pow(10, precision);
+        let factor = Math.pow(10, precision);
         return Math.round(number * factor) / factor;
       }
 
-      var i = 0;
-      var properties = new Array("timestamp", "illuminance", "x", "y", "z", "quaternion");
+      let i = 0;
+      let properties = new Array("timestamp", "illuminance", "x", "y", "z", "quaternion");
 
-      for (var property in properties) {
-        var propertyName = properties[property];
+      for (let property in properties) {
+        let propertyName = properties[property];
         if (propertyName == 'timestamp') {
           this.readingTimestamp = 'timestamp: ' + round(this.timestamp, 3);
           this.app.requestUpdate('sensorDataModel.' + this.id + '.readingTimestamp');
@@ -137,7 +123,7 @@ class SensorsApp extends LitElement {
             this.app.requestUpdate('sensorDataModel.' + this.id + '.readingValue2');
             this.app.requestUpdate('sensorDataModel.' + this.id + '.readingValue3');
           } else {
-            var readingId = 'readingValue' + i++;
+            let readingId = 'readingValue' + i++;
             this[readingId] = propertyName + ': ' + round(this[propertyName], 3);
             this.app.requestUpdate('sensorDataModel.' + this.id + '.' + readingId);
           }
@@ -164,8 +150,8 @@ class SensorsApp extends LitElement {
   }
 
   removeSensor(event) {
-    var id = event.currentTarget.id;
-    var index = this.sensorDataModel.findIndex(function (v) {
+    let id = event.currentTarget.id;
+    let index = this.sensorDataModel.findIndex(function (v) {
       return v.id == id;
     });
 
@@ -178,21 +164,21 @@ class SensorsApp extends LitElement {
 
     this.sensorDataModel.splice(index, 1);
     // Update ids
-    for (var i = 0; i < this.sensorDataModel.length; ++i) {
+    for (let i = 0; i < this.sensorDataModel.length; ++i) {
       this.sensorDataModel[i].id = i;
       // Notify about updated ids
       this.requestUpdate('sensorDataModel.' + i + '.id');
     }
     this.requestUpdate("sensorDataModel");
     // Update toggle buttons
-    for (var i = 0; i < this.sensorDataModel.length; ++i) {
+    for (let i = 0; i < this.sensorDataModel.length; ++i) {
       this.shadowRoot.querySelector('#toggle_' + i).checked = this.sensorDataModel[i].active;
     }
   }
 
   sensorToggleChanged(event) {
-    var toggle_id = event.currentTarget.id;
-    var id = toggle_id.substring(7);
+    let toggle_id = event.currentTarget.id;
+    let id = toggle_id.substring(7);
     if (event.target.checked) {
       this.sensorDataModel[id].start();
       this.sensorDataModel[id].active = true;
@@ -260,9 +246,9 @@ class SensorsApp extends LitElement {
             <div class="item">
               <paper-toggle-button class="toggle" sizing="contain" id="toggle_${item.id}" @change="${this.sensorToggleChanged}"></paper-toggle-button>
               <div class="pad">
-                <iron-label>Sensor type: ${item.name}</iron-label>
-                <iron-label>Frequency hint: ${item.frequency}</iron-label>
-                <iron-label>Sensor activated: ${item.activated}</iron-label>
+                <span>Sensor type: ${item.name}</span>
+                <span>Frequency hint: ${item.frequency}</span>
+                <span>Sensor activated: ${item.activated}</span>
                 <span>${item.errorType}</span>
                 <span>${item.errorMessage}</span>
                 <span>${item.readingTimestamp}</span>
