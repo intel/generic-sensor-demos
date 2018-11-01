@@ -1,0 +1,18 @@
+{
+  "name": "ambient-map",
+  "version": "0.0.5",
+  "description": "Map",
+  "main": "index.html",
+  "dependencies": {
+    "@material/mwc-button": "^0.3.1",
+    "@material/mwc-icon": "^0.3.1",
+    "@polymer/lit-element": "^0.6.2",
+    "@polymer/paper-dialog": "^3.0.1",
+    "@johnriv/google-map": "^3.0.0",
+    "@webcomponents/webcomponentsjs": "^2.1.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

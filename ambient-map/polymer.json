@@ -1,18 +1,24 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/ambientmap-app.html",
+  "npm": true,
+  "moduleResolution": "node",
   "sources": [
-   "src/**/*",
-   "images/**/*",
-   "bower.json"
+    "src/**/*",
+    "images/**/*"
+  ],
+  "fragments": [
   ],
   "extraDependencies": [
-    "manifest.json"
+    "manifest.json",
+    "node_modules/@webcomponents/webcomponentsjs/*.js"
   ],
+  "lint": {
+    "rules": ["polymer-3"]
+  },
   "builds": [
     {
       "name": "bundled",
-      "bundle": true,
+      "preset": "es6-bundled",
       "js": {"minify": true, "compile": true},
       "css": {"minify": true},
       "html": {"minify": true},

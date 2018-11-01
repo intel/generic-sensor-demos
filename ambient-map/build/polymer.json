@@ -1,25 +1,26 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/ambientmap-app.html",
   "fragments": [],
   "sources": [
     "src/**/*",
     "images/**/*",
-    "bower.json",
-    "index.html",
-    "src/ambientmap-app.html"
+    "index.html"
   ],
   "extraDependencies": [
     "bower_components/webcomponentsjs/*.js",
-    "manifest.json"
+    "manifest.json",
+    "node_modules/@webcomponents/webcomponentsjs/*.js"
   ],
   "builds": [
     {
       "name": "bundled",
-      "bundle": true,
+      "browserCapabilities": [
+        "es2015"
+      ],
       "js": {
         "minify": true,
-        "compile": true
+        "compile": true,
+        "transformModulesToAmd": true
       },
       "css": {
         "minify": true
@@ -27,9 +28,19 @@
       "html": {
         "minify": true
       },
+      "bundle": true,
       "addServiceWorker": true,
       "addPushManifest": true,
+      "preset": "es6-bundled",
       "insertPrefetchLinks": true
     }
-  ]
+  ],
+  "lint": {
+    "rules": [
+      "polymer-3"
+    ]
+  },
+  "npm": true,
+  "componentDir": "node_modules/",
+  "moduleResolution": "node"
 }

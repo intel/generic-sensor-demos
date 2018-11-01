@@ -1,11 +1,9 @@
 <!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <title>Ambient light map</title>
 
-    <!-- Origin Trial Token, feature = Generic Sensors, origin = https://intel.github.io, expires = 2018-02-27 -->
-    <meta http-equiv="origin-trial" data-feature="Generic Sensors" data-expires="2018-02-27" content="AjL+UlBzLjx+0FPXrML6IMA/Ax9GsO/7rUvV/aaKkh3KknUSwDBgymn0d3NhGeRMNS7FlYD73ernqvZNoqzNMw4AAABWeyJvcmlnaW4iOiJodHRwczovL2ludGVsLmdpdGh1Yi5pbzo0NDMiLCJmZWF0dXJlIjoiR2VuZXJpY1NlbnNvciIsImV4cGlyeSI6MTUxOTczOTAwNX0=">
+    <base href="/">
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
@@ -28,34 +26,33 @@
     <meta name="msapplication-TileColor" content="#0071c5">
     <meta name="msapplication-tap-highlight" content="no">
 
-    <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+    <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
 
     <style>
-        body {
-            font-family: 'Roboto', 'Noto', sans-serif;
-            margin: 0;
-            height: 100vh;
-        }
+      body {
+        font-family: 'Roboto', 'Noto', sans-serif;
+        margin: 0;
+        height: 100vh;
+      }
     </style>
 
     <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('service-worker.js', {
-                    scope: Polymer.rootPath,
-                });
-            });
-        }
+      if ('serviceWorker' in navigator) {
+        const basePath = location.href.substr(0, location.href.lastIndexOf("/") + 1);
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('service-worker.js', {
+            scope: basePath
+          });
+        });
+      }
     </script>
 
-    <link rel="import" href="src/ambientmap-app.html">
-</head>
-
-<body class="fullbleed">
+    <script type="module" src="src/ambientmap-app.js"></script>
+  </head>
+  <body class="fullbleed">
     <ambientmap-app></ambientmap-app>
     <noscript>
         Please enable JavaScript to view this web app.
     </noscript>
-</body>
-
+  </body>
 </html>

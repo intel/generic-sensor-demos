@@ -2,11 +2,10 @@
   "name": "Ambient light map",
   "short_name": "Ambient Map",
   "description": "Application that changes map style using data from ambient light sensor.",
-  "start_url": "/",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#0071c5",
   "theme_color": "#0071c5",
-  "start_url": "index.html",
   "icons": [{
     "src": "images/app-icon-32.png",
       "type": "image/png",
