@@ -1,11 +1,9 @@
 <!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <title>VR Button</title>
 
-    <!-- Origin Trial Token, feature = Generic Sensors, origin = https://intel.github.io, expires = 2018-02-27 -->
-    <meta http-equiv="origin-trial" data-feature="Generic Sensors" data-expires="2018-02-27" content="AjL+UlBzLjx+0FPXrML6IMA/Ax9GsO/7rUvV/aaKkh3KknUSwDBgymn0d3NhGeRMNS7FlYD73ernqvZNoqzNMw4AAABWeyJvcmlnaW4iOiJodHRwczovL2ludGVsLmdpdGh1Yi5pbzo0NDMiLCJmZWF0dXJlIjoiR2VuZXJpY1NlbnNvciIsImV4cGlyeSI6MTUxOTczOTAwNX0=">
+    <base href="/">
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
@@ -30,42 +28,42 @@
 
     <script src="aframe/aframe-v0.7.1.js"></script>
     <script src="components/click.js"></script>
-    <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
 
     <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('service-worker.js', {
-                    scope: Polymer.rootPath,
-                });
-            });
-        }
+      if ('serviceWorker' in navigator) {
+        const basePath = location.href.substr(0, location.href.lastIndexOf("/") + 1);
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('service-worker.js', {
+            scope: basePath
+          });
+        });
+      }
     </script>
 
-    <link rel="import" href="src/vrbutton-app.html">
-</head>
+    <script type="module" src="src/vrbutton-app.js"></script>
+  </head>
 
-<body>
-    <vrbutton-app></vrbutton-app>
+  <body>
+    <vr-button-app></vr-button-app>
     <a-scene>
-        <a-sphere position="0 1.25 -1" radius="1.25" color="#EF2D5E"></a-sphere>
-        <a-box position="-1 0.5 1" rotation="0 45 0" width="1" height="1" depth="1" color="#4CC3D9" move-on-click>
-            <a-animation attribute="rotation" begin="clicked" repeat="indefinite" to="0 349 0" end="clicked-off"></a-animation>
-        </a-box>
-        <a-cylinder position="1 0.75 1" radius="0.5" height="1.5" color="#FFC65D" move-on-click>
-            <a-animation begin="clicked" end="clicked-off" fill="forwards" repeat="1" direction="alternate" attribute="position" from="1 0.75 1" to="15 0.75 1"></a-animation>
-        </a-cylinder>
-        <a-plane rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-        <a-sky color="#ECECEC"></a-sky>
-        <a-entity position="0 0 3.8">
-            <a-camera>
-                <a-cursor color="#2E3A87"></a-cursor>
-            </a-camera>
-        </a-entity>
+      <a-sphere position="0 1.25 -1" radius="1.25" color="#EF2D5E"></a-sphere>
+      <a-box position="-1 0.5 1" rotation="0 45 0" width="1" height="1" depth="1" color="#4CC3D9" move-on-click>
+        <a-animation attribute="rotation" begin="clicked" repeat="indefinite" to="0 349 0" end="clicked-off"></a-animation>
+      </a-box>
+      <a-cylinder position="1 0.75 1" radius="0.5" height="1.5" color="#FFC65D" move-on-click>
+        <a-animation begin="clicked" end="clicked-off" fill="forwards" repeat="1" direction="alternate" attribute="position" from="1 0.75 1" to="15 0.75 1"></a-animation>
+      </a-cylinder>
+      <a-plane rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+      <a-sky color="#ECECEC"></a-sky>
+      <a-entity position="0 0 3.8">
+        <a-camera>
+          <a-cursor color="#2E3A87"></a-cursor>
+        </a-camera>
+      </a-entity>
     </a-scene>
     <noscript>
-        Please enable JavaScript to view this web app.
+      Please enable JavaScript to view this web app.
     </noscript>
-</body>
-
+  </body>
 </html>
