@@ -1,16 +1,11 @@
 import {LitElement, html} from '@polymer/lit-element';
 import "@material/mwc-button/mwc-button.js";
 import '@polymer/paper-dialog/paper-dialog.js';
+
 class VrButtonApp extends LitElement{
-  static get properties() {
-    return {
-      infoText: {type: String}
-    };
-  }
 
   constructor() {
     super();
-    this.infoText = "Welcome to VR Button demo! This web application demonstrates how Magnetometer sensor can be used to provide user input for WebVR content. If you have VR enclosure with magnet button, you can interact with objects in the scene by sliding button down." + ('Magnetometer' in window ? "" : " Unfortunately, your device doesn't have support for Magnetometer sensor.");
   }
 
   showInfoDialog() {
@@ -48,7 +43,7 @@ class VrButtonApp extends LitElement{
       </div>
 
       <paper-dialog id="infoDialog" modal="">
-        <p>${this.infoText}</p>
+        <p>Welcome to VR Button demo! This web application demonstrates how Magnetometer sensor can be used to provide user input for WebVR content. If you have VR enclosure with magnet button, you can interact with objects in the scene by sliding button down.${'Magnetometer' in window ? "" : " Unfortunately, your device doesn't have support for Magnetometer sensor."}</p>
         <div class="buttons">
           <mwc-button class="blue" dialog-confirm autofocus>Close</mwc-button>
         </div>

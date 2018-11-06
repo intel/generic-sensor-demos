@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["images/app-icon-128.png","c9980d74f81a11cac97202ef45ba6df0"],["images/app-icon-144.png","e8d8bd779517d0bf268776e24cf6c7ec"],["images/app-icon-192.png","53c83a57d45389a69ed315386ff6bcea"],["images/app-icon-32.png","fd07e8cc3101b59fd3171af98afe01f2"],["images/app-icon-48.png","5da8022befa5b1279ce9653f37dccd05"],["index.html","9e5f717cd9dc17161b36b6e0970b2eb3"],["manifest.json","76ee53ea6435882675f766db25121996"]];
+var precacheConfig = [["images/app-icon-128.png","c9980d74f81a11cac97202ef45ba6df0"],["images/app-icon-144.png","e8d8bd779517d0bf268776e24cf6c7ec"],["images/app-icon-192.png","53c83a57d45389a69ed315386ff6bcea"],["images/app-icon-32.png","fd07e8cc3101b59fd3171af98afe01f2"],["images/app-icon-48.png","5da8022befa5b1279ce9653f37dccd05"],["index.html","dd0ead6507f24936c4aa0d869c90bf1d"],["manifest.json","76ee53ea6435882675f766db25121996"]];
 var cacheName = 'sw-precache-v3--' + (self.registration ? self.registration.scope : '');
 
 
