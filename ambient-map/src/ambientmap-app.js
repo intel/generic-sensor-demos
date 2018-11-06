@@ -4,16 +4,22 @@ import "@material/mwc-button/mwc-button.js";
 import '@johnriv/google-map/google-map.js';
 
 class AmbientmapApp extends LitElement {
+  static get properties() {
+    return {
+      latitude: {type: Number},
+      longitude: {type: Number}
+    };
+  }
 
   constructor() {
     super();
     this.latitude = 60.1699;
     this.longitude = 24.9384;
     this.mapApiKey = location.origin === 'https://ambientmap.appspot.com' || location.origin === 'https://intel.github.io' ? 'AIzaSyCR59cBBxaiINBUEbdmUVHYs8CV8jtEDTw' : 'DEADBEEF59cBBxaiINBUEbdmUVHYs8CV8jtEDTw';
-    this.infoText = "Welcome to Ambitent Map demo! This web application demonstrates how Ambient light sensor can be used to control style of a map widget. When ambient illuminance level is less than 10 lumen, night mode style will be used.";
     this.styles = [];
     this.nightStyles = [
-      {elementType: 'geometry',
+      {
+        elementType: 'geometry',
         stylers: [{
           color: '#25303f'
         }]
@@ -137,23 +143,19 @@ class AmbientmapApp extends LitElement {
         }
       }
       this.sensor.start();
-    } else {
-      this.infoText += " Unfortunately, your device doesn't have support for Ambient light sensor."
-      this.requestUpdate('infoText');
     }
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((pos) => {
         this.latitude = pos.coords.latitude;
         this.longitude = pos.coords.longitude;
-        this.requestUpdate('latitude');
-        this.requestUpdate('longitude');
       });
     }
+
+    this.infoDialog = this.shadowRoot.querySelector('#infoDialog');
   }
 
   openInfoDialog() {
-    this.infoDialog = this.shadowRoot.querySelector('#infoDialog');
     this.infoDialog.open();
   }
 
@@ -190,9 +192,9 @@ class AmbientmapApp extends LitElement {
       </div>
 
       <paper-dialog id="infoDialog" modal>
-        <p>${this.infoText}</p>
+        <p>Welcome to Ambitent Map demo! This web application demonstrates how Ambient light sensor can be used to control style of a map widget. When ambient illuminance level is less than 10 lumen, night mode style will be used.${'AmbientLightSensor' in window ? "" : " Unfortunately, your device doesn't have support for Ambient light sensor."}</p>
         <div class="buttons">
-          <mwc-button class="blue" dialog-confirm>Close</mwc-button>
+          <mwc-button class="blue" dialog-confirm autofocus>Close</mwc-button>
         </div>
       </paper-dialog>
     `;
