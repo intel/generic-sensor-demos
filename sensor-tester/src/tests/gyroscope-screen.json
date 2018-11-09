@@ -1,0 +1,58 @@
+[
+    {
+      "name":         "Gyroscope web page at rest",
+      "description":  "Test that sensor reports ~0 rad/s total angular velocity when device is at rest.",
+      "illustration": "src/tests/gyro-rest_screen.png",
+      "duration":     3,
+      "expected":     { "x": 0, "y": 0, "z": 0 },
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
+    },
+    {
+      "name":         "Test web page +Z angular velocity",
+      "description":  "Test that sensor reports positive angular velocity around the Z axis when rotating device counter-clockwise around its web page Z axis.",
+      "illustration": "src/tests/gyro_+z_screen.gif",
+      "duration":     5,
+      "expected":     { "z": 5.0 },
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
+    },
+    {
+      "name":         "Test web page -Z angular velocity",
+      "description":  "Test that sensor reports negative angular velocity around the Z axis when rotating device clockwise around its web page Z axis.",
+      "illustration": "src/tests/gyro_-z_screen.gif",
+      "duration":     5,
+      "expected":     { "z": -5.0 },
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
+    },
+    {
+      "name":         "Test web page +X angular velocity",
+      "description":  "Test that sensor reports positive angular velocity around the X axis when rotating device counter-clockwise around its web page X axis.",
+      "illustration": "src/tests/gyro_+x_screen.gif",
+      "duration":     5,
+      "expected":     { "x": 5.0 },
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
+    },
+    {
+      "name":         "Test web page -X angular velocity",
+      "description":  "Test that sensor reports negative angular velocity around the X axis when rotating device clockwise around its web page X axis.",
+      "illustration": "src/tests/gyro_-x_screen.gif",
+      "duration":     5,
+      "expected":     { "x": -5.0 },
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
+    },
+    {
+      "name":         "Test web page +Y angular velocity",
+      "description":  "Test that sensor reports positive angular velocity around the Y axis when rotating device counter-clockwise around its web page Y axis.",
+      "illustration": "src/tests/gyro_+y_screen.gif",
+      "duration":     5,
+      "expected":     { "y": 5.0 },
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
+    },
+    {
+      "name":         "Test web page -Y angular velocity",
+      "description":  "Test that sensor reports negative angular velocity around the Y axis when rotating device clockwise around its web page Y axis.",
+      "illustration": "src/tests/gyro_-y_screen.gif",
+      "duration":     5,
+      "expected":     { "y": -5.0 },
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
+    }
+]

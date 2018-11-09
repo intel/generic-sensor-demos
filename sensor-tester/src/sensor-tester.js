@@ -147,14 +147,26 @@ class SensorTester extends LitElement {
             <a ?selected="${this.page === 'gyroscope'}" href="gyroscope">
               Gyroscope<br><small>device coordinates</small>
             </a>
+            <a ?selected="${this.page === 'gyroscope-screen'}" href="gyroscope-screen">
+              Gyroscope<br><small>screen coordinates</small>
+            </a>
             <a ?selected="${this.page === 'absoluteorientationsensor'}" href="absoluteorientationsensor">
               AbsoluteOrientationSensor<br><small>device coordinates</small>
+            </a>
+            <a ?selected="${this.page === 'absoluteorientationsensor-screen'}" href="absoluteorientationsensor-screen">
+              AbsoluteOrientationSensor<br><small>screen coordinates</small>
             </a>
             <a ?selected="${this.page === 'relativeorientationsensor'}" href="relativeorientationsensor">
               RelativeOrientationSensor<br><small>device coordinates</small>
             </a>
+            <a ?selected="${this.page === 'relativeorientationsensor-screen'}" href="relativeorientationsensor-screen">
+              RelativeOrientationSensor<br><small>screen coordinates</small>
+            </a>
             <a ?selected="${this.page === 'magnetometer'}" href="magnetometer">
               Magnetometer<br><small>device coordinates</small>
+            </a>
+            <a ?selected="${this.page === 'magnetometer-screen'}" href="magnetometer-screen">
+              Magnetometer<br><small>screen coordinates</small>
             </a>
             <a ?selected="${this.page === 'ambientlightsensor'}" href="ambientlightsensor">
               AmbientLightSensor<br><small>device coordinates</small>
@@ -204,9 +216,21 @@ class SensorTester extends LitElement {
               ?active="${this.page === 'gyroscope'}">
             </sensor-tests-page>
             <sensor-tests-page class="page"
+              type="Gyroscope"
+              src="src/tests/gyroscope-screen.json"
+              referenceFrame="screen"
+              ?active="${this.page === 'gyroscope-screen'}">
+            </sensor-tests-page>
+            <sensor-tests-page class="page"
               type="AbsoluteOrientationSensor"
               src="src/tests/absoluteorientationsensor.json"
               ?active="${this.page === 'absoluteorientationsensor'}">
+            </sensor-tests-page>
+            <sensor-tests-page class="page"
+              type="AbsoluteOrientationSensor"
+              src="src/tests/absoluteorientationsensor-screen.json"
+              referenceFrame="screen"
+              ?active="${this.page === 'absoluteorientationsensor-screen'}">
             </sensor-tests-page>
             <sensor-tests-page class="page"
               type="RelativeOrientationSensor"
@@ -214,10 +238,23 @@ class SensorTester extends LitElement {
               ?active="${this.page === 'relativeorientationsensor'}">
             </sensor-tests-page>
             <sensor-tests-page class="page"
+              type="RelativeOrientationSensor"
+              src="src/tests/relativeorientationsensor-screen.json"
+              referenceFrame="screen"
+              ?active="${this.page === 'relativeorientationsensor-screen'}">
+            </sensor-tests-page>
+            <sensor-tests-page class="page"
               type="Magnetometer"
               src="src/tests/magnetometer.json"
               frequency="10"
               ?active="${this.page === 'magnetometer'}">
+            </sensor-tests-page>
+            <sensor-tests-page class="page"
+              type="Magnetometer"
+              src="src/tests/magnetometer-screen.json"
+              frequency="10"
+              referenceFrame="screen"
+              ?active="${this.page === 'magnetometer-screen'}">
             </sensor-tests-page>
             <sensor-tests-page class="page"
               type="AmbientLightSensor"
