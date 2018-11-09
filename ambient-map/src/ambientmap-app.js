@@ -132,14 +132,14 @@ class AmbientmapApp extends LitElement {
       this.sensor = new AmbientLightSensor();
       this.sensor.onreading = () => {
         this.mapElement = this.shadowRoot.querySelector('#mapElement');
-        if (!this.mapElement)
+        if (!this.mapElement.map)
           return;
 
         var isNightMode = this.sensor.illuminance < 10;
         if (typeof this.isNightMode == "undefined" || this.isNightMode != isNightMode) {
           this.isNightMode = isNightMode;
 
-          this.mapElement.set('styles', this.isNightMode ? this.nightStyles : []);
+          this.mapElement.map.set('styles', this.isNightMode ? this.nightStyles : []);
         }
       }
       this.sensor.start();
