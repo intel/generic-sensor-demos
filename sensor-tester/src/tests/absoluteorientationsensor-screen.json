@@ -1,0 +1,10 @@
+[
+    {
+      "name":         "Test web page +Y points magnetic north",
+      "description":  "Test that sensor reports quaternion approach to '[0, 0, 0, 1.0]' when device is at rest on a leveled surface and its web page +Y axis is pointing magnetic north.",
+      "illustration": "src/tests/absoluteorien_+Y_north_screen.png",
+      "duration":     5,
+      "expected":     { "quaternion": [0, 0, 0, 1.0] },
+      "isEqual":      "(a, b) => Math.abs(a - b) < 0.1"
+    }
+]

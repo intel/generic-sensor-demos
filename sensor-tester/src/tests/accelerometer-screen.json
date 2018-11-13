@@ -2,7 +2,7 @@
     {
       "name":         "Test web page +Z gravity",
       "description":  "Test that sensor reports +9.8 m/s^2 along the Z axis when device is at rest on a leveled surface and web page is facing towards the sky.",
-      "illustration": "src/tests/accel_+z_gravity.png",
+      "illustration": "src/tests/accel_+z_gravity_screen.png",
       "duration":     3,
       "expected":     { "x": 0, "y": 0, "z": 9.8 },
       "isEqual":      "(a, b) => Math.abs(a - b) < 1"
@@ -10,7 +10,7 @@
     {
       "name":         "Test web page -Z gravity",
       "description":  "Test that sensor reports -9.8 m/s^2 along the Z axis when device is at rest on a leveled surface and web page is facing towards the ground.",
-      "illustration": "src/tests/accel_-z_gravity.png",
+      "illustration": "src/tests/accel_-z_gravity_screen.png",
       "duration":     4,
       "expected":     { "x": 0, "y": 0, "z": -9.8 },
       "isEqual":      "(a, b) => Math.abs(a - b) < 1"
@@ -18,7 +18,7 @@
     {
       "name":         "Test web page +X gravity",
       "description":  "Test that sensor reports 9.8 m/s^2 along the X axis when device is at rest on a leveled surface and right edge of the web page points towards the ground.",
-      "illustration": "src/tests/accel_+x_gravity.png",
+      "illustration": "src/tests/accel_+x_gravity_screen.png",
       "duration":     3,
       "expected":     { "x": 9.8, "y": 0, "z": 0 },
       "isEqual":      "(a, b) => Math.abs(a - b) < 1"
@@ -26,7 +26,7 @@
     {
       "name":         "Test web page -X gravity",
       "description":  "Test that sensor reports -9.8 m/s^2 along the X axis when device is at rest on a leveled surface and left edge of the web page points towards the ground.",
-      "illustration": "src/tests/accel_-x_gravity.png",
+      "illustration": "src/tests/accel_-x_gravity_screen.png",
       "duration":     3,
       "expected":     { "x": -9.8, "y": 0, "z": 0 },
       "isEqual":      "(a, b) => Math.abs(a - b) < 1"
@@ -34,7 +34,7 @@
     {
       "name":         "Test web page +Y gravity",
       "description":  "Test that sensor reports 9.8 m/s^2 along the Y axis when device is at rest on a leveled surface and top edge of the web page points towards the sky.",
-      "illustration": "src/tests/accel_+y_gravity.png",
+      "illustration": "src/tests/accel_+y_gravity_screen.png",
       "duration":     4,
       "expected":     { "x": 0, "y": 9.8, "z": 0 },
       "isEqual":      "(a, b) => Math.abs(a - b) < 1"
@@ -42,7 +42,7 @@
     {
       "name":         "Test web page -Y gravity",
       "description":  "Test that sensor reports -9.8 m/s^2 along the Y axis when device is at rest on a leveled surface and top edge of the web page points towards the ground.",
-      "illustration": "src/tests/accel_-y_gravity.png",
+      "illustration": "src/tests/accel_-y_gravity_screen.png",
       "duration":     4,
       "expected":     { "x": 0, "y": -9.8, "z": 0 },
       "isEqual":      "(a, b) => Math.abs(a - b) < 1"
@@ -50,7 +50,7 @@
     {
       "name":         "Test web page +X acceleration",
       "description":  "Test that sensor reports positive acceleration along the X axis when device is pushed from the web page left edge to the right.",
-      "illustration": "src/tests/accel_+x_acceleration.gif",
+      "illustration": "src/tests/accel_+x_acceleration_screen.gif",
       "duration":     5,
       "expected":     { "x": 3.0 },
       "isEqual":      "(a, b) => Math.abs(a - b) < 1"
@@ -58,7 +58,7 @@
     {
       "name":         "Test web page -X acceleration",
       "description":  "Test that sensor reports negative acceleration along the X axis when device is pushed from the web page right edge to the left.",
-      "illustration": "src/tests/accel_-x_acceleration.gif",
+      "illustration": "src/tests/accel_-x_acceleration_screen.gif",
       "duration":     5,
       "expected":     { "x": -3.0 },
       "isEqual":      "(a, b) => Math.abs(a - b) < 1"

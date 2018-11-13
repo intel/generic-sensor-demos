@@ -2,7 +2,7 @@
     {
       "name":         "Linear acceleration web page at rest",
       "description":  "Test that sensor reports ~0 m/s^2 total acceleration when device is at rest.",
-      "illustration": "src/tests/linaccel-rest.png",
+      "illustration": "src/tests/linaccel-rest_screen.png",
       "duration":     3,
       "expected":     { "x": 0, "y": 0, "z": 0 },
       "isEqual":      "(a, b) => Math.abs(a - b) < 1"
@@ -10,7 +10,7 @@
     {
       "name":         "Test web page +X linear acceleration",
       "description":  "Test that sensor reports positive acceleration along the X axis when device is pushed from the web page left edge to the right.",
-      "illustration": "src/tests/linaccel_+x.gif",
+      "illustration": "src/tests/linaccel_+x_screen.gif",
       "duration":     5,
       "expected":     { "x": 3.0 },
       "isEqual":      "(a, b) => Math.abs(a - b) < 1"
@@ -18,7 +18,7 @@
     {
       "name":         "Test web page -X linear acceleration",
       "description":  "Test that sensor reports negative acceleration along the X axis when device is pushed from the web page right edge to the left.",
-      "illustration": "src/tests/linaccel_-x.gif",
+      "illustration": "src/tests/linaccel_-x_screen.gif",
       "duration":     5,
       "expected":     { "x": -3.0 },
       "isEqual":      "(a, b) => Math.abs(a - b) < 1"

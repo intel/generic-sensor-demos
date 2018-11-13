@@ -1,0 +1,18 @@
+[
+    {
+      "name":         "Test web page +X points north",
+      "description":  "Test that sensor reports ~0 μT along the Y axis when web page +X axis points North. Before the test, rotate device 360 degrees around each axis and then point its web page +X axis to magnetic North.",
+      "illustration": "src/tests/magnet_+X_north_screen.png",
+      "duration":     5,
+      "expected":     { "y": 0 },
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
+    },
+    {
+      "name":         "Test web page +Y points north",
+      "description":  "Test that sensor reports ~0 μT along the X axis when web page +Y axis points North. Before the test, rotate device 360 degrees around each axis and then point its web page +Y axis to magnetic North.",
+      "illustration": "src/tests/magnet_+Y_north_screen.png",
+      "duration":     5,
+      "expected":     { "x": 0 },
+      "isEqual":      "(a, b) => Math.abs(a - b) < 1"
+    }
+]
