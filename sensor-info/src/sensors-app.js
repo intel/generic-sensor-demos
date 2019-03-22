@@ -1,4 +1,4 @@
-import {LitElement, html} from '@polymer/lit-element';
+import {LitElement, html, css} from 'lit-element';
 import "@material/mwc-icon/mwc-icon.js";
 import "@material/mwc-button/mwc-button.js";
 import '@polymer/app-layout/app-header/app-header.js';
@@ -191,9 +191,8 @@ class SensorsApp extends LitElement {
     this.requestUpdate('sensorDataModel');
   }
 
-  render() {
-    return html`
-      <style>
+  static get styles() {
+    return css`
         :host {
           --app-primary-color: #0071c5;
           --app-secondary-color: black;
@@ -205,8 +204,14 @@ class SensorsApp extends LitElement {
           background-color: var(--app-primary-color);
         }
 
+        .module {
+          padding-left: 14px;
+          padding-right: 14px;
+          padding-bottom: 14px;
+        }
+
         .item {
-          @apply(--layout-horizontal);
+          display: flex;
           padding: 20px;
           border-radius: 8px;
           background-color: white;
@@ -217,12 +222,18 @@ class SensorsApp extends LitElement {
 
         .pad {
           padding: 0 16px;
-          @apply(--layout-flex);
-          @apply(--layout-vertical);
+        }
+
+        span {
+          display: block;
+        }
+
+        .push-right {
+          margin-left: auto;
         }
 
         .toggle {
-          @apply(--layout-vertical);
+          display: inline-block;
         }
 
         .blue {
@@ -231,8 +242,11 @@ class SensorsApp extends LitElement {
           --mdc-theme-on-secondary: white;
           --mdc-theme-secondary: #3f51b5;
         }
-      </style>
+    `;
+  }
 
+  render() {
+    return html`
       <app-header-layout fullbleed="">
         <app-header slot="header" condenses="" fixed="" effects="waterfall">
           <app-toolbar>
@@ -241,8 +255,8 @@ class SensorsApp extends LitElement {
           </app-toolbar>
         </app-header>
 
-        ${this.sensorDataModel && this.sensorDataModel.map((item, index) => html`
-          <div>
+        <div class="module">
+          ${this.sensorDataModel && this.sensorDataModel.map((item, index) => html`
             <div class="item">
               <paper-toggle-button class="toggle" sizing="contain" id="toggle_${item.id}" @change="${this.sensorToggleChanged}"></paper-toggle-button>
               <div class="pad">
@@ -257,10 +271,10 @@ class SensorsApp extends LitElement {
                 <span>${item.readingValue2}</span>
                 <span>${item.readingValue3}</span>
               </div>
-              <mwc-icon id="${item.id}" @click="${this.removeSensor}">clear</mwc-icon>
+              <mwc-icon id="${item.id}" @click="${this.removeSensor}" class="push-right">clear</mwc-icon>
             </div>
-          </div>
-        `)}
+          `)}
+        </div>
       </app-header-layout>
 
       <paper-toast id="toastNotSupported" text="Selected sensor is not supported."></paper-toast>
