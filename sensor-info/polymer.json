@@ -1,24 +1,25 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/sensors-app.html",
-  "fragments": [
-    "src/sensors-app.html"
-  ],
+  "npm": true,
+  "moduleResolution": "node",
   "sources": [
-   "src/**/*",
-   "images/**/*",
-   "bower.json"
+    "src/**/*",
+    "images/**/*"
+  ],
+  "fragments": [
   ],
   "extraDependencies": [
-    "manifest.json"
+    "manifest.json",
+    "node_modules/@webcomponents/webcomponentsjs/*.js",
+    "node_modules/web-animations-js/*.js"
   ],
   "lint": {
-    "rules": ["polymer-2"]
+    "rules": ["polymer-3"]
   },
   "builds": [
     {
       "name": "bundled",
-      "bundle": true,
+      "preset": "es6-bundled",
       "js": {"minify": true, "compile": true},
       "css": {"minify": true},
       "html": {"minify": true},

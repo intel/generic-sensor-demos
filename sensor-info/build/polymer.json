@@ -1,28 +1,27 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/sensors-app.html",
-  "fragments": [
-    "src/sensors-app.html"
-  ],
+  "fragments": [],
   "sources": [
     "src/**/*",
     "images/**/*",
-    "bower.json",
-    "index.html",
-    "src/sensors-app.html",
-    "src/sensors-app.html"
+    "index.html"
   ],
   "extraDependencies": [
     "bower_components/webcomponentsjs/*.js",
-    "manifest.json"
+    "manifest.json",
+    "node_modules/@webcomponents/webcomponentsjs/*.js",
+    "node_modules/web-animations-js/*.js"
   ],
   "builds": [
     {
       "name": "bundled",
-      "bundle": true,
+      "browserCapabilities": [
+        "es2015"
+      ],
       "js": {
         "minify": true,
-        "compile": true
+        "compile": true,
+        "transformModulesToAmd": true
       },
       "css": {
         "minify": true
@@ -30,14 +29,19 @@
       "html": {
         "minify": true
       },
+      "bundle": true,
       "addServiceWorker": true,
       "addPushManifest": true,
+      "preset": "es6-bundled",
       "insertPrefetchLinks": true
     }
   ],
   "lint": {
     "rules": [
-      "polymer-2"
+      "polymer-3"
     ]
-  }
+  },
+  "npm": true,
+  "componentDir": "node_modules/",
+  "moduleResolution": "node"
 }
