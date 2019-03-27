@@ -33,7 +33,7 @@
     <script>
       if ('serviceWorker' in navigator) {
         const basePath = location.href.substr(0, location.href.lastIndexOf("/") + 1);
-        window.addEventListener('load', function() {
+        window.addEventListener('load', () => {
           navigator.serviceWorker.register('service-worker.js', {
             scope: basePath
           });
