@@ -115,7 +115,7 @@
                 console.log('sensor used:', sensor)
                 console.log('typeof sensor:', typeof sensor)
                 console.log('sensor quaternion:', sensor.quaternion)
-                console.log('typeof quaternion:', typeof sensor,quaternion)
+                console.log('typeof quaternion:', typeof sensor.quaternion)
                 sensor.onreading = () => model.quaternion.fromArray(sensor.quaternion).inverse();
                 sensor.onerror = (event) => {
                   if (event.error.name == 'NotReadableError') {
