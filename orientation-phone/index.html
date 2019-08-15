@@ -113,10 +113,10 @@
               console.log(JSON.stringify(options));
               sensor = relative ? new RelativeOrientationSensor(options) : new AbsoluteOrientationSensor(options);
               // 'nah, AOS' , relative is false therefore we're using the Absolute Orientation Sensor
-                console.log('sensor:', sensor, typeof sensor, JSON.stringify(sensor), Array.isArray(sensor))
+              // sensor is NOT an array but an object and has the given keys of onreading, onactivate and onerror
                 sensor.onreading = () => {
-                  // console.log('within onreading:', 'sensor:', sensor, typeof sensor)
-                  // console.log('within onreading:', 'sensor.quaternion:', sensor.quaternion, typeof sensor.quaternion)
+                  console.log('within onreading:', 'sensor:', JSON.stringify(sensor))
+                  console.log('within onreading:', 'quaternion:', sensor.quaternion, Array.isArray(sensor.quaternion), JSON.stringify(sensor.quaternion))
                   return model.quaternion.fromArray(sensor.quaternion).inverse()
                 };
                 sensor.onerror = (event) => {
