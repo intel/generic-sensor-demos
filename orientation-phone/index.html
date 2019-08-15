@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Absolute orientation sensor demo</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-        <!-- Origin Trial Token, feature = Generic Sensors, origin = https://intel.github.io, expires = 2018-02-27 -->
-        <meta http-equiv="origin-trial" data-feature="Generic Sensors" data-expires="2018-02-27" content="AjL+UlBzLjx+0FPXrML6IMA/Ax9GsO/7rUvV/aaKkh3KknUSwDBgymn0d3NhGeRMNS7FlYD73ernqvZNoqzNMw4AAABWeyJvcmlnaW4iOiJodHRwczovL2ludGVsLmdpdGh1Yi5pbzo0NDMiLCJmZWF0dXJlIjoiR2VuZXJpY1NlbnNvciIsImV4cGlyeSI6MTUxOTczOTAwNX0=">
-        <style>
-          body {
-            margin: 0px;
-            overflow: hidden;
-          }
-          #console {
-            margin: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
-        </style>
-    </head>
 
-    <body>
-        <script src="js/three.min.js"></script>
-        <script src="js/OBJLoader.js"></script>
-        <script src="js/MTLLoader.js"></script>
+<head>
+  <title>Absolute orientation sensor demo</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <!-- Origin Trial Token, feature = Generic Sensors, origin = https://intel.github.io, expires = 2018-02-27 -->
+  <meta http-equiv="origin-trial" data-feature="Generic Sensors" data-expires="2018-02-27"
+    content="AjL+UlBzLjx+0FPXrML6IMA/Ax9GsO/7rUvV/aaKkh3KknUSwDBgymn0d3NhGeRMNS7FlYD73ernqvZNoqzNMw4AAABWeyJvcmlnaW4iOiJodHRwczovL2ludGVsLmdpdGh1Yi5pbzo0NDMiLCJmZWF0dXJlIjoiR2VuZXJpY1NlbnNvciIsImV4cGlyeSI6MTUxOTczOTAwNX0=">
+  <style>
+    body {
+      margin: 0px;
+      overflow: hidden;
+    }
 
-        <script type="module">
-            import {
+    #console {
+      margin: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+
+<body>
+  <script src="js/three.min.js"></script>
+  <script src="js/OBJLoader.js"></script>
+  <script src="js/MTLLoader.js"></script>
+
+  <script type="module">
+    import {
               AbsoluteOrientationSensor,
               RelativeOrientationSensor
             } from '../sensor-polyfills/motion-sensors.js';
@@ -106,15 +109,14 @@
             }
 
             function initSensor() {
-                const logging = relative ? 'yep, ROS' : 'nah, AOS' 
-                const options = { frequency: 60, coordinateSystem };
-                console.log(JSON.stringify(options));
-                console.log('relative:', relative, typeof relative)
-                console.log(logging)
-                sensor = relative ? new RelativeOrientationSensor(options) : new AbsoluteOrientationSensor(options);
+              const options = { frequency: 60, coordinateSystem };
+              console.log(JSON.stringify(options));
+              sensor = relative ? new RelativeOrientationSensor(options) : new AbsoluteOrientationSensor(options);
+              // 'nah, AOS' , relative is false therefore we're using the Absolute Orientation Sensor
+                console.log('sensor:', sensor, typeof sensor, JSON.stringify(sensor), Array.isArray(sensor))
                 sensor.onreading = () => {
-                  console.log('within onreading:', 'sensor:', sensor, typeof sensor)
-                  console.log('within onreading:', 'sensor.quaternion:', sensor.quaternion, typeof sensor.quaternion)
+                  // console.log('within onreading:', 'sensor:', sensor, typeof sensor)
+                  // console.log('within onreading:', 'sensor.quaternion:', sensor.quaternion, typeof sensor.quaternion)
                   return model.quaternion.fromArray(sensor.quaternion).inverse()
                 };
                 sensor.onerror = (event) => {
@@ -139,6 +141,7 @@
             }
 
         </script>
-        <div id="console"></div>
-    </body>
+  <div id="console"></div>
+</body>
+
 </html>
