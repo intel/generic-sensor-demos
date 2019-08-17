@@ -3,27 +3,30 @@ const slot = window["__sensor__"] = Symbol("__sensor__");
 console.log('slot:', slot, typeof slot)
 let orientation = {};
 
-if (screen.orientation) {
-  orientation = screen.orientation;
-  console.log('aquí 1')
-} else if (screen.msOrientation) {
-  orientation = screen.msOrientation;
-  console.log('aquí 2')
-} else {
-  Object.defineProperty(orientation, "angle", {
-    get: () => { return (window.orientation || 0) }
-  });
-  console.log('aquí 3')
-}
-
-function defineProperties(target, descriptions) {
+const defineProperties = (target, descriptions) => {
   for (const property in descriptions) {
     Object.defineProperty(target, property, {
       configurable: true,
       value: descriptions[property]
-    });
+    })
   }
 }
+
+Object.defineProperty(orientation, "angle", {
+  get: () => { return (window.orientation || 0) }
+})
+
+// if (screen.orientation) {
+//   orientation = screen.orientation;
+//   console.log('aquí 1')
+// } else if (screen.msOrientation) {
+//   orientation = screen.msOrientation;
+//   console.log('aquí 2')
+// } else {
+
+// console.log('aquí 3')
+// }
+
 
 export const EventTargetMixin = (superclass, ...eventNames) => class extends superclass {
   constructor(...args) {
