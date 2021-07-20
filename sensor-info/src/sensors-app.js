@@ -56,6 +56,10 @@ class SensorsApp extends LitElement {
       sensorConstructor = window.LinearAccelerationSensor;
       break;
 
+    case "GravitySensor":
+      sensorConstructor = window.GravitySensor;
+      break;
+
     case "Gyroscope":
       sensorConstructor = window.Gyroscope;
       break;
@@ -259,6 +263,7 @@ class SensorsApp extends LitElement {
             <paper-item>Ambient light</paper-item>
             <paper-item>Accelerometer</paper-item>
             <paper-item>LinearAcceleration</paper-item>
+            <paper-item>GravitySensor</paper-item>
             <paper-item>Gyroscope</paper-item>
             <paper-item>Magnetometer</paper-item>
             <paper-item>AbsoluteOrientation</paper-item>
