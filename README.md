@@ -37,7 +37,7 @@ You could run demos from [GitHub Pages for this repository.](https://intel.githu
 
 ## Demos description
 
-### [Punchmeter](https://intel.github.io/generic-sensor-demos/punchmeter/) ([code](https://github.com/intel/generic-sensor-demos/tree/master/punchmeter))
+### [Punchmeter](https://intel.github.io/generic-sensor-demos/punchmeter/) ([code](https://github.com/intel/generic-sensor-demos/tree/main/punchmeter))
 
 Punchmeter is a simple application that calculates user's punch speed using
 LinearAcceleration sensor. To try it the user should make a punch holding
@@ -47,7 +47,7 @@ mobile device in his/her hand.
 
 ---
 
-### [Orientation phone](https://intel.github.io/generic-sensor-demos/orientation-phone/) ([code](https://github.com/intel/generic-sensor-demos/tree/master/orientation-phone))
+### [Orientation phone](https://intel.github.io/generic-sensor-demos/orientation-phone/) ([code](https://github.com/intel/generic-sensor-demos/tree/main/orientation-phone))
 
 This simple demo illustrates how an absolute orientation sensor can be used to
 modify rotation quaternion of a 3D model. The <code>model</code> is a three.js
@@ -59,7 +59,7 @@ property.
 
 ---
 
-### [360 degree beach panorama demo](https://intel.github.io/generic-sensor-demos/websensor-panorama/) ([code](https://github.com/intel/generic-sensor-demos/tree/master/websensor-panorama))
+### [360 degree beach panorama demo](https://intel.github.io/generic-sensor-demos/websensor-panorama/) ([code](https://github.com/intel/generic-sensor-demos/tree/main/websensor-panorama))
 
 The demo presents a 360 degree panorama view of a beach with an added sound effect.
 The user can look around the scene by moving their device.
@@ -69,7 +69,7 @@ The demo uses the orientation sensor to enable the user to look around.
 
 ---
 
-### [360 degree video demo](https://intel.github.io/generic-sensor-demos/websensor-video/) ([code](https://github.com/intel/generic-sensor-demos/tree/master/websensor-video))
+### [360 degree video demo](https://intel.github.io/generic-sensor-demos/websensor-video/) ([code](https://github.com/intel/generic-sensor-demos/tree/main/websensor-video))
 
 This demo presents a 360 degree video that the user can look around by moving their device.
 The user can also play the video in both forward and reverse by holding the device and walking
@@ -79,7 +79,7 @@ walking detection to enable the user to control video playback by walking.
 
 ---
 
-### [Ambient Map demo](https://intel.github.io/generic-sensor-demos/ambient-map/build/bundled/) ([code](https://github.com/intel/generic-sensor-demos/tree/master/ambient-map/build/bundled))
+### [Ambient Map demo](https://intel.github.io/generic-sensor-demos/ambient-map/build/bundled/) ([code](https://github.com/intel/generic-sensor-demos/tree/main/ambient-map/build/bundled))
 
 This web application demonstrates how Ambient light sensor can be used to control style of a map widget.
 When ambient illuminance level is less than 10 lumen, night mode style will be used.
@@ -92,7 +92,7 @@ flag set.
 
 ---
 
-### [Sensor Info demo](https://intel.github.io/generic-sensor-demos/sensor-info/build/bundled/) ([code](https://github.com/intel/generic-sensor-demos/tree/master/sensor-info/build/bundled))
+### [Sensor Info demo](https://intel.github.io/generic-sensor-demos/sensor-info/build/bundled/) ([code](https://github.com/intel/generic-sensor-demos/tree/main/sensor-info/build/bundled))
 
 This web application presents information about device sensors and their reading values.
 
@@ -104,7 +104,7 @@ flag set.
 
 ---
 
-### [VR Button demo](https://intel.github.io/generic-sensor-demos/vr-button/build/bundled/) ([code](https://github.com/intel/generic-sensor-demos/tree/master/vr-button/build/bundled))
+### [VR Button demo](https://intel.github.io/generic-sensor-demos/vr-button/build/bundled/) ([code](https://github.com/intel/generic-sensor-demos/tree/main/vr-button/build/bundled))
 
 This web application demonstrates how Magnetometer sensor can be used to provide user input for WebVR
 content. If you have VR enclosure with magnet button, you can interact with objects in the scene by
@@ -118,7 +118,7 @@ flag set.
 
 ---
 
-### [Sensor tester](https://intel.github.io/generic-sensor-demos/sensor-tester/build/bundled/) ([code](https://github.com/intel/generic-sensor-demos/tree/master/sensor-tester))
+### [Sensor tester](https://intel.github.io/generic-sensor-demos/sensor-tester/build/bundled/) ([code](https://github.com/intel/generic-sensor-demos/tree/main/sensor-tester))
 
 This web application allows to test functionality of the sensors, correctness of their models in correspondence with respective specification.
 
