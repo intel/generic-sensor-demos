@@ -4,7 +4,7 @@
   "description": "This web application allows to test functionality of the sensors, for example, whether the sensor:",
   "main": "index.html",
   "dependencies": {
-    "@material/mwc-button": "^0.3.1",
+    "@material/mwc-button": "^0.26.1",
     "@material/mwc-formfield": "^0.3.1",
     "@material/mwc-radio": "^0.3.1",
     "@polymer/app-layout": "^3.0.1",
