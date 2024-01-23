@@ -141,4 +141,7 @@ If you are developing for mobile devices,set up
 for your local server, and you are good to go!
 
 ## Reporting a security issue
-If you have information about a security issue or vulnerability with an Intel-maintained open source project on https://github.com/intel, please send an e-mail to secure-opensource@intel.com. Encrypt sensitive information using our PGP public key. For issues related to Intel products, please visit https://security-center.intel.com.
+See Intel's [Security Center](https://www.intel.com/content/www/us/en/security-center/default.html)
+for information on how to report a potential security issue or vulnerability.
+
+See also: [Security Policy](SECURITY.md)
