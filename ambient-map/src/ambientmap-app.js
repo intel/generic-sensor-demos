@@ -15,7 +15,7 @@ class AmbientmapApp extends LitElement {
     super();
     this.latitude = 60.1699;
     this.longitude = 24.9384;
-    this.mapApiKey = location.origin === 'https://ambientmap.appspot.com' || location.origin === 'https://intel.github.io' ? 'AIzaSyCR59cBBxaiINBUEbdmUVHYs8CV8jtEDTw' : 'DEADBEEF59cBBxaiINBUEbdmUVHYs8CV8jtEDTw';
+    this.mapApiKey = '';
     this.styles = [];
     this.nightStyles = [
       {
