@@ -6,7 +6,7 @@
   "dependencies": {
     "@material/mwc-button": "^0.3.1",
     "@material/mwc-formfield": "^0.3.1",
-    "@material/mwc-radio": "^0.3.1",
+    "@material/mwc-radio": "^0.26.1",
     "@polymer/app-layout": "^3.0.1",
     "@polymer/lit-element": "^0.6.2",
     "@polymer/paper-spinner": "^3.0.1",
