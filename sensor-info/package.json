@@ -5,7 +5,7 @@
   "main": "index.html",
   "dependencies": {
     "@material/mwc-button": "^0.5.0",
-    "@material/mwc-icon": "^0.5.0",
+    "@material/mwc-icon": "^0.26.1",
     "@polymer/app-layout": "^3.0.2",
     "@polymer/paper-dialog": "^3.0.1",
     "@polymer/paper-dropdown-menu": "^3.0.1",
